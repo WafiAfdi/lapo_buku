@@ -3,6 +3,6 @@ Aplikasi yang mempermudah user untuk dapat bertukar, meminjam, ataupun menjual b
 
 ## <Nama_Kelompok>
 Anggota Kelompok : 
-1.  Wafi Afdi Alfaruqhi 22/503393/TK/55000 
+1.  
 2.  
 3. 
