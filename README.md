@@ -1,8 +1,8 @@
-<Nama_Aplikasi>
+# Lapo Buku
+Aplikasi yang mempermudah user untuk dapat bertukar, meminjam, ataupun menjual buku yang mereka miliki, tetapi sudah tidak dibaca lagi. User juga bisa membuat profil yang berisi buku - buku yang mereka punya dan review terhadap buku tersebut.
 
-
-<Nama_Kelompok>
+## <Nama_Kelompok>
 Anggota Kelompok : 
-Anggota 1 : Wafi Afdi Alfaruqhi 22/503393/TK/55000 
-Anggota 2 : 
-Anggota 3 :
+1.  Wafi Afdi Alfaruqhi 22/503393/TK/55000 
+2.  
+3. 
