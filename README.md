@@ -5,4 +5,4 @@ Aplikasi yang mempermudah user untuk dapat bertukar, meminjam, ataupun menjual b
 Anggota Kelompok : 
 1. Wafi Afdi Alfaruqhi 22/503393/TK/55000
 2. Hezekiel Sitepu 22/498213/TK/54640
-3. 
+3. Gabriel Syailendra Fernandez 22/503450/TK/55009 
