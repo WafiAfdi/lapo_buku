@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1;
 
 namespace BukuSearch
 {
-+   class Filter 
+   class Filter 
     {
         public string genre;
         public string pengarang;
@@ -15,33 +16,33 @@ namespace BukuSearch
 
         public List<Buku> SearchByGenre(string genre, List<Buku> bukuList)
         {
-            return bukuList.Where(buku => buku.Genre == genre).ToList();
+            return bukuList.Where(buku => buku.genre.Contains(genre)).ToList();
         }
 
         //  mencari buku berdasarkan pengarang
         public List<Buku> SearchByPengarang(string pengarang, List<Buku> bukuList)
         {
-            return bukuList.Where(buku => buku.Pengarang == pengarang).ToList();
+            return bukuList.Where(buku => buku.pengarang.Contains(pengarang)).ToList();
         }
 
         //  mencari buku berdasarkan penerbit
         public List<Buku> SearchByPenerbit(string penerbit, List<Buku> bukuList)
         {
-            return bukuList.Where(buku => buku.Penerbit == penerbit).ToList();
+            return bukuList.Where(buku => buku.penerbit == penerbit).ToList();
         }
 
         // mencari buku berdasarkan tahun terbit
         public List<Buku> SearchByTahunTerbit(int tahun, List<Buku> bukuList)
         {
-            return bukuList.Where(buku => buku.TahunTerbit == tahun).ToList();
+            return bukuList.Where(buku => buku.dimilikiSejak.DayOfYear == tahun).ToList();
         }
     }
 
-    class searchManager
+    class SearchManager
     {
-        private List<currentSearch> historySearch;
+        private List<string> historySearch;
         public string currentSearch;
-        public list<Buku> hasilPencarianBuku;
+        public List<Buku> hasilPencarianBuku;
         public Filter filterBuku;
         public int totalPage;
         public int currentPage;
@@ -51,12 +52,9 @@ namespace BukuSearch
         {
 
         }
-        public void getHistorySearch()
+        public List<string> getHistorySearch()
         {
-            foreach (var search in HistorySearch)
-            {
-                return search;
-            }
+            return historySearch;
         }
 
         public void searchBuku()
