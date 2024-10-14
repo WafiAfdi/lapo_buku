@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="450" Width="366">
+        Title="LoginWindow" Height="593" Width="602">
     <Grid>
-        
+        <Label Content="Login to Lapo Buku" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" FontSize="36"/>
+        <TextBox HorizontalAlignment="Center" Height="42" Margin="0,188,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" TextChanged="TextBox_TextChanged" Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
+        <Label Content="Email" HorizontalAlignment="Left" Margin="92,146,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <TextBox HorizontalAlignment="Left" Height="42" Margin="98,300,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="401" TextChanged="TextBox_TextChanged" BorderBrush="#00707070" Background="#FFDDDDDD"/>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="92,258,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Button Content="Login" Margin="201,405,201,0" VerticalAlignment="Top" Height="42" Click="Button_Click" FontSize="22" BorderBrush="#00707070"/>
+        <Button Content="Register" HorizontalAlignment="Center" Margin="0,471,0,0" VerticalAlignment="Top" Height="43" Width="200" FontSize="22" BorderBrush="#00707070"/>
+
     </Grid>
 </Window>
