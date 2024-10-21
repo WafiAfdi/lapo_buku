@@ -43,10 +43,26 @@ namespace WpfApp1
 
     internal class AuthManager
     {
-        public Boolean isLoggedIn { get; }
+        private Boolean _isLoggedIn;
+
+        public Boolean isLoggedIn { get => _isLoggedIn; }
         public User userLoggedIn { get; }
 
-        public void Login() { }
-        public void Register(string email, string password) { }
+        public AuthManager()
+        {
+            _isLoggedIn = false;
+        }
+
+        public void Login(string email, string password) 
+        {
+            if (email == "test" && password == "test")
+            {
+                _isLoggedIn = true;
+            }
+        }
+        public Boolean Register(string email, string password) 
+        {
+            return false;
+        }
     }
 }

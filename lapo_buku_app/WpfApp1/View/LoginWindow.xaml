@@ -19,16 +19,16 @@
         <StackPanel  Grid.Row="1">
             <StackPanel>
                 <Label Content="Email"   FontSize="20" Width="399"/>
-                <TextBox FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap" Width="402"  Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
+                <TextBox x:Name="emailLabel" FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap" Width="402"  Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" >
                 <Label Content="Password" FontSize="20" Width="400" HorizontalAlignment="Center" />
-                <TextBox FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap"  Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
+                <TextBox x:Name="passwordLabel" FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap"  Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Vertical"  Grid.Row="2" >
-            <Button Content="Login" Height="42" FontSize="22"  Width="200" BorderBrush="#00707070"/>
-            <Button Content="Register" Margin="10" Height="43" Width="200" FontSize="22" BorderBrush="#00707070"/>
+            <Button x:Name="loginBtn" Content="Login" Height="42" FontSize="22"  Width="200" BorderBrush="#00707070" Click="loginBtn_Click"/>
+            <Button x:Name="registerBtn" Content="Register" Margin="10" Height="43" Width="200" FontSize="22" BorderBrush="#00707070" Click="registerBtn_Click"/>
         </StackPanel>
 
     </Grid>
