@@ -7,13 +7,29 @@
         mc:Ignorable="d"
         Title="LoginWindow" Height="593" Width="602">
     <Grid>
-        <Label Content="Login to Lapo Buku" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" FontSize="36"/>
-        <TextBox HorizontalAlignment="Center" Height="42" Margin="0,188,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" TextChanged="TextBox_TextChanged" Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
-        <Label Content="Email" HorizontalAlignment="Left" Margin="92,146,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <TextBox HorizontalAlignment="Left" Height="42" Margin="98,300,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="401" TextChanged="TextBox_TextChanged" BorderBrush="#00707070" Background="#FFDDDDDD"/>
-        <Label Content="Password" HorizontalAlignment="Left" Margin="92,258,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <Button Content="Login" Margin="201,405,201,0" VerticalAlignment="Top" Height="42" Click="Button_Click" FontSize="22" BorderBrush="#00707070"/>
-        <Button Content="Register" HorizontalAlignment="Center" Margin="0,471,0,0" VerticalAlignment="Top" Height="43" Width="200" FontSize="22" BorderBrush="#00707070"/>
+        <Grid.RowDefinitions>
+            <!-- Row 1: Title -->
+            <RowDefinition Height="*" />
+            <!-- Row 2: Buttons (Input) -->
+            <RowDefinition Height="2*" />
+            <!-- Row 2: Buttons (Login & Register) -->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Content="Login to Lapo Buku" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" FontSize="36" Height="58" Width="318" Grid.Row="0"/>
+        <StackPanel  Grid.Row="1">
+            <StackPanel>
+                <Label Content="Email"   FontSize="20" Width="399"/>
+                <TextBox FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap" Width="402"  Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" >
+                <Label Content="Password" FontSize="20" Width="400" HorizontalAlignment="Center" />
+                <TextBox FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap"  Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Vertical"  Grid.Row="2" >
+            <Button Content="Login" Height="42" FontSize="22"  Width="200" BorderBrush="#00707070"/>
+            <Button Content="Register" Margin="10" Height="43" Width="200" FontSize="22" BorderBrush="#00707070"/>
+        </StackPanel>
 
     </Grid>
 </Window>

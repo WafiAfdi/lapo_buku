@@ -7,15 +7,34 @@
         mc:Ignorable="d"
         Title="RegisterWindow" Height="593" Width="602">
     <Grid>
-        <Label Content="Register" HorizontalAlignment="Center" Margin="0,27,0,0" VerticalAlignment="Top" FontSize="36"/>
-        <Label Content="Email" HorizontalAlignment="Left" Margin="92,120,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <Label Content="Username" HorizontalAlignment="Left" Margin="92,200,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <Label Content="Password" HorizontalAlignment="Left" Margin="92,280,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <Label Content="Re-enter Password" HorizontalAlignment="Left" Margin="92,360,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <TextBox HorizontalAlignment="Center" Height="42" Margin="0,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" TextChanged="TextBox_TextChanged" Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
-        <TextBox x:Name="PasswordBox2" HorizontalAlignment="Center" Height="42" Margin="0,402,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" TextChanged="TextBox_TextChanged" Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
-        <TextBox x:Name="PasswordBox1" HorizontalAlignment="Center" Height="42" Margin="0,317,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" TextChanged="TextBox_TextChanged" Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
-        <TextBox HorizontalAlignment="Center" Height="42" Margin="0,238,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" TextChanged="TextBox_TextChanged" Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
-        <Button Content="Create Account" HorizontalAlignment="Center" Margin="0,489,0,0" VerticalAlignment="Top" Height="43" Width="200" FontSize="22" BorderBrush="#00707070" Click="Button_Click"/>
+        <Grid.RowDefinitions>
+            <!-- Row 1: Title -->
+            <RowDefinition Height="*" />
+            <!-- Row 2: Buttons (Input) -->
+            <RowDefinition Height="3*" />
+            <!-- Row 2: Buttons (Login & Register) -->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Content="Register Lapo Buku" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" FontSize="36" Height="58" Width="318" Grid.Row="0"/>
+        <StackPanel  Grid.Row="1">
+            <StackPanel>
+                <Label Content="Email"   FontSize="20" Width="399"/>
+                <TextBox FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap" Width="402"  Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" >
+                <Label Content="Username" FontSize="20" Width="400" HorizontalAlignment="Center" />
+                <TextBox FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap"  Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" >
+                <Label Content="Password" FontSize="20" Width="400" HorizontalAlignment="Center" />
+                <TextBox FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap"  Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" >
+                <Label Content="Re-enter Password" FontSize="20" Width="400" HorizontalAlignment="Center" />
+                <TextBox FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap"  Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
+            </StackPanel>
+        </StackPanel>
+        <Button Grid.Row="2" Content="Create Account" HorizontalAlignment="Center"  VerticalAlignment="Top" Height="43" Width="200" FontSize="22" BorderBrush="#00707070" Click="Button_Click"/>
+
     </Grid>
 </Window>
