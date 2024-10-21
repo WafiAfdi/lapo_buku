@@ -1,0 +1,21 @@
+﻿<Window x:Class="WpfApp1.View.RegisterWindos"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.View"
+        mc:Ignorable="d"
+        Title="RegisterWindow" Height="593" Width="602">
+    <Grid>
+        <Label Content="Register" HorizontalAlignment="Center" Margin="0,27,0,0" VerticalAlignment="Top" FontSize="36"/>
+        <Label Content="Email" HorizontalAlignment="Left" Margin="92,120,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="Username" HorizontalAlignment="Left" Margin="92,200,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="92,280,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="Re-enter Password" HorizontalAlignment="Left" Margin="92,360,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <TextBox HorizontalAlignment="Center" Height="42" Margin="0,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" TextChanged="TextBox_TextChanged" Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
+        <TextBox x:Name="PasswordBox2" HorizontalAlignment="Center" Height="42" Margin="0,402,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" TextChanged="TextBox_TextChanged" Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
+        <TextBox x:Name="PasswordBox1" HorizontalAlignment="Center" Height="42" Margin="0,317,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" TextChanged="TextBox_TextChanged" Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
+        <TextBox HorizontalAlignment="Center" Height="42" Margin="0,238,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" TextChanged="TextBox_TextChanged" Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
+        <Button Content="Create Account" HorizontalAlignment="Center" Margin="0,489,0,0" VerticalAlignment="Top" Height="43" Width="200" FontSize="22" BorderBrush="#00707070" Click="Button_Click"/>
+    </Grid>
+</Window>
