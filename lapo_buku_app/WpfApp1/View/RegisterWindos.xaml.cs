@@ -28,6 +28,8 @@ namespace WpfApp1.View
         {
             LoginWindow login = new LoginWindow();
             login.Show();
+
+            this.Close();
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
