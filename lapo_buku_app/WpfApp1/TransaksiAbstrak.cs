@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1;
 
 namespace Transaksi
 {
@@ -41,11 +42,11 @@ namespace Transaksi
         private int nomor_pembayaran;
 
 
-        // penawar TODO dari GAB
-        // pembeli TODO dari GAB
+        private User pembeli_;
+        private User penjual_;
 
         private int total_harga_;
-        // buku yang ditawar TODO dari GAB
+        private List<Buku> buku_yang_ditawar;
 
         
 
@@ -75,12 +76,12 @@ namespace Transaksi
     class Transaksi_Penukar : TransaksiAbstrak
     {
 
-        // penawar TODO dari GAB
-        // pembeli TODO dari GAB
+        private User pembeli_;
+        private User penjual_;
 
         private int total_harga_;
-        // buku yang ditawar dari pembeli TODO dari GAB
-        // buku yang ditawar dari penjual TODO dari GAB
+        private List<Buku> buku_yang_ditawar_pembeli;
+        private List<Buku> buku_yang_ditawar_penjual;
 
 
         public override void KonfirmasiTransaksiDariPembeli(bool pembeli_deal)
@@ -107,7 +108,7 @@ namespace Transaksi
 
     class Transaksi_Manager
     {
-        // pemiliki_data_ TODO GAB
+        private User pemilik_data_;
         private List<TransaksiAbstrak> histori_transaksi_;
 
         private int total_transaksi_;
