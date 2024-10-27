@@ -248,6 +248,7 @@
     <Compile Include="Buku.cs" />
     <Compile Include="Rak.cs" />
     <Compile Include="searchManager.cs" />
+    <Compile Include="Service\DbPgService.cs" />
     <Compile Include="TransaksiAbstrak.cs" />
     <Compile Include="User.cs" />
     <Compile Include="View\LoginWindow.xaml.cs">
@@ -313,7 +314,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Database\" />
     <Folder Include="Model\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>
