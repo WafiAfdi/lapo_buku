@@ -19,22 +19,22 @@
         <StackPanel  Grid.Row="1">
             <StackPanel>
                 <Label Content="Email"   FontSize="20" Width="399"/>
-                <TextBox FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap" Width="402"  Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
+                <TextBox Name="EmailTextBox" FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap" Width="402"  Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" >
                 <Label Content="Username" FontSize="20" Width="400" HorizontalAlignment="Center" />
-                <TextBox FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap"  Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
+                <TextBox Name="UsernameTextBox" FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap"  Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" >
                 <Label Content="Password" FontSize="20" Width="400" HorizontalAlignment="Center" />
-                <TextBox FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap"  Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
+                <PasswordBox Name="PasswordBox" FontSize="14" VerticalAlignment="Center" Height="42"   Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" >
                 <Label Content="Re-enter Password" FontSize="20" Width="400" HorizontalAlignment="Center" />
-                <TextBox FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap"  Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
+                <PasswordBox Name="ReenterPasswordBox" FontSize="14" VerticalAlignment="Center" Height="42"   Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
             </StackPanel>
         </StackPanel>
-        <Button Grid.Row="2" Content="Create Account" HorizontalAlignment="Center"  VerticalAlignment="Top" Height="43" Width="200" FontSize="22" BorderBrush="#00707070" Click="Button_Click"/>
+        <Button Grid.Row="2" Content="Create Account" HorizontalAlignment="Center"  VerticalAlignment="Top" Height="43" Width="200" FontSize="22" BorderBrush="#00707070" Click="Register_Button_Click"/>
 
     </Grid>
 </Window>
