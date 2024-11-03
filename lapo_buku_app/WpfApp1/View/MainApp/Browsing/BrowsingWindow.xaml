@@ -24,21 +24,6 @@
             <Button Content="Filter" Width="79" Margin="10 10 0 0"/>
         </WrapPanel>
 
-        <!-- Grid of Cards (Squares) -->
-        <WrapPanel Grid.Row="2" Orientation="Horizontal" ItemWidth="150" ItemHeight="150" Margin="100,0,100,0">
-            <WrapPanel.Resources>
-      <Style TargetType="{x:Type Button}">
-        <Setter Property="Margin" Value="10,0" />
-        <Setter Property="Padding" Value="10,10" />
-      </Style>
-    </WrapPanel.Resources>
-            <Button Content="Item 1" Width="150" Height="150" Margin="0" />
-            <Button Content="Item 2" Width="150" Height="150" Margin="0" />
-            <Button Content="Item 3" Width="150" Height="150" Margin="0" />
-            <Button Content="Item 4" Width="150" Height="150" Margin="0" />
-            <Button Content="Item 5" Width="150" Height="150" Margin="0" />
-            <Button Content="Item 6" Width="150" Height="150" Margin="0" />
-        </WrapPanel>
-
+        
     </Grid>
 </Window>
