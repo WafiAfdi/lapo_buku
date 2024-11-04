@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.View.MainApp.Browsing;
+using Npgsql;
 
 namespace WpfApp1.View
 {
@@ -22,11 +24,37 @@ namespace WpfApp1.View
     public partial class LoginWindow : Window
     {
         private AuthManager _authManager;
+        private NpgsqlConnection _connection;
 
         public LoginWindow()
         {
             InitializeComponent();
-            _authManager = new AuthManager();
+            ConnectToDatabase();
+
+            _authManager = new AuthManager(_connection);
+        }
+
+        private void ConnectToDatabase()
+        {
+            string host = "localhost";
+            string username = "postgres";
+            string password = "passwordsql";
+            string database = "junpro";
+            string port = "5432";
+
+            // Connection string
+            string connString = $"Host={host};Username={username};Password={password};Database={database};Port={port}";
+
+            try
+            {
+                _connection = new NpgsqlConnection(connString);
+                _connection.Open();
+                MessageBox.Show("Database connected successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to connect to database: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void registerBtn_Click(object sender, RoutedEventArgs e)
