@@ -6,6 +6,10 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WpfApp1.Service;
+using WpfApp1.Store;
+using WpfApp1.View;
+using WpfApp1.ViewModel.MainView;
 
 namespace WpfApp1
 {
@@ -14,13 +18,42 @@ namespace WpfApp1
     /// </summary>
     public partial class App : Application
     {
+
+        private readonly NavigationStore _navigationStore;
+
+        public App()
+        {
+            _navigationStore = new NavigationStore();
+
+
+        }
         protected override void OnStartup(StartupEventArgs e)
         {
-            base.OnStartup(e);
             Env.Load();  // Loads .env file
 
-            // Optional: Test if it's loaded correctly
-            Console.WriteLine(Environment.GetEnvironmentVariable("DB_HOST"));
+
+
+            MainWindow = new LoginWindow(_navigationStore, CreateNavBarViewModel);
+            _navigationStore.CurrentViewModel = new BrowsingViewModel();
+
+            MainWindow.Show();
+            base.OnStartup(e);
+        }
+
+        private INavigationService<BrowsingViewModel> CreateBrowsingNavService()
+        {
+            return new LayoutNavigationService<BrowsingViewModel>(_navigationStore, () => new BrowsingViewModel(), CreateNavBarViewModel);
+        }
+
+        private INavigationService<ProfileViewModel> CreateProfileNavigationService()
+        {
+            return new LayoutNavigationService<ProfileViewModel>(_navigationStore, () => new ProfileViewModel(), CreateNavBarViewModel);
+
+        }
+
+        private NavbarViewModel CreateNavBarViewModel()
+        {
+            return new NavbarViewModel(CreateBrowsingNavService(), CreateProfileNavigationService());
         }
     }
 }

@@ -12,7 +12,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.Store;
+using WpfApp1.View.MainApp;
 using WpfApp1.View.MainApp.Browsing;
+using WpfApp1.ViewModel.MainView;
 
 namespace WpfApp1.View
 {
@@ -22,16 +25,21 @@ namespace WpfApp1.View
     public partial class LoginWindow : Window
     {
         private AuthManager _authManager;
+        private NavigationStore _navigationStore;
+        private Func<NavbarViewModel> _createNavbarViewModel;
 
-        public LoginWindow()
+        public LoginWindow(NavigationStore navigationStore, Func<NavbarViewModel> createNavbarViewModel)
         {
             InitializeComponent();
             _authManager = new AuthManager();
+            _navigationStore = navigationStore;
+            _createNavbarViewModel = createNavbarViewModel;
         }
 
         private void registerBtn_Click(object sender, RoutedEventArgs e)
         {
-            RegisterWindos registerWindos = new RegisterWindos();
+            RegisterWindos registerWindos = new RegisterWindos(_navigationStore, _createNavbarViewModel);
+            Application.Current.MainWindow = registerWindos;
             registerWindos.Show();
 
             this.Close();
@@ -47,10 +55,22 @@ namespace WpfApp1.View
                 return;
             }
 
-            BrowsingWindow browsingWindow = new BrowsingWindow();
-            browsingWindow.Show();
+            _navigationStore.CurrentViewModel = new LayoutViewModel(_createNavbarViewModel(), new BrowsingViewModel());
+
+            WpfApp1.View.MainApp.MainWindow mainWindow = new WpfApp1.View.MainApp.MainWindow()
+            {
+                DataContext = new MainViewModel(_navigationStore)
+            };
+            Application.Current.MainWindow = mainWindow;
+            mainWindow.Show();
+
 
             this.Close();
+        }
+
+        ~LoginWindow()
+        {
+
         }
     }
 }

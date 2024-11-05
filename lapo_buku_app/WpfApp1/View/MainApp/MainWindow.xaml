@@ -4,9 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View.MainApp"
+        xmlns:viewmodel="clr-namespace:WpfApp1.ViewModel.MainView"
+        xmlns:components="clr-namespace:WpfApp1.View.Components"
+        xmlns:views="clr-namespace:WpfApp1.View.MainApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="850">
-    <Grid>
-        
-    </Grid>
+    <ContentControl Content="{Binding CurrentViewModel}">
+        <ContentControl.Resources>
+            <DataTemplate DataType="{x:Type viewmodel:BrowsingViewModel}">
+                <views:BrowsingView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodel:ProfileViewModel}">
+                <views:ProfileView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodel:TransaksiViewModel}">
+                <views:ProfileView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodel:LayoutViewModel}">
+                <components:Layout/>
+            </DataTemplate>
+        </ContentControl.Resources>
+    </ContentControl>
 </Window>

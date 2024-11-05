@@ -250,24 +250,47 @@
     </ApplicationDefinition>
     <Compile Include="Buku.cs" />
     <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\NavigateCommand.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Rak.cs" />
     <Compile Include="searchManager.cs" />
     <Compile Include="Service\AuthManager.cs" />
     <Compile Include="Service\DbPgService.cs" />
+    <Compile Include="Service\INavigationService.cs" />
+    <Compile Include="Service\LayoutNavigationService.cs" />
+    <Compile Include="Service\NavigationService.cs" />
+    <Compile Include="Service\ParameterNavigationService.cs" />
+    <Compile Include="Store\AuthStore.cs" />
     <Compile Include="Store\NavigationStore.cs" />
     <Compile Include="TransaksiAbstrak.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="ViewModel\MainView\BrowsingViewModel.cs" />
+    <Compile Include="ViewModel\MainView\LayoutViewModel.cs" />
     <Compile Include="ViewModel\MainView\MainViewModel.cs" />
+    <Compile Include="ViewModel\MainView\NavbarViewModel.cs" />
+    <Compile Include="ViewModel\MainView\ProfileViewModel.cs" />
+    <Compile Include="ViewModel\MainView\TransaksiViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\Components\Layout.xaml.cs">
+      <DependentUpon>Layout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Components\NavbarHome.xaml.cs">
+      <DependentUpon>NavbarHome.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainApp\BrowsingView.xaml.cs">
+      <DependentUpon>BrowsingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainApp\Browsing\BrowsingWindow.xaml.cs">
       <DependentUpon>BrowsingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainApp\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainApp\ProfileView.xaml.cs">
+      <DependentUpon>ProfileView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\RegisterWindos.xaml.cs">
       <DependentUpon>RegisterWindos.xaml</DependentUpon>
@@ -284,7 +307,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Components\Layout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Components\NavbarHome.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainApp\BrowsingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -293,6 +328,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainApp\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainApp\ProfileView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Service;
+using WpfApp1.Store;
+using WpfApp1.ViewModel.MainView;
 
 namespace WpfApp1.View
 {
@@ -21,10 +23,14 @@ namespace WpfApp1.View
     public partial class RegisterWindos : Window
     {
         private readonly IAuthManager _authManager;
-        public RegisterWindos()
+        private readonly NavigationStore _navigationStore;
+        private Func<NavbarViewModel> _createNavbarViewModel;
+        public RegisterWindos(NavigationStore navigationStore, Func<NavbarViewModel> createNavbarViewModel)
         {
             InitializeComponent();
             _authManager = new WpfApp1.Service.AuthManager();
+            _navigationStore = navigationStore;
+            _createNavbarViewModel = createNavbarViewModel;
         }
 
         private void Register_Button_Click(object sender, RoutedEventArgs e)
@@ -50,7 +56,7 @@ namespace WpfApp1.View
                 {
                     MessageBox.Show("Registrasi berhasil", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    LoginWindow login = new LoginWindow();
+                    LoginWindow login = new LoginWindow(_navigationStore, _createNavbarViewModel);
                     login.Show();
 
                     this.Close();
