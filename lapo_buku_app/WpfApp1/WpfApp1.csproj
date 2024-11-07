@@ -289,6 +289,9 @@
     <Compile Include="View\MainApp\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\MainApp\PageBuku.Browsing.xaml.cs">
+      <DependentUpon>PageBuku.Browsing.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainApp\ProfileView.xaml.cs">
       <DependentUpon>ProfileView.xaml</DependentUpon>
     </Compile>
@@ -328,6 +331,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainApp\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainApp\PageBuku.Browsing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

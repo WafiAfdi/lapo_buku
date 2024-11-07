@@ -32,9 +32,14 @@ namespace WpfApp1
             Env.Load();  // Loads .env file
 
 
-
-            MainWindow = new LoginWindow(_navigationStore, CreateNavBarViewModel);
-            _navigationStore.CurrentViewModel = new BrowsingViewModel();
+            //MainWindow = new LoginWindow(_navigationStore, CreateNavBarViewModel);
+            WpfApp1.View.MainApp.MainWindow mainWindow = new WpfApp1.View.MainApp.MainWindow()
+            {
+                DataContext = new MainViewModel(_navigationStore)
+            };
+            MainWindow = mainWindow;
+            //_navigationStore.CurrentViewModel = new BrowsingViewModel();
+            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel());
 
             MainWindow.Show();
             base.OnStartup(e);

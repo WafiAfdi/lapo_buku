@@ -6,12 +6,20 @@
              xmlns:local="clr-namespace:WpfApp1.View.MainApp"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-            
+
     <Grid>
-        <TextBlock 
-            Text="Welcome to Browse"
-            >
-            
-        </TextBlock>
+        <Grid.RowDefinitions>
+            <!-- Row 1: Search Box -->
+            <RowDefinition Height="Auto" />
+            <!-- Row 2: Buttons (Filter & Sort) -->
+            <RowDefinition Height="Auto" />
+            <!-- Row 3: Grid of Cards -->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0" Margin="101,21,100,0" TextWrapping="Wrap" Text="Search..." VerticalAlignment="Top" Height="33" FontFamily="Arial" FontSize="16"
+            VerticalContentAlignment="Center"
+        />
+
+
     </Grid>
 </UserControl>

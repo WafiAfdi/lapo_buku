@@ -42,11 +42,11 @@ namespace WpfApp1.View
 
         private void ConnectToDatabase()
         {
-            string host = "localhost";
-            string username = "postgres";
-            string password = "passwordsql";
-            string database = "junpro";
-            string port = "5432";
+            string host = Environment.GetEnvironmentVariable("DB_HOST");
+            string username = Environment.GetEnvironmentVariable("DB_USER");
+            string password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+            string database = Environment.GetEnvironmentVariable("DB_NAME");
+            string port = Environment.GetEnvironmentVariable("DB_PORT");
 
             // Connection string
             string connString = $"Host={host};Username={username};Password={password};Database={database};Port={port}";
