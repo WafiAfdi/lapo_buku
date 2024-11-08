@@ -9,21 +9,39 @@ using System.Windows.Media;
 
 namespace WpfApp1.Converters
 {
-    public class PageIndexToColorConverter : IValueConverter
+    // untuk background
+    public class PageIndexToColorConverter : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            // Ensure the value and parameter are integers
-            if (value is int pageIndex && parameter is int buttonIndex)
+            if (values[0] is int pageNumber && values[1] is int pageIndex)
             {
-                // Return a different color if the pageIndex matches the button index
-                return pageIndex == buttonIndex ? Brushes.IndianRed : Brushes.White;
+                return pageNumber == pageIndex ? new SolidColorBrush(Colors.IndianRed) : new SolidColorBrush(Colors.Transparent);
             }
 
-            return Brushes.White;
+            return new SolidColorBrush(Colors.Transparent);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    // untuk foreground
+    public class PageIndexToColorConverter2 : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values[0] is int pageNumber && values[1] is int pageIndex)
+            {
+                return pageNumber == pageIndex ? new SolidColorBrush(Colors.White) : (SolidColorBrush)new BrushConverter().ConvertFrom("#6c7682");
+            }
+
+            return (SolidColorBrush)new BrushConverter().ConvertFrom("#6c7682");
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

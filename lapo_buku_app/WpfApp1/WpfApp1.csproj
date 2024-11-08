@@ -291,8 +291,8 @@
     <Compile Include="View\MainApp\BrowsingView.xaml.cs">
       <DependentUpon>BrowsingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MainApp\Browsing\BrowsingWindow.xaml.cs">
-      <DependentUpon>BrowsingWindow.xaml</DependentUpon>
+    <Compile Include="View\MainApp\Browsing\PageBuku.xaml.cs">
+      <DependentUpon>PageBuku.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainApp\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -334,7 +334,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MainApp\Browsing\BrowsingWindow.xaml">
+    <Page Include="View\MainApp\Browsing\PageBuku.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

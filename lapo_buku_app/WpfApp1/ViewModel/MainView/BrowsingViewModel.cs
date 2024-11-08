@@ -25,6 +25,8 @@ namespace WpfApp1.ViewModel.MainView
                 {
                     _pageIndex = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PageIndex));
+
                     OnPropertyChanged(nameof(PageNumbers));  // Update page numbers when PageIndex changes
                 }
             }
@@ -51,12 +53,13 @@ namespace WpfApp1.ViewModel.MainView
 
         public RelayCommand NextPageCommand { get; }
         public RelayCommand PreviousPageCommand { get; }
+        public RelayCommand NavigatePageCommand { get; }
         public ICommand NavigatePageBuku { get; }
         public BrowsingViewModel() 
         {
             NextPageCommand = new RelayCommand(NextPage, (object obj) => PageIndex < TotalPage);
             PreviousPageCommand = new RelayCommand(PreviousPage, (object obj) => PageIndex > 1);
-
+            NavigatePageCommand = new RelayCommand(NavigateToPage, (object obj) => true);
         }
 
         private void NextPage(object obj)
@@ -80,9 +83,9 @@ namespace WpfApp1.ViewModel.MainView
             }
         }
 
-        private void NavigateToPage(int page)
+        private void NavigateToPage(object parameter)
         {
-            if (page >= 1 && page <= TotalPage)
+            if (parameter is int page && page >= 1 && page <= TotalPage)
             {
                 PageIndex = page;
             }

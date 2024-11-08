@@ -10,6 +10,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converter:PageIndexToColorConverter x:Key="pageIndexToColor"/>
+        <converter:PageIndexToColorConverter2 x:Key="pageIndexToColor2"/>
+
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <!-- Button -->
         <Style x:Key="searchButton" TargetType="Button">
@@ -34,7 +36,60 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
+        <!-- Icon Button Pagination -->
+        <Style x:Key="pagingButton" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <MultiBinding Converter="{StaticResource pageIndexToColor}">
+                        <!-- Bind to the button content (page number) -->
+                        <Binding/>
+                        <!-- Bind to the PageIndex in the DataContext of the ItemsControl -->
+                        <Binding Path="DataContext.PageIndex" 
+                         RelativeSource="{RelativeSource AncestorType=ItemsControl}"/>
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <MultiBinding Converter="{StaticResource pageIndexToColor2}">
+                        <!-- Bind to the button content (page number) -->
+                        <Binding/>
+                        <!-- Bind to the PageIndex in the DataContext of the ItemsControl -->
+                        <Binding Path="DataContext.PageIndex" 
+         RelativeSource="{RelativeSource AncestorType=ItemsControl}"/>
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="1 0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button" >
+                        <Border Background="{TemplateBinding Background}" 
+                    CornerRadius="5" Padding="10 5"        
+                >
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Margin="0 0 0 1"                 
+                     />
+
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="IndianRed"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+            
+
+
+        </Style>
+
     </UserControl.Resources>
 
     <Grid>
@@ -59,7 +114,10 @@
             <TextBox x:Name="TextSearch" Style="{StaticResource textboxSearch}" FontSize="14" >
                 
             </TextBox>
-            <Button Margin="0 0 15 0" Width="25" Height="25"  VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource searchButton}">
+            <Button Margin="0 0 15 0" Width="25" Height="25"  VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource searchButton}"
+               
+            >
+                
                 <materialIcons:MaterialIcon Kind="Magnify" Width="20" Height="20"  VerticalAlignment="Center"
                       Foreground="#b0b9c6" HorizontalAlignment="Center"                                     
                  />
@@ -89,9 +147,10 @@
                         
                         <DataTemplate>
                             <Button Content="{Binding}" 
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="{Binding}"
-                                    Style="{StaticResource pagingButton}"/>
+                                    Command="{Binding DataContext.NavigatePageCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                    CommandParameter="{Binding}" 
+                                    Style="{StaticResource pagingButton}">
+                            </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.ItemsPanel>
@@ -103,6 +162,7 @@
 
                 <Rectangle Width="1" Fill="#dee4ec" Margin="3 2" />
                 <Button Style="{StaticResource pagingButton}" Command="{Binding NextPageCommand}">
+                    
                     <materialIcons:MaterialIcon Kind="ArrowForward" Style="{StaticResource pagingButtonIcon}" />
                 </Button>
             </StackPanel>
