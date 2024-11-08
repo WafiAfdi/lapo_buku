@@ -4,21 +4,110 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp1.View.MainApp"
+             xmlns:converter="clr-namespace:WpfApp1.Converters"
+             xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converter:PageIndexToColorConverter x:Key="pageIndexToColor"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <!-- Button -->
+        <Style x:Key="searchButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#6c7682"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <!-- Row 1: Search Box -->
             <RowDefinition Height="Auto" />
-            <!-- Row 2: Buttons (Filter & Sort) -->
-            <RowDefinition Height="Auto" />
-            <!-- Row 3: Grid of Cards -->
+            <!-- Row 2: Datagrid -->
             <RowDefinition Height="*" />
+            <!-- Row 3: Pagination -->
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBox Grid.Row="0" Margin="101,21,100,0" TextWrapping="Wrap" Text="Search..." VerticalAlignment="Top" Height="33" FontFamily="Arial" FontSize="16"
-            VerticalContentAlignment="Center"
-        />
+        
+        <!-- Search Box -->
+        <Grid  Grid.Row="0" Width="500">
+
+            <TextBlock TextWrapping="Wrap" Text="Search Disini..." Margin="20 0" FontSize="14" IsHitTestVisible="False"
+                VerticalAlignment="Center" Visibility="{Binding ElementName=TextSearch,Path=Text.IsEmpty,Converter={StaticResource BoolToVis}}"
+                Panel.ZIndex="1"
+                       Foreground="DarkGray"
+            />
+
+            <TextBox x:Name="TextSearch" Style="{StaticResource textboxSearch}" FontSize="14" >
+                
+            </TextBox>
+            <Button Margin="0 0 15 0" Width="25" Height="25"  VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource searchButton}">
+                <materialIcons:MaterialIcon Kind="Magnify" Width="20" Height="20"  VerticalAlignment="Center"
+                      Foreground="#b0b9c6" HorizontalAlignment="Center"                                     
+                 />
+            </Button>
+            
+        </Grid>
+        
+        <!-- Pagination -->
+        <Border Grid.Row="2"
+            HorizontalAlignment="Center" BorderBrush="#dee4ec" BorderThickness="4" 
+            CornerRadius="4" Padding="5" Background="White" Margin="0 10 10 10"
+        >
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource pagingButton}" Command="{Binding PreviousPageCommand}">
+                    <materialIcons:MaterialIcon Kind="ArrowBack" Style="{StaticResource pagingButtonIcon}" />
+                </Button>
+
+                <Rectangle Width="1" Fill="#dee4ec" Margin="3 2" />
+
+                <!--<Button Content="1" Style="{StaticResource pagingButton}"/>
+                <Button Content="2" Style="{StaticResource pagingButton}"/>
+                <Button Content="3" Style="{StaticResource pagingButton}" Background="IndianRed" Foreground="White"/>-->
+
+                <ItemsControl ItemsSource="{Binding PageNumbers}"
+                >
+                    <ItemsControl.ItemTemplate>
+                        
+                        <DataTemplate>
+                            <Button Content="{Binding}" 
+                                    Command="{Binding NavigateToPageCommand}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource pagingButton}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+
+                <Rectangle Width="1" Fill="#dee4ec" Margin="3 2" />
+                <Button Style="{StaticResource pagingButton}" Command="{Binding NextPageCommand}">
+                    <materialIcons:MaterialIcon Kind="ArrowForward" Style="{StaticResource pagingButtonIcon}" />
+                </Button>
+            </StackPanel>
+            
+        </Border>
 
 
     </Grid>
