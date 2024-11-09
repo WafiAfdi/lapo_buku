@@ -17,9 +17,29 @@ namespace WpfApp1.Models
         public string IdPemilik { get; set; }
         public UserModel PemilikBuku { get; set; }
         public string Deskripsi { get; set; }
-        public int RatingPemilik { get; set; }
         public int Terbit { get; set; }
         public DateTime DimilikiSejak { get; set; }
+
+        private int _rating;
+        public int RatingPemilik
+        {
+            get => _rating;
+            set
+            {
+                if (value < 0)
+                {
+                    _rating = 0;
+                }
+                else if (value > 100)
+                {
+                    _rating = 100;
+                }
+                else
+                {
+                    _rating = value;
+                }
+            }
+        }
 
     }
 }

@@ -26,4 +26,21 @@ namespace WpfApp1.Commands
 
         
     }
+
+    public class PindahPageBrowse : CommandBase
+    {
+        private readonly INavigationService<BrowsingViewModel> _pindahBrowse;
+
+        public PindahPageBrowse(INavigationService<BrowsingViewModel> BackToBrowse)
+        {
+            _pindahBrowse = BackToBrowse;
+        }
+
+        public override void Execute(object parameter)
+        {
+            _pindahBrowse.Navigate();
+        }
+
+
+    }
 }

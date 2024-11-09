@@ -112,7 +112,7 @@
                        Foreground="DarkGray"
             />
 
-            <TextBox x:Name="TextSearch" Style="{StaticResource textboxSearch}" FontSize="14" >
+            <TextBox x:Name="TextSearch" Style="{StaticResource textboxSearch}" FontSize="14" Text="{Binding SearchQuery, Mode=TwoWay}">
                 
             </TextBox>
             <Button Margin="0 0 15 0" Width="25" Height="25"  VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource searchButton}"

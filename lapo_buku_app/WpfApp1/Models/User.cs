@@ -16,6 +16,7 @@ namespace WpfApp1.Models
         public string AlamatJalan { get; set; }
         public string Kecamatan { get; set; }
         public string Nomor_Kontak { get; set; }
+
         public DateTime Created { get; set; }
         public DateTime LastUpdated { get; set; }
 

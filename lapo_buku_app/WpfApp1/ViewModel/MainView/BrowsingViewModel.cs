@@ -9,6 +9,7 @@ using System.Windows.Input;
 using WpfApp1.Commands;
 using WpfApp1.Models;
 using WpfApp1.Service;
+using WpfApp1.Store;
 using WpfApp1.ViewModel.ComponentsView.Browse;
 
 namespace WpfApp1.ViewModel.MainView
@@ -27,11 +28,14 @@ namespace WpfApp1.ViewModel.MainView
     }
     public class BrowsingViewModel : ViewModelBase
     {
+        private readonly NavigationStore _navigationStore;
+        private readonly Func<NavbarViewModel> _createNavbarViewModel;
+
+
         // pagination data
-        private int _pageIndex = 1;
         private int _totalPage = 10;
 
-        private readonly ParameterNavigationService<ParameterNavBuku, PageBukuViewModel> _bukuNavigationService;
+
 
 
         private ParameterNavBuku _parameterPasLagiNav;
@@ -45,12 +49,12 @@ namespace WpfApp1.ViewModel.MainView
 
         public int PageIndex
         {
-            get => _pageIndex;
+            get => ParameterNavPageBuku.query.pageIndex;
             set
             {
-                if (_pageIndex != value)
+                if (ParameterNavPageBuku.query.pageIndex != value)
                 {
-                    _pageIndex = value;
+                    ParameterNavPageBuku.query.pageIndex = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PageIndex));
 
@@ -73,6 +77,19 @@ namespace WpfApp1.ViewModel.MainView
             }
         }
 
+        public string SearchQuery
+        {
+            get => ParameterNavPageBuku.query.query;
+            set
+            {
+                if (ParameterNavPageBuku.query.query != value)
+                {
+                    ParameterNavPageBuku.query.query = value;
+                    OnPropertyChanged(nameof(SearchQuery));
+                }
+            }
+        }
+
         // Displayed page numbers based on current PageIndex
         public ObservableCollection<int> PageNumbers => new ObservableCollection<int>(
             Enumerable.Range(Math.Max(1, PageIndex - 2), Math.Min(5, TotalPage - Math.Max(1, PageIndex - 2) + 1))
@@ -83,17 +100,32 @@ namespace WpfApp1.ViewModel.MainView
         public RelayCommand NextPageCommand { get; }
         public RelayCommand PreviousPageCommand { get; }
         public RelayCommand NavigatePageCommand { get; }
-        public BrowsingViewModel(ParameterNavigationService<ParameterNavBuku, PageBukuViewModel> bukuNavigationService) 
+        public BrowsingViewModel(NavigationStore navigationStore, Func<NavbarViewModel> CreateNavbarViewModel) 
         {
-            _bukuNavigationService = bukuNavigationService;
+
             NextPageCommand = new RelayCommand(NextPage, (object obj) => PageIndex < TotalPage);
             PreviousPageCommand = new RelayCommand(PreviousPage, (object obj) => PageIndex > 1);
             NavigatePageCommand = new RelayCommand(NavigateToPage, (object obj) => true);
 
+            ParameterNavPageBuku = new ParameterNavBuku() { 
+                query = new SearchQuery() { pageIndex = 1, query = ""}
+            
+            };
+            
+            _navigationStore = navigationStore;
+            _createNavbarViewModel = CreateNavbarViewModel;
+
             // Dummy buat buku
-            BukuCards.Add(new BukuCardViewModel(new BukuModel { Judul = "Lord of The Rings: Battles", Pengarang = new List<string>{ "Wafi Afdi Alfaruqhi", "J.R.R. Tolkien" }}, bukuNavigationService, ParameterNavPageBuku));
-            BukuCards.Add(new BukuCardViewModel(new BukuModel { Judul = "The Hobbit", Pengarang = new List<string> { "Wafi Afdi Alfaruqhi", "J.R.R. Tolkien" } }, bukuNavigationService, ParameterNavPageBuku));
-            BukuCards.Add(new BukuCardViewModel(new BukuModel { Judul = "The Hobbit 2", Pengarang = new List<string> { "Wafi Afdi Alfaruqhi", "J.R.R. Tolkien" } }, bukuNavigationService, ParameterNavPageBuku));
+            BukuCards.Add(
+                new BukuCardViewModel(new BukuModel { 
+                    Judul = "Lord of The Rings: Battles", Pengarang = new List<string>{ "Wafi Afdi Alfaruqhi", "J.R.R. Tolkien" },
+                    PemilikBuku = new UserModel() { Nama = "MrHouse24", Deskripsi = "fjdksfjdslfds", Kota = "Batam", Provinsi = "Kepri" }, Deskripsi = "Buku yang bagus", DimilikiSejak = new DateTime(), Genre = new List<string> { "Action", "Fantasi"},
+                    ISBN = "3213213", Penerbit="Ubisoft", RatingPemilik = 60, Terbit = 2004
+                }, 
+                CreatePageBukuNavigationService(), 
+                ParameterNavPageBuku)
+                );
+            
         }
 
         private void NextPage(object obj)
@@ -124,6 +156,19 @@ namespace WpfApp1.ViewModel.MainView
                 PageIndex = page;
             }
         }
+
+        private INavigationService<BrowsingViewModel> CreateBackToBrowseNavigationService()
+        {
+            return new LayoutNavigationService<BrowsingViewModel>(_navigationStore, () => this, _createNavbarViewModel);
+
+        }
+        private ParameterNavigationService<ParameterNavBuku, PageBukuViewModel> CreatePageBukuNavigationService()
+        {
+            return new ParameterNavigationService<ParameterNavBuku, PageBukuViewModel>(_navigationStore, (parameter) => new PageBukuViewModel(parameter, CreateBackToBrowseNavigationService()), _createNavbarViewModel);
+
+        }
+
+
 
 
 

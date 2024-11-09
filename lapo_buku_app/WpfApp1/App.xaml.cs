@@ -1,4 +1,5 @@
 ﻿using DotNetEnv;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -26,10 +27,6 @@ namespace WpfApp1
         public App()
         {
             _navigationStore = new NavigationStore();
-            pageBukunavigationService = new ParameterNavigationService<ParameterNavBuku, PageBukuViewModel>(_navigationStore, (parameter)
-                => new PageBukuViewModel(parameter),
-                CreateNavBarViewModel
-            );
 
 
         }
@@ -46,7 +43,7 @@ namespace WpfApp1
             };
             MainWindow = mainWindow;
             //_navigationStore.CurrentViewModel = new BrowsingViewModel();
-            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel(pageBukunavigationService));
+            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel(_navigationStore,CreateNavBarViewModel));
 
             MainWindow.Show();
             base.OnStartup(e);
@@ -55,7 +52,7 @@ namespace WpfApp1
         private INavigationService<BrowsingViewModel> CreateBrowsingNavService()
         {
             
-            return new LayoutNavigationService<BrowsingViewModel>(_navigationStore, () => new BrowsingViewModel(pageBukunavigationService), CreateNavBarViewModel);
+            return new LayoutNavigationService<BrowsingViewModel>(_navigationStore, () => new BrowsingViewModel(_navigationStore, CreateNavBarViewModel), CreateNavBarViewModel);
         }
 
         private INavigationService<ProfileViewModel> CreateProfileNavigationService()
@@ -63,6 +60,7 @@ namespace WpfApp1
             return new LayoutNavigationService<ProfileViewModel>(_navigationStore, () => new ProfileViewModel(), CreateNavBarViewModel);
 
         }
+
 
         private NavbarViewModel CreateNavBarViewModel()
         {

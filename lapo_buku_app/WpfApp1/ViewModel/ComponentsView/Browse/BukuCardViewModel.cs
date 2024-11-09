@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,9 +38,15 @@ namespace WpfApp1.ViewModel.ComponentsView.Browse
 
         public void CardLeftMouseButtonDown()
         {
+            _searchQuery.buku = _bukuCard;
             _bukuNavigationService.Navigate(_searchQuery);
         }
 
         public string Title => _bukuCard.Judul;
+        public string Username => _bukuCard.PemilikBuku.Nama;
+        public List<string> ListGenre => _bukuCard.Genre;
+        public string Deskripsi => _bukuCard.Deskripsi;
+        public string ListPenulis => string.Join(", ", _bukuCard.Pengarang.Select(item => item));
+        public string DateKepemilikan => _bukuCard.DimilikiSejak.ToString();
     }
 }
