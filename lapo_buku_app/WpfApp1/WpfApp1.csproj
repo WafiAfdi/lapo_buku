@@ -254,6 +254,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\PerpindahanBrowsingCommand.cs" />
     <Compile Include="Models\Buku.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
@@ -278,6 +279,7 @@
     <Compile Include="ViewModel\MainView\LayoutViewModel.cs" />
     <Compile Include="ViewModel\MainView\MainViewModel.cs" />
     <Compile Include="ViewModel\MainView\NavbarViewModel.cs" />
+    <Compile Include="ViewModel\MainView\PageBukuViewModel.cs" />
     <Compile Include="ViewModel\MainView\ProfileViewModel.cs" />
     <Compile Include="ViewModel\MainView\TransaksiViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />

@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WpfApp1.Models;
 using WpfApp1.Service;
 using WpfApp1.Store;
 using WpfApp1.View;
@@ -20,10 +21,15 @@ namespace WpfApp1
     {
 
         private readonly NavigationStore _navigationStore;
+        private readonly ParameterNavigationService<ParameterNavBuku, PageBukuViewModel> pageBukunavigationService;
 
         public App()
         {
             _navigationStore = new NavigationStore();
+            pageBukunavigationService = new ParameterNavigationService<ParameterNavBuku, PageBukuViewModel>(_navigationStore, (parameter)
+                => new PageBukuViewModel(parameter),
+                CreateNavBarViewModel
+            );
 
 
         }
@@ -31,6 +37,7 @@ namespace WpfApp1
         {
             Env.Load();  // Loads .env file
 
+            
 
             //MainWindow = new LoginWindow(_navigationStore, CreateNavBarViewModel);
             WpfApp1.View.MainApp.MainWindow mainWindow = new WpfApp1.View.MainApp.MainWindow()
@@ -39,7 +46,7 @@ namespace WpfApp1
             };
             MainWindow = mainWindow;
             //_navigationStore.CurrentViewModel = new BrowsingViewModel();
-            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel());
+            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel(pageBukunavigationService));
 
             MainWindow.Show();
             base.OnStartup(e);
@@ -47,7 +54,8 @@ namespace WpfApp1
 
         private INavigationService<BrowsingViewModel> CreateBrowsingNavService()
         {
-            return new LayoutNavigationService<BrowsingViewModel>(_navigationStore, () => new BrowsingViewModel(), CreateNavBarViewModel);
+            
+            return new LayoutNavigationService<BrowsingViewModel>(_navigationStore, () => new BrowsingViewModel(pageBukunavigationService), CreateNavBarViewModel);
         }
 
         private INavigationService<ProfileViewModel> CreateProfileNavigationService()

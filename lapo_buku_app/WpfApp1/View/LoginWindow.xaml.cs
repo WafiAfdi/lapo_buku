@@ -82,14 +82,14 @@ namespace WpfApp1.View
                 return;
             }
 
-            _navigationStore.CurrentViewModel = new LayoutViewModel(_createNavbarViewModel(), new BrowsingViewModel());
+            /*_navigationStore.CurrentViewModel = new LayoutViewModel(_createNavbarViewModel(), new BrowsingViewModel());
 
             WpfApp1.View.MainApp.MainWindow mainWindow = new WpfApp1.View.MainApp.MainWindow()
             {
                 DataContext = new MainViewModel(_navigationStore)
             };
             Application.Current.MainWindow = mainWindow;
-            mainWindow.Show();
+            mainWindow.Show();*/
 
 
             this.Close();

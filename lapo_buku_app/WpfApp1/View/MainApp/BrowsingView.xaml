@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:WpfApp1.View.MainApp"
              xmlns:converter="clr-namespace:WpfApp1.Converters"
              xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             xmlns:browseComponent="clr-namespace:WpfApp1.View.Components.Browse"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -103,7 +104,7 @@
         </Grid.RowDefinitions>
         
         <!-- Search Box -->
-        <Grid  Grid.Row="0" Width="500">
+        <Grid  Grid.Row="0" Width="700">
 
             <TextBlock TextWrapping="Wrap" Text="Search Disini..." Margin="20 0" FontSize="14" IsHitTestVisible="False"
                 VerticalAlignment="Center" Visibility="{Binding ElementName=TextSearch,Path=Text.IsEmpty,Converter={StaticResource BoolToVis}}"
@@ -124,6 +125,21 @@
             </Button>
             
         </Grid>
+        
+        <!-- Display Buku -->
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding BukuCards}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <!-- Use the BukuCard control as the template for each item -->
+                    <browseComponent:BukuCard />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical" Width="700"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
         
         <!-- Pagination -->
         <Border Grid.Row="2"
