@@ -254,12 +254,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Buku.cs" />
+    <Compile Include="Models\Buku.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Converters\PageIndexToColorConverter.cs" />
     <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Rak.cs" />
     <Compile Include="searchManager.cs" />
     <Compile Include="Service\AuthManager.cs" />
@@ -272,6 +273,7 @@
     <Compile Include="Store\NavigationStore.cs" />
     <Compile Include="TransaksiAbstrak.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="ViewModel\ComponentsView\Browse\BukuCardViewModel.cs" />
     <Compile Include="ViewModel\MainView\BrowsingViewModel.cs" />
     <Compile Include="ViewModel\MainView\LayoutViewModel.cs" />
     <Compile Include="ViewModel\MainView\MainViewModel.cs" />
@@ -279,6 +281,9 @@
     <Compile Include="ViewModel\MainView\ProfileViewModel.cs" />
     <Compile Include="ViewModel\MainView\TransaksiViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\Components\Browse\BukuCard.xaml.cs">
+      <DependentUpon>BukuCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Components\Layout.xaml.cs">
       <DependentUpon>Layout.xaml</DependentUpon>
     </Compile>
@@ -318,6 +323,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Components\Browse\BukuCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Components\Layout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
