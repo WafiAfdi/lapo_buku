@@ -23,7 +23,6 @@ namespace WpfApp1
     {
 
         private readonly NavigationStore _navigationStore;
-        private readonly ParameterNavigationService<ParameterNavBuku, PageBukuViewModel> pageBukunavigationService;
         private readonly Action _displayMainApp;
         public Action DisplayLogout;
 
