@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1.View.MainApp
+namespace WpfApp1.View.MainApp.Browsing
 {
     /// <summary>
     /// Interaction logic for PageBuku.xaml

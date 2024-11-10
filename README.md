@@ -10,3 +10,9 @@ Anggota Kelompok :
 
 ## Class Diagram
 ![alt text](https://github.com/WafiAfdi/lapo_buku/blob/main/UML_Diagram.png?raw=true)
+
+## ERD Diagram
+![alt text](https://github.com/WafiAfdi/lapo_buku/blob/main/ERD_Diagram.png?raw=true)
+
+File ddl bisa didapatkan pada [Link DDL](https://github.com/WafiAfdi/lapo_buku/blob/main/ddl_revisi.sql)
+

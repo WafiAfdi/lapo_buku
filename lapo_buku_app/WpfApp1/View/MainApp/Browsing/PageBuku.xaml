@@ -1,0 +1,212 @@
+﻿<UserControl x:Class="WpfApp1.View.MainApp.Browsing.PageBuku"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.View.MainApp.Browsing"
+             xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             mc:Ignorable="d" 
+             d:MinHeight="450" d:DesignWidth="800"
+             MinHeight="450"
+             Background="White" Height="817"
+             >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Margin="0 20 0 0" Width="700">
+            <Button Width="auto" HorizontalAlignment="Left" Padding="10 5" Content="Balik" Command="{Binding BalikPageBrowse}">
+            </Button>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0 10" HorizontalAlignment="Center" VerticalAlignment="Top" Width="700">
+            <TextBlock
+                FontSize="32"
+                FontWeight="Bold"
+                Text="{Binding Title}"
+                TextWrapping="Wrap"
+            >
+                
+            </TextBlock>
+            <TextBlock
+                    Margin="0 5 0 0"
+                    FontSize="16"
+                    TextWrapping="Wrap"
+                    Foreground="DarkSlateGray"
+                    
+                 >
+                    <Run Text="Ditulis oleh " FontWeight="SemiBold"/>
+                    <Run Text="{Binding ListPenulis, Mode=OneTime}" FontWeight="Medium"/>
+                 
+            </TextBlock>
+            <Rectangle Height="2" Fill="Black" Margin="0 5 0 10"  />
+            
+            <!-- Detail Buku -->
+            <TextBlock
+                FontSize="16"
+                Margin="0 0 0 10"
+                TextWrapping="Wrap"
+                >
+                <Run Text="ISBN : " 
+                FontWeight="SemiBold"/>
+                <Run Text="{Binding ISBN, Mode=OneTime}" FontWeight="Medium"/>
+            </TextBlock>
+            <TextBlock
+                FontSize="16"
+                Margin="0 0 0 10 "
+                TextWrapping="Wrap"
+                >
+                <Run Text="Tahun Terbit : " 
+                FontWeight="SemiBold"/>
+                <Run Text="{Binding TahunTerbit, Mode=OneTime}" FontWeight="Medium"/>
+
+            </TextBlock>
+            <TextBlock
+                FontSize="16"
+                Margin="0 0 0 10 "
+                TextWrapping="Wrap"
+                >
+                <Run Text="Penerbit : " 
+                FontWeight="SemiBold"/>
+                <Run Text="{Binding Penerbit, Mode=OneTime}" FontWeight="Medium"/>
+            </TextBlock>
+            <TextBlock
+                FontSize="16"
+                Margin="0 0 0 10 "
+                TextWrapping="Wrap"
+                >
+                <Run Text="Dimiliki Sejak : " 
+                FontWeight="SemiBold"/>
+                <Run Text="{Binding DateKepemilikan, Mode=OneTime}" FontWeight="Medium"/>
+
+            </TextBlock>
+            <TextBlock
+                FontSize="16"
+                Margin="0 0 0 10 "
+                TextWrapping="Wrap"
+                >
+                <Run Text="Deskripsi Pemilik : " 
+                FontWeight="SemiBold"/>
+                <Run Text="{Binding Deskripsi, Mode=OneTime}" FontWeight="Medium"/>
+
+            </TextBlock>
+            <TextBlock
+                FontSize="16"
+                Margin="0 0 0 10 "
+                TextWrapping="Wrap"
+                >
+                <Run Text="Genre : " 
+                FontWeight="SemiBold"/>
+                
+            </TextBlock>
+            <ItemsControl ItemsSource="{Binding ListGenre}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource PillTagStyle}">
+                            <TextBlock
+                                    Text="{Binding}"
+                                    >
+
+                            </TextBlock>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" Margin="0 10 0 0" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+
+            <!-- Detail Buku END -->
+
+            <Rectangle Height="2" Fill="Black" Margin="0 20 0 20"  />
+
+            <!-- Detail User -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
+                <materialIcons:MaterialIcon Kind="Person" Width="24" Height="24"/>
+                <TextBlock 
+                    Text="{Binding Username}"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold"
+                    FontSize="16"
+                    Margin="5 0 0 0"
+                    />
+            </StackPanel>
+            <TextBlock
+                FontSize="16"
+                Margin="0 0 0 10 "
+                TextWrapping="Wrap"
+                >
+                <Run Text="Deskripsi Diri : " 
+                FontWeight="SemiBold"/>
+                <Run Text="{Binding DeskripsiPemilik, Mode=OneTime}" FontWeight="Medium"/>
+
+            </TextBlock>
+            <TextBlock
+                FontSize="16"
+                Margin="0 0 0 10 "
+                TextWrapping="Wrap"
+                >
+                <Run Text="Kota : " 
+                FontWeight="SemiBold"/>
+                <Run Text="{Binding Kota, Mode=OneTime}" FontWeight="Medium"/>
+
+            </TextBlock>
+            <TextBlock
+                FontSize="16"
+                Margin="0 0 0 10 "
+                TextWrapping="Wrap"
+                >
+                <Run Text="Provinsi : " 
+                FontWeight="SemiBold"/>
+                <Run Text="{Binding Provinsi, Mode=OneTime}" FontWeight="Medium"/>
+
+            </TextBlock>
+            <TextBlock
+                FontSize="16"
+                Margin="0 0 0 10 "
+                TextWrapping="Wrap"
+                >
+                <Run Text="Rating Buku : " 
+                FontWeight="SemiBold"/>
+                <Run Text="{Binding RatingPemilik, Mode=OneTime}" FontWeight="Medium"/>
+
+            </TextBlock>
+            
+            <!-- Region Pinjam -->
+            <StackPanel 
+                Orientation="Vertical"
+                >
+                <Button MaxWidth="100" HorizontalAlignment="Left"
+                        Content="Tukar"
+                        Padding="15 5"
+                        FontSize="16"
+                        IsEnabled="{Binding CanTukar, Mode=OneWay}"
+                        >
+                    
+                </Button>
+                <TextBlock
+                FontSize="16"
+                Margin=" 0 10 0 10 "
+                TextWrapping="Wrap"
+                >
+                    <Run Text="Buku Yang Ditawarkan : " FontWeight="SemiBold"/>
+                    <Run Text="{Binding BukuYangTerpilih.Judul}" />
+                </TextBlock>
+                <ListView ItemsSource="{Binding BukuYangBisaDitawarkan}"
+                        SelectedItem="{Binding BukuYangTerpilih}"     
+                     >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Judul}" FontSize="16" FontWeight="Bold" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+            
+
+        </StackPanel>
+    </Grid>
+</UserControl>

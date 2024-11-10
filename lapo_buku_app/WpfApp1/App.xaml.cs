@@ -1,4 +1,5 @@
 ﻿using DotNetEnv;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -6,6 +7,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WpfApp1.Commands;
+using WpfApp1.Models;
 using WpfApp1.Service;
 using WpfApp1.Store;
 using WpfApp1.View;
@@ -20,10 +23,14 @@ namespace WpfApp1
     {
 
         private readonly NavigationStore _navigationStore;
+        private readonly ParameterNavigationService<ParameterNavBuku, PageBukuViewModel> pageBukunavigationService;
+        private readonly Action _displayMainApp;
+        public Action DisplayLogout;
 
         public App()
         {
             _navigationStore = new NavigationStore();
+            _displayMainApp = DisplayMainAppFromLogin;
 
 
         }
@@ -31,6 +38,7 @@ namespace WpfApp1
         {
             Env.Load();  // Loads .env file
 
+            
 
             //MainWindow = new LoginWindow(_navigationStore, CreateNavBarViewModel);
             WpfApp1.View.MainApp.MainWindow mainWindow = new WpfApp1.View.MainApp.MainWindow()
@@ -39,7 +47,7 @@ namespace WpfApp1
             };
             MainWindow = mainWindow;
             //_navigationStore.CurrentViewModel = new BrowsingViewModel();
-            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel());
+            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel(_navigationStore,CreateNavBarViewModel));
 
             MainWindow.Show();
             base.OnStartup(e);
@@ -47,7 +55,8 @@ namespace WpfApp1
 
         private INavigationService<BrowsingViewModel> CreateBrowsingNavService()
         {
-            return new LayoutNavigationService<BrowsingViewModel>(_navigationStore, () => new BrowsingViewModel(), CreateNavBarViewModel);
+            
+            return new LayoutNavigationService<BrowsingViewModel>(_navigationStore, () => new BrowsingViewModel(_navigationStore, CreateNavBarViewModel), CreateNavBarViewModel);
         }
 
         private INavigationService<ProfileViewModel> CreateProfileNavigationService()
@@ -63,7 +72,26 @@ namespace WpfApp1
 
         private NavbarViewModel CreateNavBarViewModel()
         {
-            return new NavbarViewModel(CreateBrowsingNavService(), CreateProfileNavigationService(), CreateTransaksiNavigationService());
+            return new NavbarViewModel(CreateBrowsingNavService(), CreateProfileNavigationService(), CreateTransaksiNavigationService(), DisplayLoginWindow);
+        }
+
+        private void DisplayLoginWindow()
+        {
+            MainWindow = new LoginWindow(_displayMainApp);
+            MainWindow.Show();
+            DisplayLogout?.Invoke();
+        }
+
+        private void DisplayMainAppFromLogin()
+        {
+            WpfApp1.View.MainApp.MainWindow mainWindow = new WpfApp1.View.MainApp.MainWindow()
+            {
+                DataContext = new MainViewModel(_navigationStore)
+            };
+            MainWindow = mainWindow;
+            //_navigationStore.CurrentViewModel = new BrowsingViewModel();
+            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel(_navigationStore, CreateNavBarViewModel));
+            MainWindow.Show();
         }
     }
 }
