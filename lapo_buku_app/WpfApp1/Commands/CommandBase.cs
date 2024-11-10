@@ -19,5 +19,11 @@ namespace WpfApp1.Commands
         {
             CanExecuteChanged?.Invoke(this, new EventArgs());
         }
+
+        public void RaiseCanExecuteChanged()
+        {
+            EventHandler canExecuteChanged = this.CanExecuteChanged;
+            canExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

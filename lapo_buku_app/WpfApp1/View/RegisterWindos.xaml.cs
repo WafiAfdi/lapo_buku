@@ -22,6 +22,8 @@ namespace WpfApp1.View
     /// </summary>
     public partial class RegisterWindos : Window
     {
+        private readonly Action DisplayMainApp;
+
         private readonly IAuthManager _authManager;
         private readonly NavigationStore _navigationStore;
         private Func<NavbarViewModel> _createNavbarViewModel;
@@ -31,6 +33,12 @@ namespace WpfApp1.View
             _authManager = new WpfApp1.Service.AuthManager();
             _navigationStore = navigationStore;
             _createNavbarViewModel = createNavbarViewModel;
+        }
+
+        public RegisterWindos(Action displayMainApp)
+        {
+            InitializeComponent();
+            DisplayMainApp = displayMainApp;
         }
 
         private void Register_Button_Click(object sender, RoutedEventArgs e)
@@ -56,7 +64,7 @@ namespace WpfApp1.View
                 {
                     MessageBox.Show("Registrasi berhasil", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    LoginWindow login = new LoginWindow(_navigationStore, _createNavbarViewModel);
+                    LoginWindow login = new LoginWindow(DisplayMainApp);
                     login.Show();
 
                     this.Close();

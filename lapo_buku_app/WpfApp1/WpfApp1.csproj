@@ -254,6 +254,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\LogoutCommand.cs" />
     <Compile Include="Commands\PerpindahanBrowsingCommand.cs" />
     <Compile Include="Models\Buku.cs" />
     <Compile Include="Commands\CommandBase.cs" />

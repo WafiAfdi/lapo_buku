@@ -26,6 +26,8 @@ namespace WpfApp1.View
     /// </summary>
     public partial class LoginWindow : Window
     {
+        private readonly Action DisplayMainApp;
+
         private AuthManager _authManager;
         private NpgsqlConnection _connection;
         private NavigationStore _navigationStore;
@@ -38,6 +40,15 @@ namespace WpfApp1.View
             _authManager = new AuthManager(_connection);
             _navigationStore = navigationStore;
             _createNavbarViewModel = createNavbarViewModel;
+
+        }
+
+        public LoginWindow(Action displayMainApp)
+        {
+            InitializeComponent();
+            ConnectToDatabase();
+            _authManager = new AuthManager(_connection);
+            DisplayMainApp = displayMainApp;
         }
 
         private void ConnectToDatabase()
@@ -65,7 +76,7 @@ namespace WpfApp1.View
 
         private void registerBtn_Click(object sender, RoutedEventArgs e)
         {
-            RegisterWindos registerWindos = new RegisterWindos(_navigationStore, _createNavbarViewModel);
+            RegisterWindos registerWindos = new RegisterWindos(DisplayMainApp);
             Application.Current.MainWindow = registerWindos;
             registerWindos.Show();
 
@@ -82,14 +93,7 @@ namespace WpfApp1.View
                 return;
             }
 
-            /*_navigationStore.CurrentViewModel = new LayoutViewModel(_createNavbarViewModel(), new BrowsingViewModel());
-
-            WpfApp1.View.MainApp.MainWindow mainWindow = new WpfApp1.View.MainApp.MainWindow()
-            {
-                DataContext = new MainViewModel(_navigationStore)
-            };
-            Application.Current.MainWindow = mainWindow;
-            mainWindow.Show();*/
+            DisplayMainApp();
 
 
             this.Close();

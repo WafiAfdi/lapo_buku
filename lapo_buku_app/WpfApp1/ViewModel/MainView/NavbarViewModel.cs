@@ -13,13 +13,16 @@ namespace WpfApp1.ViewModel.MainView
     {
         public ICommand NavigateHomeCommand { get; }
         public ICommand NavigateProfileCommand { get; }
+        public ICommand LogoutCommand {  get; }
 
         public NavbarViewModel(
             INavigationService<BrowsingViewModel> browserNavigationService,
-            INavigationService<ProfileViewModel> profileNavigationService
+            INavigationService<ProfileViewModel> profileNavigationService,
+            Action displayLogout
         ) {
             NavigateHomeCommand = new NavigateCommand<BrowsingViewModel>(browserNavigationService);
             NavigateProfileCommand = new NavigateCommand<ProfileViewModel>(profileNavigationService);  
+            LogoutCommand = new LogoutCommand(displayLogout);
         }    
     }
 }

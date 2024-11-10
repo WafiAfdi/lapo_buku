@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WpfApp1.Commands;
 using WpfApp1.Models;
 using WpfApp1.Service;
 using WpfApp1.Store;
@@ -23,10 +24,13 @@ namespace WpfApp1
 
         private readonly NavigationStore _navigationStore;
         private readonly ParameterNavigationService<ParameterNavBuku, PageBukuViewModel> pageBukunavigationService;
+        private readonly Action _displayMainApp;
+        public Action DisplayLogout;
 
         public App()
         {
             _navigationStore = new NavigationStore();
+            _displayMainApp = DisplayMainAppFromLogin;
 
 
         }
@@ -64,7 +68,26 @@ namespace WpfApp1
 
         private NavbarViewModel CreateNavBarViewModel()
         {
-            return new NavbarViewModel(CreateBrowsingNavService(), CreateProfileNavigationService());
+            return new NavbarViewModel(CreateBrowsingNavService(), CreateProfileNavigationService(), DisplayLoginWindow);
+        }
+
+        private void DisplayLoginWindow()
+        {
+            MainWindow = new LoginWindow(_displayMainApp);
+            MainWindow.Show();
+            DisplayLogout?.Invoke();
+        }
+
+        private void DisplayMainAppFromLogin()
+        {
+            WpfApp1.View.MainApp.MainWindow mainWindow = new WpfApp1.View.MainApp.MainWindow()
+            {
+                DataContext = new MainViewModel(_navigationStore)
+            };
+            MainWindow = mainWindow;
+            //_navigationStore.CurrentViewModel = new BrowsingViewModel();
+            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel(_navigationStore, CreateNavBarViewModel));
+            MainWindow.Show();
         }
     }
 }

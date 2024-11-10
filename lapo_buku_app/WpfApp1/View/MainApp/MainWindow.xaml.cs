@@ -22,6 +22,17 @@ namespace WpfApp1.View.MainApp
         public MainWindow()
         {
             InitializeComponent();
+            var app = (App)Application.Current;
+            app.DisplayLogout += CloseMainWindow;
+            
         }
+
+        private void CloseMainWindow()
+        {
+            var app = (App)Application.Current;
+            app.DisplayLogout -= CloseMainWindow;
+            this.Close();
+        }
+
     }
 }
