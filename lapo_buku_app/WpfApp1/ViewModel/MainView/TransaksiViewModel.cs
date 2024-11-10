@@ -15,6 +15,9 @@ namespace WpfApp1.ViewModel.MainView
         public ComboOption SelectedComboStatus { get; set; }
         public ComboOption SelectedComboPihak { get; set; }
 
+        public string SearchQuery
+        { get; set; }
+
 
         public TransaksiViewModel()
         {

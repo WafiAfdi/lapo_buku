@@ -16,13 +16,12 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
-        <TextBox Grid.Row="0" Margin="25,21,25,0" TextWrapping="Wrap" Text="Search..." VerticalAlignment="Top" Height="33" FontFamily="Arial" FontSize="16"
-            VerticalContentAlignment="Center"
-        />
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 20">
-            <ComboBox Text="Status"  Width="90" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,0,0,0"
+        <TextBox x:Name="TextSearch" Style="{StaticResource textboxSearch}" FontSize="14" Text="{Binding SearchQuery, Mode=TwoWay}" Grid.Row="0" Width="700"/>
+
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 20" Width="700">
+            <ComboBox Text="Status"  Width="90" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"
                       ItemsSource="{Binding ComboStatus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedComboStatus}"
             />
             <ComboBox Text="Pihak"  Width="90" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,0,0,0"
@@ -31,7 +30,7 @@
         </StackPanel>
 
 
-        <ListView Name="UserList" ItemsSource="{Binding Users}" BorderBrush="#cdcdcd" Padding="0" Margin="25,0,25,0" Grid.Row="2" HorizontalAlignment="Stretch">
+        <ListView Name="UserList" ItemsSource="{Binding Users}" BorderBrush="#cdcdcd" Padding="0" Width="700" Grid.Row="2" HorizontalAlignment="Stretch">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding IdTransaksi}" Header="Id Transaksi"/>
