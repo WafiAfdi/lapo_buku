@@ -15,16 +15,18 @@ using System.Windows.Shapes;
 
 using WpfApp1.ViewModel.MainView;
 
-namespace WpfApp1
+namespace WpfApp1.View.MainApp
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TransaksiView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TransaksiView : UserControl
     {
-        public MainWindow()
+        public TransaksiView()
         {
             InitializeComponent();
+            TransaksiViewModel viewModel= new TransaksiViewModel();
+            this.DataContext = viewModel;
         }
     }
 }
