@@ -18,7 +18,7 @@
                 <views:ProfileView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodel:TransaksiViewModel}">
-                <views:ProfileView />
+                <views:TransaksiView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodel:LayoutViewModel}">
                 <components:Layout/>
