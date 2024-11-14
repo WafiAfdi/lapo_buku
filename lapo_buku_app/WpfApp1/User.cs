@@ -72,7 +72,8 @@ namespace WpfApp1
         {
 
             string query = "SELECT id, email, username FROM public.user WHERE email = @Email AND password = @Password";
- 
+            var cmd = new NpgsqlCommand(query, _connection);
+
             // Add parameters to prevent SQL injection
             cmd.Parameters.AddWithValue("Email", email);
             cmd.Parameters.AddWithValue("Password", password);
