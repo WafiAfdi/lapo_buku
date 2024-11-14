@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,10 +25,13 @@ namespace WpfApp1.View
     public partial class RegisterWindos : Window
     {
         private readonly Action DisplayMainApp;
-
-        private readonly IAuthManager _authManager;
+        private readonly AuthStore _authStore;
         private readonly NavigationStore _navigationStore;
+
+
+        private IAuthManager _authManager;
         private Func<NavbarViewModel> _createNavbarViewModel;
+        private NpgsqlConnection _connection;
         public RegisterWindos(NavigationStore navigationStore, Func<NavbarViewModel> createNavbarViewModel)
         {
             InitializeComponent();
@@ -35,10 +40,12 @@ namespace WpfApp1.View
             _createNavbarViewModel = createNavbarViewModel;
         }
 
-        public RegisterWindos(Action displayMainApp)
+        public RegisterWindos(Action displayMainApp, AuthStore authStore)
         {
             InitializeComponent();
             DisplayMainApp = displayMainApp;
+            ConnectToDatabase();
+            _authStore = authStore;
         }
 
         private void Register_Button_Click(object sender, RoutedEventArgs e)
@@ -64,7 +71,7 @@ namespace WpfApp1.View
                 {
                     MessageBox.Show("Registrasi berhasil", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    LoginWindow login = new LoginWindow(DisplayMainApp);
+                    LoginWindow login = new LoginWindow(DisplayMainApp, _authStore);
                     login.Show();
 
                     this.Close();
@@ -86,6 +93,28 @@ namespace WpfApp1.View
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void ConnectToDatabase()
+        {
+            string host = Environment.GetEnvironmentVariable("DB_HOST");
+            string username = Environment.GetEnvironmentVariable("DB_USER");
+            string password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+            string database = Environment.GetEnvironmentVariable("DB_NAME");
+            string port = Environment.GetEnvironmentVariable("DB_PORT");
+
+            // Connection string
+            string connString = $"Host={host};Username={username};Password={password};Database={database};Port={port}";
+
+            try
+            {
+                _authManager = new WpfApp1.Service.AuthManager(connString);
+                MessageBox.Show("Database connected successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to connect to database: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

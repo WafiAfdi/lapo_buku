@@ -18,10 +18,21 @@ namespace WpfApp1.Service
     public class AuthManager : IAuthManager
     {
         private readonly string _connectionString;
+        private NpgsqlConnection _connection;
 
         public AuthManager(string connectionString)
         {
             _connectionString = connectionString;
+            try
+            {
+                _connection = new NpgsqlConnection(_connectionString);
+                _connection.Open();
+                MessageBox.Show("Database connected successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to connect to database: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public AuthManager()
@@ -46,11 +57,9 @@ namespace WpfApp1.Service
 
             try
             {
-                var connection = new NpgsqlConnection(_connectionString);
-                connection.Open();
 
                 // Cek jika ada
-                using (var checkCmd = new NpgsqlCommand("SELECT COUNT(*) FROM public.user  WHERE username = @username", connection))
+                using (var checkCmd = new NpgsqlCommand("SELECT COUNT(*) FROM public.user  WHERE username = @username", _connection))
                 {
                     checkCmd.Parameters.AddWithValue("@username", username);
                     var count = (long)checkCmd.ExecuteScalar();
@@ -59,7 +68,7 @@ namespace WpfApp1.Service
                 }
 
                 // Insert baru
-                using (var cmd = new NpgsqlCommand("INSERT INTO public.user (username, password, email) VALUES (@username, @password, @email)", connection))
+                using (var cmd = new NpgsqlCommand("INSERT INTO public.user (username, password, email) VALUES (@username, @password, @email)", _connection))
                 {
                     cmd.Parameters.AddWithValue("@username", username);
                     cmd.Parameters.AddWithValue("@password", password);
@@ -83,10 +92,8 @@ namespace WpfApp1.Service
         {
             try
             {
-                var connection = new NpgsqlConnection(_connectionString);
-                connection.Open();
 
-                using (var cmd = new NpgsqlCommand("SELECT password FROM user WHERE username = @username", connection))
+                using (var cmd = new NpgsqlCommand("SELECT password FROM user WHERE username = @username", _connection))
                 {
                     cmd.Parameters.AddWithValue("@username", username);
                     var storedPassword = cmd.ExecuteScalar()?.ToString();

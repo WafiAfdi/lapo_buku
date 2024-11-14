@@ -23,12 +23,15 @@ namespace WpfApp1
     {
 
         private readonly NavigationStore _navigationStore;
+        private readonly AuthStore _authStore;  
         private readonly Action _displayMainApp;
         public Action DisplayLogout;
 
         public App()
         {
             _navigationStore = new NavigationStore();
+            _authStore = new AuthStore();
+            _authStore.UserLoggedIn = new UserModel();
             _displayMainApp = DisplayMainAppFromLogin;
 
 
@@ -71,12 +74,12 @@ namespace WpfApp1
 
         private NavbarViewModel CreateNavBarViewModel()
         {
-            return new NavbarViewModel(CreateBrowsingNavService(), CreateProfileNavigationService(), CreateTransaksiNavigationService(), DisplayLoginWindow);
+            return new NavbarViewModel(CreateBrowsingNavService(), CreateProfileNavigationService(), CreateTransaksiNavigationService(), DisplayLoginWindow, _authStore);
         }
 
         private void DisplayLoginWindow()
         {
-            MainWindow = new LoginWindow(_displayMainApp);
+            MainWindow = new LoginWindow(_displayMainApp, _authStore);
             MainWindow.Show();
             DisplayLogout?.Invoke();
         }

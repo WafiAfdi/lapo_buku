@@ -27,6 +27,7 @@ namespace WpfApp1.View
     public partial class LoginWindow : Window
     {
         private readonly Action DisplayMainApp;
+        private readonly AuthStore _authStore;
 
         private AuthManager _authManager;
         private NpgsqlConnection _connection;
@@ -37,18 +38,20 @@ namespace WpfApp1.View
         {
             InitializeComponent();
             ConnectToDatabase();
-            _authManager = new AuthManager(_connection);
+            _authManager = new AuthManager(_connection, _authStore);
             _navigationStore = navigationStore;
             _createNavbarViewModel = createNavbarViewModel;
+            
 
         }
 
-        public LoginWindow(Action displayMainApp)
+        public LoginWindow(Action displayMainApp, AuthStore authStore)
         {
             InitializeComponent();
             ConnectToDatabase();
-            _authManager = new AuthManager(_connection);
+            _authManager = new AuthManager(_connection, authStore);
             DisplayMainApp = displayMainApp;
+            _authStore = authStore;
         }
 
         private void ConnectToDatabase()
@@ -76,7 +79,7 @@ namespace WpfApp1.View
 
         private void registerBtn_Click(object sender, RoutedEventArgs e)
         {
-            RegisterWindos registerWindos = new RegisterWindos(DisplayMainApp);
+            RegisterWindos registerWindos = new RegisterWindos(DisplayMainApp, _authStore);
             Application.Current.MainWindow = registerWindos;
             registerWindos.Show();
 
@@ -87,13 +90,15 @@ namespace WpfApp1.View
         {
             _authManager.Login(emailLabel.Text, passwordLabel.Text);
 
-            if (!_authManager.isLoggedIn)
+            if (!_authStore.IsLoggedIn)
             {
-                MessageBox.Show("Invalid input");
+                MessageBox.Show("Login Gagal");
                 return;
             }
 
             DisplayMainApp();
+
+            _connection.Close();
 
 
             this.Close();

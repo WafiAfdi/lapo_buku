@@ -9,9 +9,8 @@ namespace WpfApp1.Store
 {
     public class AuthStore
     {
-        // TODO Gab untuk simpan data user
         public UserModel UserLoggedIn { get; set; }
 
-        public bool isLoggedIn => UserLoggedIn != null;
+        public bool IsLoggedIn => UserLoggedIn != null;
     }
 }

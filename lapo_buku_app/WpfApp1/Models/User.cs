@@ -8,8 +8,10 @@ namespace WpfApp1.Models
 {
     public class UserModel : ModelBase
     {
+        public int Id { get; set; }
         public string Nama { get; set; }
         public string Email { get; set; }
+        public string Username { get; set; }
         public string Deskripsi { get; set; }
         public string Kota { get; set; }
         public string Provinsi { get; set; }

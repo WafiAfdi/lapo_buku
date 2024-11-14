@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Npgsql;
+using System.Data;
+using WpfApp1.Store;
 
 namespace WpfApp1
 {
@@ -46,32 +48,58 @@ namespace WpfApp1
 
     internal class AuthManager
     {
+        private readonly AuthStore _authStore;
         private Boolean _isLoggedIn;
         private NpgsqlConnection _connection;
 
         public Boolean isLoggedIn { get => _isLoggedIn; }
         public User userLoggedIn { get; }
 
-        public AuthManager(NpgsqlConnection connection)
+        public AuthManager(NpgsqlConnection connection, AuthStore authStore)
         {
             _isLoggedIn = false;
             _connection = connection;
+            _authStore = authStore;
+        }
+    
+
+        public async void Login(string email, string password)
+        {
+            _isLoggedIn = await LoginAsyncQuery(email, password);
         }
 
-        public void Login(string email, string password)
+        public async Task<bool> LoginAsyncQuery(string email, string password)
         {
-            string query = $"SELECT COUNT(1) FROM user WHERE email = @email AND password = @password";
-            var cmd = new NpgsqlCommand(query, _connection);
 
-            cmd.Parameters.AddWithValue("email", email);
-            cmd.Parameters.AddWithValue("password", password);
+            string query = "SELECT id, email, username FROM public.user WHERE email = @Email AND password = @Password";
+ 
+            // Add parameters to prevent SQL injection
+            cmd.Parameters.AddWithValue("Email", email);
+            cmd.Parameters.AddWithValue("Password", password);
 
-            int result = Convert.ToInt32(cmd.ExecuteScalar());
+            DataTable dataTable = new DataTable();
 
-            if (result > 0)
-                _isLoggedIn = true;
+            var reader = await cmd.ExecuteReaderAsync();
+
+            dataTable.Load(reader);
+
+            if (dataTable.Rows.Count > 0)
+            {
+                // Store data in accountStore if needed
+                if(!_authStore.IsLoggedIn)
+                {
+                    _authStore.UserLoggedIn = new Models.UserModel();
+                }
+                _authStore.UserLoggedIn.Id = int.Parse(dataTable.Rows[0]["id"].ToString());
+                _authStore.UserLoggedIn.Email = dataTable.Rows[0]["email"].ToString();
+                _authStore.UserLoggedIn.Username = dataTable.Rows[0]["username"].ToString();
+
+                return true;
+            }
             else
-                _isLoggedIn = false;
+            {
+                return false;
+            }
         }
 
         public Boolean Register(string email, string password)
