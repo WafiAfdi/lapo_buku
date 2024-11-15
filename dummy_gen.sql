@@ -11,10 +11,10 @@ INSERT INTO public.genre (nama) VALUES ('romantis'), ('horror'), ('petualangan')
 INSERT INTO public.penulis (nama) VALUES ('Hari Proton'), ('Edward Hartono'), ('Prastetu Wongosari'), ('Raden A. R. Pandjiwongso')
 
 -- @block 
-INSERT INTO public.buku (isbn, judul, penerbit, deskripsi, tahun_terbit, status)
-VALUES ('2311241321', 'Petualangan Harun', 'Citra Publication','Harun adalah sang petualang yang lagi menelusuri Keraajaan Majapahit', 2010, 'OPEN_FOR_TUKAR'),
- ('3213123', 'Kehidupan Selepas SMA', 'Bulaksumur Publication','Kehidupan mudah seorang anak SMA pada saat dia menapak di kehidupan kuliah', 2020, 'OPEN_FOR_TUKAR'),
- ('21314143', 'Rumah Hantu 98', 'Bulaksumur Publication','Rumah terbengkalai milik seorang korban pembunuhan 98', 2001, 'OPEN_FOR_TUKAR')
+INSERT INTO public.buku (isbn, judul, penerbit, deskripsi, tahun_terbit, status, id_pemilik, rating_buku)
+VALUES ('2311241321', 'Petualangan Harun', 'Citra Publication','Harun adalah sang petualang yang lagi menelusuri Keraajaan Majapahit', 2010, 'OPEN_FOR_TUKAR', 1, 80),
+ ('3213123', 'Kehidupan Selepas SMA', 'Bulaksumur Publication','Kehidupan mudah seorang anak SMA pada saat dia menapak di kehidupan kuliah', 2020, 'OPEN_FOR_TUKAR', 2, 80),
+ ('21314143', 'Rumah Hantu 98', 'Bulaksumur Publication','Rumah terbengkalai milik seorang korban pembunuhan 98', 2001, 'OPEN_FOR_TUKAR', 3, 80)
 
 
 -- @block
