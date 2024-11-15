@@ -10,7 +10,7 @@ CREATE TYPE status_buku AS ENUM ('KOLEKSI', 'OPEN_FOR_TUKAR');
 
 CREATE TABLE buku (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
-    isbn TEXT not null ,
+    isbn TEXT not null,
     judul TEXT not null ,
     penerbit TEXT not null ,
     deskripsi TEXT,
@@ -32,7 +32,7 @@ CREATE TABLE penulis (
 -- genre
 CREATE TABLE genre (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
-    nama TEXT not null ,
+    nama TEXT UNIQUE not null ,
     PRIMARY KEY(id)
 );
 
