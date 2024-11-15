@@ -8,6 +8,7 @@ using System.Windows.Input;
 using WpfApp1.Commands;
 using WpfApp1.Models;
 using WpfApp1.Service;
+using WpfApp1.Store;
 using WpfApp1.View.Components.Browse;
 using WpfApp1.ViewModel.ComponentsView.Browse;
 
@@ -18,6 +19,7 @@ namespace WpfApp1.ViewModel.MainView
         private readonly BukuModel ModelPageBuku; // data buku untuk page
         private readonly SearchQuery searchSebelumnya;
         private readonly INavigationService<BrowsingViewModel> _backToBrowseNavigationService;
+        private readonly AuthStore _authStore;
         public ObservableCollection<BukuModel> BukuYangBisaDitawarkan { get; } = new ObservableCollection<BukuModel>(); // buku dari pemilik yang bisa ditukar
         private BukuModel _bukuYangTerpilih;
 
@@ -37,12 +39,13 @@ namespace WpfApp1.ViewModel.MainView
         public ICommand BalikPageBrowse {  get; }
         public ICommand TukarBuku { get; }
 
-        public PageBukuViewModel(ParameterNavBuku parameter, INavigationService<BrowsingViewModel> BackToBrowseNavService)
+        public PageBukuViewModel(ParameterNavBuku parameter, INavigationService<BrowsingViewModel> BackToBrowseNavService, AuthStore authStore)
         {
             ModelPageBuku = parameter.buku;
             searchSebelumnya = parameter.query;
 
             _backToBrowseNavigationService = BackToBrowseNavService;
+            _authStore = authStore;
             BalikPageBrowse = new PindahPageBrowse(BackToBrowseNavService);
 
             // Sampel Data

@@ -112,11 +112,11 @@
                        Foreground="DarkGray"
             />
 
-            <TextBox x:Name="TextSearch" Style="{StaticResource textboxSearch}" FontSize="14" Text="{Binding SearchQuery, Mode=TwoWay}">
+            <TextBox x:Name="TextSearch" Style="{StaticResource textboxSearch}" KeyDown="SearchBox_Keydown" FontSize="14" Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 
             </TextBox>
             <Button Margin="0 0 15 0" Width="25" Height="25"  VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource searchButton}"
-               
+               Command="{Binding BrowseCommand}"
             >
                 
                 <materialIcons:MaterialIcon Kind="Magnify" Width="20" Height="20"  VerticalAlignment="Center"
@@ -127,7 +127,7 @@
         </Grid>
         
         <!-- Display Buku -->
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding BukuCards}">
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding BukuCards, Mode=OneWay}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <!-- Use the BukuCard control as the template for each item -->

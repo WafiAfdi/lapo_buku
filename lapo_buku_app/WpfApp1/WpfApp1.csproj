@@ -254,6 +254,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\BrowseCommand.cs" />
     <Compile Include="Commands\LogoutCommand.cs" />
     <Compile Include="Commands\PerpindahanBrowsingCommand.cs" />
     <Compile Include="Models\Buku.cs" />
@@ -266,6 +267,7 @@
     <Compile Include="Rak.cs" />
     <Compile Include="searchManager.cs" />
     <Compile Include="Service\AuthManager.cs" />
+    <Compile Include="Service\Browsing\BrowserManager.cs" />
     <Compile Include="Service\DbPgService.cs" />
     <Compile Include="Service\INavigationService.cs" />
     <Compile Include="Service\LayoutNavigationService.cs" />

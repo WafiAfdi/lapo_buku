@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.ViewModel.MainView;
 
 namespace WpfApp1.View.MainApp
 {
@@ -23,6 +24,16 @@ namespace WpfApp1.View.MainApp
         public BrowsingView()
         {
             InitializeComponent();
+        }
+
+        private void SearchBox_Keydown(object sender, KeyEventArgs e)
+        {
+            // Check if the Enter key was pressed
+            if (e.Key == Key.Enter)
+            {
+                // Execute your command
+                ((BrowsingViewModel)DataContext).SearchQuerySQL();
+            }
         }
     }
 }

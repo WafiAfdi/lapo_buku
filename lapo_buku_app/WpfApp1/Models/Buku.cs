@@ -22,7 +22,7 @@ namespace WpfApp1.Models
         public string IdPemilik { get; set; }
         public UserModel PemilikBuku { get; set; }
         public string Deskripsi { get; set; }
-        public int Terbit { get; set; }
+        public int? Terbit { get; set; }
         public DateTime DimilikiSejak { get; set; }
         public status_buku status_Buku { get; set; }
 

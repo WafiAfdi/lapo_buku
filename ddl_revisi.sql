@@ -10,11 +10,13 @@ CREATE TYPE status_buku AS ENUM ('KOLEKSI', 'OPEN_FOR_TUKAR');
 
 CREATE TABLE buku (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+    id_pemilik integer NOT NULL,
     isbn TEXT not null,
     judul TEXT not null ,
     penerbit TEXT not null ,
     deskripsi TEXT,
     tahun_terbit INT,
+    rating_buku INT,
     status status_buku DEFAULT 'KOLEKSI',
     created TIMESTAMPTZ not null DEFAULT NOW(),
     last_updated TIMESTAMPTZ not null DEFAULT NOW(),
@@ -108,6 +110,14 @@ CREATE TABLE IF NOT EXISTS public.transaksi_penukaran
 
 ALTER TABLE IF EXISTS public.transaksi_penukaran
     ADD FOREIGN KEY (pembeli_id)
+    REFERENCES public.user (id) MATCH SIMPLE
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+    NOT VALID;
+
+-- @block
+ALTER TABLE IF EXISTS public.buku
+    ADD FOREIGN KEY (id_pemilik)
     REFERENCES public.user (id) MATCH SIMPLE
     ON UPDATE CASCADE
     ON DELETE CASCADE

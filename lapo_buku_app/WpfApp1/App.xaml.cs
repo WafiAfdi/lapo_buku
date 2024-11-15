@@ -49,7 +49,7 @@ namespace WpfApp1
             };
             MainWindow = mainWindow;
             //_navigationStore.CurrentViewModel = new BrowsingViewModel();
-            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel(_navigationStore,CreateNavBarViewModel));
+            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel(_navigationStore,CreateNavBarViewModel, _authStore));
 
             MainWindow.Show();
             base.OnStartup(e);
@@ -58,7 +58,7 @@ namespace WpfApp1
         private INavigationService<BrowsingViewModel> CreateBrowsingNavService()
         {
             
-            return new LayoutNavigationService<BrowsingViewModel>(_navigationStore, () => new BrowsingViewModel(_navigationStore, CreateNavBarViewModel), CreateNavBarViewModel);
+            return new LayoutNavigationService<BrowsingViewModel>(_navigationStore, () => new BrowsingViewModel(_navigationStore, CreateNavBarViewModel, _authStore), CreateNavBarViewModel);
         }
 
         private INavigationService<ProfileViewModel> CreateProfileNavigationService()
@@ -92,7 +92,7 @@ namespace WpfApp1
             };
             MainWindow = mainWindow;
             //_navigationStore.CurrentViewModel = new BrowsingViewModel();
-            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel(_navigationStore, CreateNavBarViewModel));
+            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel(_navigationStore, CreateNavBarViewModel, _authStore));
             MainWindow.Show();
         }
     }
