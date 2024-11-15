@@ -28,4 +28,27 @@ namespace WpfApp1.Commands
             return canSearch;
         }
     }
+
+    public class TukarCommand : CommandBase
+    {
+        private readonly Action _tukarBuku;
+        private bool canTukar = true;
+        public TukarCommand(Action updateTUkar)
+        {
+            _tukarBuku = updateTUkar;
+
+        }
+
+        public override void Execute(object parameter)
+        {
+            canTukar = false;
+            _tukarBuku();
+            canTukar = true;
+        }
+
+        public override bool CanExecute(object parameter)
+        {
+            return canTukar;
+        }
+    }
 }
