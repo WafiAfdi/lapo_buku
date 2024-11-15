@@ -265,6 +265,7 @@
     <Compile Include="Commands\BrowseCommand.cs" />
     <Compile Include="Commands\LogoutCommand.cs" />
     <Compile Include="Commands\PerpindahanBrowsingCommand.cs" />
+    <Compile Include="Commands\ProfileCommand.cs" />
     <Compile Include="Models\Buku.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
@@ -318,6 +319,9 @@
     <Compile Include="View\MainApp\ProfileView.xaml.cs">
       <DependentUpon>ProfileView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\MainApp\Profile\EditProfile.xaml.cs">
+      <DependentUpon>EditProfile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainApp\TransaksiView.xaml.cs">
       <DependentUpon>TransaksiView.xaml</DependentUpon>
     </Compile>
@@ -365,6 +369,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainApp\ProfileView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainApp\Profile\EditProfile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

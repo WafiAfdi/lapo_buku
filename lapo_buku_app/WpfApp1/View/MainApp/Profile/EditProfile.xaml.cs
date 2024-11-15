@@ -10,25 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfApp1.ViewModel.MainView;
 
-namespace WpfApp1.View.MainApp
+namespace WpfApp1.View.MainApp.Profile
 {
     /// <summary>
-    /// Interaction logic for ProfileView.xaml
+    /// Interaction logic for EditProfile.xaml
     /// </summary>
-    public partial class ProfileView : UserControl
+    public partial class EditProfile : Window
     {
-        public ProfileView()
+        public EditProfile()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            ((ProfileViewModel)DataContext).ubahNama();
         }
     }
 }
