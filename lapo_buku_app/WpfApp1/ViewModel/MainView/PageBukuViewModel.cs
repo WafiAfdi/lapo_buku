@@ -220,17 +220,22 @@ namespace WpfApp1.ViewModel.MainView
             bool bukuPenjualMasihAda = false;
             bool bukuPembeliMasihAda = false;
             bool bukuBelumDiproses = false;
+            bool bukuBelumAdaTransaksi = false;
             string queryGetBuku = @"
                 SELECT id FROM public.buku WHERE id_pemilik = @id_pembeli AND id = @id_buku_pembeli;
 
                 SELECT id FROM public.buku WHERE id_pemilik = @id_penjual AND id = @id_buku_penjual;
 
                 SELECT buku_penjual, buku_pembeli FROM public.transaksi_penukaran 
-                WHERE buku_penjual = @id_buku_penjual AND buku_pembeli = @id_buku_pembeli AND status != 'DONE';
+                WHERE (
+                    buku_penjual = @id_buku_penjual OR buku_penjual = @id_buku_pembeli
+                    OR buku_pembeli = @id_buku_penjual OR buku_pembeli = @id_buku_pembeli
+                ) 
+                AND status = 'PROCESS';
 
                 SELECT buku_penjual, buku_pembeli FROM public.transaksi_penukaran 
-                WHERE (buku_penjual = @id_buku_penjual OR buku_pembeli = @id_buku_penjual OR buku_penjual = @id_buku_pembeli OR buku_pembeli = @id_buku_pembeli) 
-                AND status = 'PROCESS';
+                WHERE (buku_penjual = @id_buku_penjual AND buku_pembeli = @id_buku_pembeli AND pembeli_id = @id_pembeli AND penjual_id = @id_penjual) 
+                AND status != 'DONE';
                 
                 
             "
@@ -272,7 +277,7 @@ namespace WpfApp1.ViewModel.MainView
 
                 if (reader.NextResult())
                 {
-                    if (reader.Read())
+                    if (reader.HasRows)
                     {
 
                     }
@@ -281,6 +286,21 @@ namespace WpfApp1.ViewModel.MainView
                         bukuBelumDiproses = true;
                     }
 
+
+                }
+
+                if (reader.NextResult())
+                {
+                    if (reader.HasRows)
+                    {
+
+                    }
+                    else
+                    {
+                        bukuBelumAdaTransaksi = true;
+                    }
+
+
                 }
 
                 reader.Close();
@@ -288,7 +308,7 @@ namespace WpfApp1.ViewModel.MainView
 
             
 
-            if(bukuPembeliMasihAda && bukuPenjualMasihAda && bukuBelumDiproses)
+            if(bukuPembeliMasihAda && bukuPenjualMasihAda && bukuBelumDiproses && bukuBelumAdaTransaksi)
             {
                 // insert
                 using (var command2 = new NpgsqlCommand(queryInsertTransaksi, _connection))
@@ -311,6 +331,15 @@ namespace WpfApp1.ViewModel.MainView
 
             } else
             {
+                if(!bukuBelumDiproses)
+                {
+                    MessageBox.Show("Buku ini lagi dalam proses pengiriman, tidak bisa ditukar");
+                    return;
+                } else if(!bukuBelumAdaTransaksi)
+                {
+                    MessageBox.Show("Buku ini sudah pernah diproseskan");
+                    return;
+                }
                 MessageBox.Show("Telah terjadi kesalahan : Buku pihak penawar atau pihak penukar sudah tidak dapat diproses lagi");
                 return;
             }
