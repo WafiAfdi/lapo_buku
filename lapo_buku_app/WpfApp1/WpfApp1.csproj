@@ -283,6 +283,7 @@
     <Compile Include="ViewModel\MainView\MainViewModel.cs" />
     <Compile Include="ViewModel\MainView\NavbarViewModel.cs" />
     <Compile Include="ViewModel\MainView\PageBukuViewModel.cs" />
+    <Compile Include="ViewModel\MainView\PopupTransaksiViewModel.cs" />
     <Compile Include="ViewModel\MainView\ProfileViewModel.cs" />
     <Compile Include="ViewModel\MainView\TransaksiViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
@@ -306,6 +307,9 @@
     </Compile>
     <Compile Include="View\MainApp\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainApp\PopupTransaksi.xaml.cs">
+      <DependentUpon>PopupTransaksi.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainApp\ProfileView.xaml.cs">
       <DependentUpon>ProfileView.xaml</DependentUpon>
@@ -353,6 +357,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainApp\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainApp\PopupTransaksi.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

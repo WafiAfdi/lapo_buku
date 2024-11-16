@@ -4,6 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using WpfApp1.View.MainApp;
+using WpfApp1.Models;
 
 namespace WpfApp1.ViewModel.MainView
 {
@@ -14,6 +17,7 @@ namespace WpfApp1.ViewModel.MainView
         public ObservableCollection<ComboOption> ComboPihak { get; set; }
         public ComboOption SelectedComboStatus { get; set; }
         public ComboOption SelectedComboPihak { get; set; }
+        private PopupTransaksiViewModel _popupTransaksiViewModel { get; set; }
 
         public string SearchQuery
         { get; set; }
@@ -38,6 +42,11 @@ namespace WpfApp1.ViewModel.MainView
             };
 
             Users.Add(new UserTransaksi("test", "test", "test", "test", "test", "test", "test"));
+
+            Window _popupTransaksi = new PopupTransaksi();
+            _popupTransaksiViewModel = new PopupTransaksiViewModel();
+            _popupTransaksi.DataContext = _popupTransaksiViewModel;
+            _popupTransaksi.Show();
         }
     }
 
@@ -78,6 +87,7 @@ namespace WpfApp1.ViewModel.MainView
             UsernamePenawar = usernamePenawar;
             UsernamePenerima = usernamePenerima;
             Date = date;
+            
         }
     }
 }
