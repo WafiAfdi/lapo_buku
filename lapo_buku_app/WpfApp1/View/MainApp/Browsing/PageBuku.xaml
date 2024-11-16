@@ -10,6 +10,9 @@
              MinHeight="450"
              Background="White" Height="817"
              >
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -179,14 +182,28 @@
             <StackPanel 
                 Orientation="Vertical"
                 >
-                <Button MaxWidth="100" HorizontalAlignment="Left"
+                <StackPanel Orientation="Horizontal">
+                    <Button MaxWidth="100" HorizontalAlignment="Left"
                         Content="Tukar"
                         Padding="15 5"
                         FontSize="16"
                         IsEnabled="{Binding CanTukar, Mode=OneWay}"
+                        Command="{Binding TukarBukuCommand}"
                         >
-                    
-                </Button>
+
+                    </Button>
+                    <TextBlock
+                        Text="{Binding StringAlasan}"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="SemiBold"
+                        Margin="10 0 0 0"
+                        Visibility="{Binding IsShowAlasan, Converter={StaticResource BoolToVis}}"
+                        >
+                        
+                    </TextBlock>
+                </StackPanel>
+                
                 <TextBlock
                 FontSize="16"
                 Margin=" 0 10 0 10 "

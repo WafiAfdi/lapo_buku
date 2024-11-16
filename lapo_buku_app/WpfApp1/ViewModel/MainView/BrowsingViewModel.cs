@@ -234,7 +234,7 @@ namespace WpfApp1.ViewModel.MainView
                     SELECT b.id, b.isbn, b.judul, b.penerbit, b.deskripsi, b.tahun_terbit, b.status, b.created,
                            COALESCE(string_agg(DISTINCT p.nama, ', '), 'Unknown') AS writers,
                            COALESCE(string_agg(DISTINCT g.nama, ', '), 'None') AS genres,
-                            pemilik.id AS id_pemilik, pemilik.username, pemilik.email 
+                            pemilik.id AS id_pemilik, pemilik.username, pemilik.email, pemilik.kota, pemilik.provinsi , pemilik.deskripsi AS deskripsi_diri
                     FROM buku b
                     LEFT JOIN buku_ditulis bd ON b.id = bd.id_buku
                     LEFT JOIN penulis p ON bd.id_penulis = p.id
@@ -264,7 +264,7 @@ namespace WpfApp1.ViewModel.MainView
                 var command = new NpgsqlCommand(querySearch, _connection);
 
                 command.Parameters.AddWithValue("searchQuery", SearchQuery);
-                command.Parameters.AddWithValue("pageSize", 1);
+                command.Parameters.AddWithValue("pageSize", 5);
                 command.Parameters.AddWithValue("offset", PageIndex - 1);
 
 
@@ -302,7 +302,14 @@ namespace WpfApp1.ViewModel.MainView
                         status_Buku = reader.GetString(6) == "OPEN_FOR_TUKAR" ? status_buku.OPEN_FOR_TUKAR : status_buku.KOLEKSI,
                         Pengarang = listPengarang, // Aggregated writers
                         Genre = listGenre,  // Aggregated genres
-                        PemilikBuku = new UserModel() { Nama = reader.GetString(11), Id = reader.GetInt32(10), Email = reader.GetString(12) },
+                        PemilikBuku = new UserModel() { 
+                            Nama = reader.GetString(11), 
+                            Id = reader.GetInt32(10), 
+                            Email = reader.GetString(12),
+                            Kota = reader.IsDBNull(13) ? null : reader.GetString(13),
+                            Provinsi = reader.IsDBNull(14) ? null :  reader.GetString(14),
+                            Deskripsi = reader.IsDBNull(15) ? null :  reader.GetString(15),
+                        },
                         DimilikiSejak = reader.GetDateTime(7)
                     },
                     CreatePageBukuNavigationService(),
