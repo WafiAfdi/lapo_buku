@@ -19,11 +19,11 @@
         <StackPanel  Grid.Row="1">
             <StackPanel>
                 <Label Content="Email"   FontSize="20" Width="399"/>
-                <TextBox x:Name="emailLabel" FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap" Width="402"  Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
+                <TextBox x:Name="emailLabel" FontSize="14" VerticalAlignment="Center" Height="42" AcceptsReturn="False" Width="402"  Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" >
                 <Label Content="Password" FontSize="20" Width="400" HorizontalAlignment="Center" />
-                <TextBox x:Name="passwordLabel" FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap"  Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
+                <PasswordBox x:Name="passwordLabel" PasswordChar="*" FontSize="14" VerticalAlignment="Center" Height="42"  Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Vertical"  Grid.Row="2" >
