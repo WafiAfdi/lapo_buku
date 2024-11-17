@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View.MainApp.Profile"
-        mc:Ignorable="d"
         Title="AddEditBook" Height="380" Width="300">
     
     <Window.Resources>
@@ -71,8 +70,8 @@
             <Setter Property="BorderBrush" Value="#9295A5"/>
             <Setter Property="Width" Value="300"/>
             <Setter Property="AllowDrop" Value="True"/>
-            <Setter Property="FontSize" Value="9"/>
-            <Setter Property="Padding" Value="1 2"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="1 1"/>
             <Setter Property="Cursor" Value="IBeam"/>
             <Setter Property="Foreground" Value="#9295A5"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -127,7 +126,8 @@
             </Border>
 
             <Border Grid.Row="0">
-                <TextBox Height="25" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"/>
+                <TextBox Height="25" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"
+                          Text="{Binding Test.AlamatJalan, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
             </Border>
 
             <Border Grid.Row="1">

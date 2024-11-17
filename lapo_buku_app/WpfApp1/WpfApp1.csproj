@@ -292,6 +292,9 @@
     <Compile Include="ViewModel\MainView\MainViewModel.cs" />
     <Compile Include="ViewModel\MainView\NavbarViewModel.cs" />
     <Compile Include="ViewModel\MainView\PageBukuViewModel.cs" />
+    <Compile Include="ViewModel\MainView\PopupAddEditBook.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
     <Compile Include="ViewModel\MainView\PopupTransaksiViewModel.cs" />
     <Compile Include="ViewModel\MainView\ProfileViewModel.cs" />
     <Compile Include="ViewModel\MainView\TransaksiViewModel.cs" />

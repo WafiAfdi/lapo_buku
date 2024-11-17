@@ -63,6 +63,23 @@ namespace WpfApp1.ViewModel.MainView
             }
         }
 
+        private void UpdateProfile(int userId, string Deskripsi, string Kota, string Provinsi, string AlamatJalan)
+        {
+            string queryUpdateProfile = "UPDATE user SET deskripsi=@Deskripsi, kota=@Kota, provinsi=@Provinsi, alamat_jalan=@AlamatJalan WHERE id=@UserID;";
+
+            var command = new NpgsqlCommand(queryUpdateProfile, _connection);
+
+            command.Parameters.AddWithValue("@Deskripsi", test_.Deskripsi);
+            command.Parameters.AddWithValue("@Kota", test_.Kota);
+            command.Parameters.AddWithValue("@Provinsi", test_.Provinsi);
+            command.Parameters.AddWithValue("@AlamatJalan", test_.AlamatJalan);
+            command.Parameters.AddWithValue("@UserID", _authStore.UserLoggedIn.Id);
+
+            command.ExecuteNonQuery();
+
+            OnPropertyChanged(nameof(Test));
+        }
+
 
     }
 }
