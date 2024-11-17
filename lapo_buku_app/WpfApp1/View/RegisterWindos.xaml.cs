@@ -109,7 +109,7 @@ namespace WpfApp1.View
             try
             {
                 _authManager = new WpfApp1.Service.AuthManager(connString);
-                MessageBox.Show("Database connected successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show("Database connected successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
