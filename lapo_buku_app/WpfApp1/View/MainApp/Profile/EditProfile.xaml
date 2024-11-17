@@ -124,7 +124,9 @@
             </Border>
 
             <Border Grid.Row="0">
-                <TextBox Height="25" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"/>
+                <TextBox Height="25" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"
+                    Text="{Binding Test.Email, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"         
+                />
             </Border>
             
             <Border Grid.Row="1">

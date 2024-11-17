@@ -22,6 +22,11 @@ namespace WpfApp1.Models
         public DateTime Created { get; set; }
         public DateTime LastUpdated { get; set; }
 
+        public UserModel ShallowCopy()
+        {
+            return (UserModel)MemberwiseClone();
+        }
+
 
 
     }

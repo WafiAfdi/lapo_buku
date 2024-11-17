@@ -63,7 +63,7 @@ namespace WpfApp1
 
         private INavigationService<ProfileViewModel> CreateProfileNavigationService()
         {
-            return new LayoutNavigationService<ProfileViewModel>(_navigationStore, () => new ProfileViewModel(), CreateNavBarViewModel);
+            return new LayoutNavigationService<ProfileViewModel>(_navigationStore, () => new ProfileViewModel(_authStore), CreateNavBarViewModel);
 
         }
 
