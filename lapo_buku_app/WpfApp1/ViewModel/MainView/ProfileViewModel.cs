@@ -47,6 +47,8 @@ namespace WpfApp1.ViewModel.MainView
         public ObservableCollection<ComboOptionKey> StatusBukuCombo { get; set; }
         public ComboOptionKey SelectedComboStatus { get; set; }
 
+        public ObservableCollection<BukuModel> Books { get; set; } = new ObservableCollection<BukuModel>();
+
         public ProfileViewModel(AuthStore authStore)
         {
             _authStore = authStore;
@@ -56,9 +58,10 @@ namespace WpfApp1.ViewModel.MainView
             SaveProfileCommand = new SaveEditProfile(UpdateProfile);
 
             StatusBukuCombo = new ObservableCollection<ComboOptionKey>() { new ComboOptionKey("Bisa ditukar", "OPEN_FOR_TUKAR"), new ComboOptionKey("Hanya koleksi", "KOLEKSI") };
-
+            
             ConnectToDatabase();
             GetUserInformation();
+            FetchBooksByUserID();
         }
 
         public void ubahNama()
@@ -317,5 +320,59 @@ namespace WpfApp1.ViewModel.MainView
             get => $"{Test.Kota}, {Test.Provinsi}, {Test.AlamatJalan}";
         }
 
+
+        public void FetchBooksByUserID()
+        {
+
+            
+                try
+                {
+                    string GetBookByUserID = @"
+                    WITH BookData AS (
+                    SELECT b.id, b.isbn, b.judul, b.penerbit, b.deskripsi, b.tahun_terbit, b.status, b.created, b.rating_buku,
+                           COALESCE(string_agg(DISTINCT p.nama, ', '), 'Unknown') AS writers,
+                           COALESCE(string_agg(DISTINCT g.nama, ', '), 'None') AS genres,
+                            pemilik.id AS id_pemilik, pemilik.username, pemilik.email, pemilik.kota, pemilik.provinsi , pemilik.deskripsi AS deskripsi_diri
+                    FROM buku b
+                    LEFT JOIN buku_ditulis bd ON b.id = bd.id_buku
+                    LEFT JOIN penulis p ON bd.id_penulis = p.id
+                    LEFT JOIN genre_buku gb ON b.id = gb.id_buku
+                    LEFT JOIN genre g ON gb.id_genre = g.id
+                    LEFT JOIN public.user pemilik ON pemilik.id = b.id_pemilik
+                    WHERE pemilik.id = @UserID
+                    GROUP BY b.id, pemilik.id
+                    )
+                    SELECT * FROM BookData
+                    ORDER BY id";
+
+                    var command = new NpgsqlCommand(GetBookByUserID, _connection);
+                    command.Parameters.AddWithValue("@UserID", _authStore.UserLoggedIn.Id);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        Books.Clear();
+                        while (reader.Read())
+                        {
+                            Books.Add(new BukuModel
+                            {
+                                BukuID = reader.GetInt32(reader.GetOrdinal("id")),
+                                ISBN = reader.GetString(reader.GetOrdinal("isbn")),
+                                Judul = reader.GetString(reader.GetOrdinal("judul")),
+                                GenreKomaKotor = reader.GetString(reader.GetOrdinal("genres")),
+                                PengarangKomaKotor = reader.GetString(reader.GetOrdinal("writers")),
+                                Penerbit = reader.GetString(reader.GetOrdinal("penerbit")),
+                                Terbit = reader.IsDBNull(reader.GetOrdinal("tahun_terbit")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("tahun_terbit")),
+                                RatingPemilik = reader.GetInt32(reader.GetOrdinal("rating_buku")),
+                                DimilikiSejak = reader.GetDateTime(reader.GetOrdinal("created"))
+                            });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error fetching books: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            
+        }
     }
 }
