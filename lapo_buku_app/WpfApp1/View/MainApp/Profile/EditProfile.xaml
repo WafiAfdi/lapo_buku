@@ -154,7 +154,7 @@
             </Border>
 
             <Border Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <Button Style="{DynamicResource AddCancelButton}" Margin="80 0" Width="60" Height="25">
+                <Button Style="{DynamicResource AddCancelButton}" Margin="80 0" Width="60" Height="25" Click="Cancel_Button_Click">
                     <TextBlock FontSize="8" Foreground="White">
                         CANCEL
                     </TextBlock>
@@ -162,7 +162,7 @@
             </Border>
 
             <Border Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Style="{DynamicResource AddSaveButton}" Margin="80 0" Width="60" Height="25">
+                <Button Style="{DynamicResource AddSaveButton}" Margin="80 0" Width="60" Height="25" Command="{Binding SaveProfileCommand}">
                     <TextBlock FontSize="8" Foreground="White">
                         SAVE
                     </TextBlock>

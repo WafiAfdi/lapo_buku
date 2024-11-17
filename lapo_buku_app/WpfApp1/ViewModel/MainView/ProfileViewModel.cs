@@ -1,6 +1,7 @@
 ﻿using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,16 @@ using WpfApp1.View.MainApp.Profile;
 
 namespace WpfApp1.ViewModel.MainView
 {
+    public class ComboOptionKey
+    {
+            public string Name { get; }
+            public string Key{ get; }
+            public ComboOptionKey(string name, string key)
+            {
+                Name = name;
+                Key = key;
+            }
+    }
     public class ProfileViewModel : ViewModelBase
     {
         private readonly AuthStore _authStore;
@@ -22,13 +33,26 @@ namespace WpfApp1.ViewModel.MainView
         private NpgsqlConnection _connection;
         public UserModel Test { get { return test_; } set => test_ = value; }
 
-        public ICommand editButtonCommand;
+        // untuk select
+        private BukuModel _selectedBook;
+        public BukuModel SelectedBook { get => _selectedBook; set => _selectedBook = value; }
+        public bool CanEditOrDelete => _selectedBook != null;
+        public bool isAddBuku = false;
+
+        public ICommand editButtonCommand { get; }
+        public ICommand SaveProfileCommand { get; }
+
+        public ObservableCollection<ComboOptionKey> StatusBukuCombo { get; set; } = new ObservableCollection<ComboOptionKey>() { new ComboOptionKey("Bisa ditukar", "OPEN_FOR_TUKAR"), new ComboOptionKey("Hanya koleksi", "KOLEKSI") };
+        public ComboOptionKey SelectedComboStatus { get; set; }
 
         public ProfileViewModel(AuthStore authStore)
         {
             _authStore = authStore;
             test_ = authStore.UserLoggedIn.ShallowCopy();
+
             editButtonCommand = new ProfileCommand(ubahNama);
+            SaveProfileCommand = new SaveEditProfile(ubahNama);
+
             ConnectToDatabase();
         }
 

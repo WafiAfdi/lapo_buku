@@ -26,9 +26,5 @@ namespace WpfApp1.View.MainApp
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            ((ProfileViewModel)DataContext).ubahNama();
-        }
     }
 }

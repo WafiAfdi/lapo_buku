@@ -47,5 +47,15 @@ namespace WpfApp1.Models
             }
         }
 
+        public string PengarangCommaSeperated
+        {
+            get => string.Join(", ", Pengarang);
+        }
+
+        public string GenreCommaSeperated
+        {
+            get => string.Join(", ", Genre);
+        }
+
     }
 }
