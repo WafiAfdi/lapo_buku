@@ -24,6 +24,7 @@ namespace WpfApp1.View.MainApp
         public ProfileView()
         {
             InitializeComponent();
+
         }
 
         private void Open_Add(object sender, RoutedEventArgs e)

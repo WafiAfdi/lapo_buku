@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View.MainApp.Profile"
-        Height="200" Width="350"
+        Height="290" Width="350"
         Background="Transparent"
         >
     <Window.Resources>
@@ -71,10 +71,10 @@
             <Setter Property="BorderBrush" Value="#9295A5"/>
             <Setter Property="Width" Value="300"/>
             <Setter Property="AllowDrop" Value="True"/>
-            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="Padding" Value="1 1"/>
             <Setter Property="Cursor" Value="IBeam"/>
-            <Setter Property="Foreground" Value="#9295A5"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
@@ -121,52 +121,52 @@
 
 
             <Border Grid.Row="0">
-                <TextBlock Text="Deksripsi :" FontSize="12" FontWeight="SemiBold"  Margin="20 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Text="Deskripsi :" FontSize="14" FontWeight="SemiBold"  Margin="20 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             </Border>
 
             <Border Grid.Row="0">
-                <TextBox Height="25" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"
+                <TextBox Height="28" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"
                     Text="{Binding Test.Deskripsi, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
             </Border>
             
             <Border Grid.Row="1">
-                <TextBlock Text="Kota/Kabupaten :" FontSize="12" FontWeight="SemiBold"  Margin="20 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Text="Kota/Kabupaten :" FontSize="14" FontWeight="SemiBold"  Margin="20 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             </Border>
 
             <Border Grid.Row="1">
-                <TextBox Height="25" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"
+                <TextBox Height="28" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"
                     Text="{Binding Test.Kota, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
             </Border>
 
             <Border Grid.Row="2">
-                <TextBlock Text="Provinsi :" FontSize="12" FontWeight="SemiBold"  Margin="20 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Text="Provinsi :" FontSize="14" FontWeight="SemiBold"  Margin="20 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             </Border>
 
             <Border Grid.Row="2">
-                <TextBox Height="25" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"
+                <TextBox Height="28" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"
                     Text="{Binding Test.Provinsi, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"         />
             </Border>
 
             <Border Grid.Row="3">
-                <TextBlock Text="Alamat :" FontSize="12" FontWeight="SemiBold"  Margin="20 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Text="Alamat :" FontSize="14" FontWeight="SemiBold"  Margin="20 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             </Border>
 
             <Border Grid.Row="3">
-                <TextBox Height="25" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"
+                <TextBox Height="28" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"
                     Text="{Binding Test.AlamatJalan, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
             </Border>
 
             <Border Grid.Row="4">
-                <TextBlock Text="Kontak :" FontSize="12" FontWeight="SemiBold"  Margin="20 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Text="Kontak :" FontSize="14" FontWeight="SemiBold"  Margin="20 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             </Border>
 
             <Border Grid.Row="4">
-                <TextBox Height="25" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"
+                <TextBox Height="28" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"
                     Text="{Binding Test.Nomor_Kontak, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
             </Border>
 
             <Border Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <Button Style="{DynamicResource AddCancelButton}" Margin="80 0" Width="60" Height="25" Click="Cancel_Button_Click">
+                <Button Style="{DynamicResource AddCancelButton}" Margin="80 0" Width="60" Height="25" Command="{Binding CancelCommand}">
                     <TextBlock FontSize="8" Foreground="White">
                         CANCEL
                     </TextBlock>
@@ -174,7 +174,7 @@
             </Border>
 
             <Border Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Style="{DynamicResource AddSaveButton}" Margin="80 0" Width="60" Height="25" Command="{Binding SaveProfileCommand}">
+                <Button Style="{DynamicResource AddSaveButton}" Margin="80 0" Width="60" Height="25" Command="{Binding SaveCommand}">
                     <TextBlock FontSize="8" Foreground="White">
                         SAVE
                     </TextBlock>
