@@ -135,7 +135,9 @@
             <!--Top of Your Collection-->
             <TextBlock Text="Your Collection" Grid.Row="2" Grid.Column="1" FontSize="32" FontWeight="Bold"  Margin="20 10 0 0"/>
 
-            <DataGrid ItemsSource="{Binding Books}" AutoGenerateColumns="False" HeadersVisibility="Column" Margin="10 60 10 0" FontSize="12" FontWeight="Light" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" Grid.Row="2">
+            <DataGrid ItemsSource="{Binding Books}" AutoGenerateColumns="False" HeadersVisibility="Column" Margin="10 60 10 0" FontSize="12" FontWeight="Light" CanUserAddRows="False" CanUserDeleteRows="False"  Grid.Row="2"
+                    SelectedItem="{Binding SelectedBook}"  
+                 >
                 <DataGrid.Columns >
                     <DataGridTextColumn Header="Judul" Binding="{Binding Judul}" Width="*"/>
                     <DataGridTextColumn Header="Genre" Binding="{Binding GenreKomaKotor}" Width="*"/>

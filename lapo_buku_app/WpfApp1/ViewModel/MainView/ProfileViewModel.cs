@@ -36,7 +36,13 @@ namespace WpfApp1.ViewModel.MainView
 
         // untuk select
         private BukuModel _selectedBook;
-        public BukuModel SelectedBook { get => _selectedBook; set => _selectedBook = value; }
+        public BukuModel SelectedBook { get => _selectedBook; 
+            set {
+                _selectedBook = value;
+                OnPropertyChanged(nameof(CanEditOrDelete));
+            
+            } 
+        }
         public bool CanEditOrDelete => _selectedBook != null;
         public bool IsAddBuku { get; set; }
         public bool IsEditBuku { get => !IsAddBuku; }
