@@ -111,7 +111,7 @@
             
 
             <!--Profile Box-->
-            <Border Grid.Row="0" Background="IndianRed" CornerRadius="0">
+            <Border Grid.Row="0" Background="IndianRed">
                 <StackPanel Margin="20 0 20 0">
                     <Border CornerRadius="100" Width="85" Height="85" Background="#ffffff" Margin="15 5 10 20">
                         <Ellipse Width="80" Height="80">
@@ -135,19 +135,19 @@
             <!--Top of Your Collection-->
             <TextBlock Text="Your Collection" Grid.Row="2" Grid.Column="1" FontSize="32" FontWeight="Bold"  Margin="20 10 0 0"/>
 
-            <DataGrid x:Name="BookDataGrid" Grid.Row="2" Grid.Column="1" AutoGenerateColumns="False" SelectionMode="Single" Margin="20,60,20,70">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding BukuID}" Width="*"/>
-                    <DataGridTextColumn Header="Judul Buku" Binding="{Binding JudulBuku}" Width="*"/>
-                    <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="*"/>
+            <DataGrid ItemsSource="{Binding Books}" AutoGenerateColumns="False" HeadersVisibility="Column" Margin="10 60 10 0" FontSize="12" FontWeight="Light" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" Grid.Row="2">
+                <DataGrid.Columns >
+                    <DataGridTextColumn Header="Judul" Binding="{Binding Judul}" Width="*"/>
+                    <DataGridTextColumn Header="Genre" Binding="{Binding GenreKomaKotor}" Width="*"/>
                     <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="*"/>
-                    <DataGridTextColumn Header="Pengarang" Binding="{Binding Pengarang}" Width="*"/>
                     <DataGridTextColumn Header="Penerbit" Binding="{Binding Penerbit}" Width="*"/>
+                    <DataGridTextColumn Header="Pengarang" Binding="{Binding PengarangKomaKotor}" Width="*"/>
                     <DataGridTextColumn Header="Tahun Terbit" Binding="{Binding Terbit}" Width="*"/>
-                    <DataGridTextColumn Header="Rating" Binding="{Binding Rating}" Width="*"/>
-                    
+                    <DataGridTextColumn Header="Rating" Binding="{Binding RatingPemilik}" Width="*"/>
+                    <DataGridTextColumn Header="Created" Binding="{Binding DimilikiSejak}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
+
 
             <!-- Button Add, Edit, Delete -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Margin="20 20">

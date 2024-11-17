@@ -13,15 +13,22 @@ namespace WpfApp1.ViewModel.MainView
         public UserModel PihakLain {  get; set; }
         public BukuModel BukuPihakLain { get; set; }
         public BukuModel BukuUser { get; set; }
+        public Boolean IsStatusPending { get; set; } = false;
 
         public PopupTransaksiViewModel() 
         {
-            BukuUser = new BukuModel();
-            BukuPihakLain = new BukuModel();
-            PihakLain = new UserModel();
+            SetData();
+            SetStatus();
+        }
 
-            BukuUser.Judul = "Lord of The Rings";
-            PihakLain.Nama = "Andi";
+        private void SetData()
+        {
+
+        }
+
+        private void SetStatus()
+        {
+
         }
     }
 }

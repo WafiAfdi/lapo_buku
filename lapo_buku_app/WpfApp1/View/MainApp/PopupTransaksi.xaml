@@ -6,6 +6,10 @@
         xmlns:local="clr-namespace:WpfApp1.View.MainApp"
         mc:Ignorable="d"
         Title="PopupTransaksi" Height="450" Width="800">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    
     <ScrollViewer>
     <Grid>
         <Grid.RowDefinitions>
@@ -221,6 +225,28 @@
                     <Run Text="Nomor Kontak : " FontWeight="SemiBold"/>
                     <Run Text="{Binding PihakLain.NomorKontak, Mode=OneTime}" FontWeight="Medium"/>
                 </TextBlock>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button  
+                    Content = "Terima"
+                    HorizontalAlignment = "Left" 
+                    Margin = "0,20,0,0"
+                    VerticalAlignment = "Top" 
+                    Width = "75"
+                    Visibility="{Binding IsStatusPending, 
+                        Converter={StaticResource BooleanToVisibilityConverter},
+                        Mode=OneWay}"/>
+
+                    <Button 
+                    Content = "Tolak"
+                    HorizontalAlignment = "Left" 
+                    Margin = "20,20,0,0"
+                    VerticalAlignment = "Top" 
+                    Width = "75"
+                        Visibility="{Binding IsStatusPending, 
+                        Converter={StaticResource BooleanToVisibilityConverter},
+                        Mode=OneWay}"/>
+                </StackPanel>
 
             </StackPanel>
 

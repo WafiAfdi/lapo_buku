@@ -64,12 +64,18 @@ namespace WpfApp1.Models
 
         public string PengarangCommaSeperated
         {
-            get => string.Join(", ", Pengarang);
+            get => string.Join(", ", Pengarang) ?? "";
         }
 
         public string GenreCommaSeperated
         {
-            get => string.Join(", ", Genre);
+            get => string.Join(", ", Genre) ?? "";
+        }
+
+        public BukuModel()
+        {
+            Pengarang = new List<string>() { };
+            Genre = new List<string>() { };
         }
 
         public string GenreKomaKotor { get; set; }
