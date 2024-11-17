@@ -129,7 +129,7 @@
 
                     <TextBlock Foreground="#ffffff" FontWeight="SemiBold" VerticalAlignment="Top" FontSize="20" Text="{Binding Test.Username}" HorizontalAlignment="Center"/>
                     <TextBlock Foreground="#ffffff" FontWeight="SemiBold" TextAlignment="Center" FontSize="14" Text="{Binding Test.Email}"/>
-                    <TextBlock Foreground="#ffffff" FontWeight="Light" TextAlignment="Center" FontSize="12" TextWrapping="Wrap" Text="{Binding Test.Deskripsi}" Width="260" Height="41"/>
+                    <TextBlock Foreground="#ffffff" FontWeight="Light" TextAlignment="Center" FontSize="12" TextWrapping="Wrap" Text="{Binding Test.Deskripsi}" Width="260" Height="40"/>
 
                     <Button Height="20" Content="Edit Profile" Width="80" Command="{Binding editButtonCommand}" Style="{DynamicResource AddTextButton}">
                         
