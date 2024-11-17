@@ -156,7 +156,7 @@
                 <Button Style="{StaticResource addButton}" Click="Open_Add">
                     <Image Source="/Icons/add.png"/>
                 </Button>
-                <Button Style="{StaticResource addButton}" IsEnabled="{Binding CanEditOrDelete}">
+                <Button Style="{StaticResource addButton}" IsEnabled="{Binding CanEditOrDelete}" Click="Open_Edit">
                     <Image Source="/Icons/edit.png"/>
                 </Button>
                 <Button Style="{StaticResource addButton}" IsEnabled="{Binding CanEditOrDelete}">

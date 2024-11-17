@@ -291,7 +291,7 @@
                         ADD
                     </TextBlock>
                 </Button>
-                <Button Style="{DynamicResource AddSaveButton}" Width="60" Height="25" Visibility="{Binding IsEditBuku, Converter={StaticResource BoolToVis}}">
+                <Button Style="{DynamicResource AddSaveButton}" Width="60" Height="25" Visibility="{Binding IsEditBuku, Converter={StaticResource BoolToVis}}" Command="{Binding EditBukuCommand}">
                     <TextBlock FontSize="12" Foreground="White">
                         SAVE
                     </TextBlock>

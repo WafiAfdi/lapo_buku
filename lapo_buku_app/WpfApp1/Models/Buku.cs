@@ -78,6 +78,27 @@ namespace WpfApp1.Models
             Genre = new List<string>() { };
         }
 
+        public BukuModel Clone()
+        {
+            return new BukuModel
+            {
+                BukuID = this.BukuID,
+                ISBN = this.ISBN,
+                Judul = this.Judul,
+                Genre = new List<string>(this.Genre), // Deep copy of the list
+                Pengarang = new List<string>(this.Pengarang), // Deep copy of the list
+                Penerbit = this.Penerbit,
+                IdPemilik = this.IdPemilik,
+                Deskripsi = this.Deskripsi,
+                Terbit = this.Terbit,
+                DimilikiSejak = this.DimilikiSejak,
+                status_Buku = this.status_Buku,
+                RatingPemilik = this.RatingPemilik,
+                GenreKomaKotor = this.GenreKomaKotor,
+                PengarangKomaKotor = this.PengarangKomaKotor
+            };
+        }
+
         public string GenreKomaKotor { get; set; }
         public string PengarangKomaKotor { get; set; }
     }

@@ -39,8 +39,9 @@ namespace WpfApp1.ViewModel.MainView
         public BukuModel SelectedBook { get => _selectedBook; 
             set {
                 _selectedBook = value;
+                
                 OnPropertyChanged(nameof(CanEditOrDelete));
-            
+
             } 
         }
         public bool CanEditOrDelete => _selectedBook != null;
@@ -52,6 +53,7 @@ namespace WpfApp1.ViewModel.MainView
         public ICommand editButtonCommand { get; }
         public ICommand SaveProfileCommand { get; }
         public ICommand AddBukuCommand { get; }
+        public ICommand EditBukuCommand{ get; }
 
         public ObservableCollection<ComboOptionKey> StatusBukuCombo { get; set; }
         public ComboOptionKey SelectedComboStatus { get; set; }
@@ -66,6 +68,7 @@ namespace WpfApp1.ViewModel.MainView
             editButtonCommand = new ProfileCommand(ubahNama);
             SaveProfileCommand = new SaveEditProfile(UpdateProfile);
             AddBukuCommand = new AddBukuCommand(AddNewBuku);
+            EditBukuCommand = new EditBukuCommand(EditBuku);
 
             StatusBukuCombo = new ObservableCollection<ComboOptionKey>() { new ComboOptionKey("Bisa ditukar", "OPEN_FOR_TUKAR"), new ComboOptionKey("Hanya koleksi", "KOLEKSI") };
             
@@ -324,13 +327,186 @@ namespace WpfApp1.ViewModel.MainView
                 ResizeMode = ResizeMode.NoResize,
                 WindowState = WindowState.Normal,
             };
+            OnPropertyChanged(nameof(IsEditBuku));
+            OnPropertyChanged(nameof(IsAddBuku));
+            _popupWindow.ShowDialog();
+
+        }
+
+        public void ShowEditWindow()
+        {
+            IsAddBuku = false;
+            _newBuku = _selectedBook.Clone();
+            if (_newBuku.status_Buku == status_buku.KOLEKSI)
+            {
+                SelectedComboStatus = StatusBukuCombo[1];
+            } else
+            {
+                SelectedComboStatus = StatusBukuCombo[0];
+            }
+            _popupWindow = new AddEditBook()
+            {
+                DataContext = this,
+                ResizeMode = ResizeMode.NoResize,
+                WindowState = WindowState.Normal,
+            };
+            OnPropertyChanged(nameof(IsEditBuku));
+            OnPropertyChanged(nameof(IsAddBuku));
             _popupWindow.ShowDialog();
 
         }
 
         private void EditBuku()
         {
+            using (var transaction = _connection.BeginTransaction())
+                try
+                {
+                    // Insert the book and get the generated ID
+                    var updateBookQuery = @"
+                        UPDATE buku
+                        SET id_pemilik = @idPemilik,
+                            isbn = @isbn,
+                            judul = @judul,
+                            penerbit = @penerbit,
+                            deskripsi = @deskripsi,
+                            tahun_terbit = @tahunTerbit,
+                            rating_buku = @ratingBuku,
+                            status = @statusBuku::status_buku,
+                            last_updated = NOW()
+                        WHERE id = @idBuku;";
+                    int bookId = _newBuku.BukuID;
 
+                    using (var command = new NpgsqlCommand(updateBookQuery, _connection))
+                    {
+                        command.Parameters.AddWithValue("idPemilik", _authStore.UserLoggedIn.Id);
+                        command.Parameters.AddWithValue("isbn", _newBuku.ISBN);
+                        command.Parameters.AddWithValue("judul", _newBuku.Judul);
+                        command.Parameters.AddWithValue("penerbit", _newBuku.Penerbit);
+                        command.Parameters.AddWithValue("deskripsi", _newBuku.Deskripsi ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("tahunTerbit", _newBuku.Terbit);
+                        command.Parameters.AddWithValue("ratingBuku", _newBuku.RatingPemilik);
+                        command.Parameters.AddWithValue("statusBuku", SelectedComboStatus.Key);
+                        command.Parameters.AddWithValue("idBuku", _newBuku.BukuID);
+
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Delete existing relationships in genre_buku and buku_ditulis
+                    var deleteGenreBookQuery = "DELETE FROM genre_buku WHERE id_buku = @idBuku;";
+                    var deleteBookWriterQuery = "DELETE FROM buku_ditulis WHERE id_buku = @idBuku;";
+
+                    using (var deleteCommand = new NpgsqlCommand(deleteGenreBookQuery, _connection))
+                    {
+                        deleteCommand.Parameters.AddWithValue("idBuku", bookId);
+                        deleteCommand.ExecuteNonQuery();
+                    }
+
+                    using (var deleteCommand = new NpgsqlCommand(deleteBookWriterQuery, _connection))
+                    {
+                        deleteCommand.Parameters.AddWithValue("idBuku", bookId);
+                        deleteCommand.ExecuteNonQuery();
+                    }
+
+                    // Re-insert genres
+                    var getGenreIdQuery = "SELECT id FROM genre WHERE nama = @nama;";
+                    var insertGenreQuery = "INSERT INTO genre (nama) VALUES (@nama) RETURNING id;";
+                    var insertGenreBookQuery = @"
+                        INSERT INTO genre_buku (id_buku, id_genre)
+                        VALUES (@idBuku, @idGenre)
+                        ON CONFLICT DO NOTHING;";
+
+                    List<string> genres = _newBuku.GenreKomaKotor.Split(',').ToList();
+
+                    foreach (var genre in genres)
+                    {
+                        int genreId;
+
+                        using (var getGenreCommand = new NpgsqlCommand(getGenreIdQuery, _connection))
+                        {
+                            getGenreCommand.Parameters.AddWithValue("nama", genre.Trim());
+                            var result = getGenreCommand.ExecuteScalar();
+                            if (result != null)
+                            {
+                                genreId = (int)result;
+                            }
+                            else
+                            {
+                                using (var insertGenreCommand = new NpgsqlCommand(insertGenreQuery, _connection))
+                                {
+                                    insertGenreCommand.Parameters.AddWithValue("nama", genre);
+                                    genreId = (int)insertGenreCommand.ExecuteScalar();
+                                }
+                            }
+                        }
+
+                        using (var insertGenreBookCommand = new NpgsqlCommand(insertGenreBookQuery, _connection))
+                        {
+                            insertGenreBookCommand.Parameters.AddWithValue("idBuku", bookId);
+                            insertGenreBookCommand.Parameters.AddWithValue("idGenre", genreId);
+                            insertGenreBookCommand.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Re-insert writers
+                    var getWriterIdQuery = "SELECT id FROM penulis WHERE nama = @nama;";
+                    var insertWriterQuery = "INSERT INTO penulis (nama) VALUES (@nama) RETURNING id;";
+                    var insertBookWriterQuery = @"
+                        INSERT INTO buku_ditulis (id_buku, id_penulis)
+                        VALUES (@idBuku, @idPenulis)
+                        ON CONFLICT DO NOTHING;";
+
+                    List<string> writers = _newBuku.PengarangKomaKotor.Split(',').ToList();
+
+                    foreach (var writer in writers)
+                    {
+                        int writerId;
+
+                        using (var getWriterCommand = new NpgsqlCommand(getWriterIdQuery, _connection))
+                        {
+                            getWriterCommand.Parameters.AddWithValue("nama", writer.Trim());
+                            var result = getWriterCommand.ExecuteScalar();
+                            if (result != null)
+                            {
+                                writerId = (int)result;
+                            }
+                            else
+                            {
+                                using (var insertWriterCommand = new NpgsqlCommand(insertWriterQuery, _connection))
+                                {
+                                    insertWriterCommand.Parameters.AddWithValue("nama", writer);
+                                    writerId = (int)insertWriterCommand.ExecuteScalar();
+                                }
+                            }
+                        }
+
+                        using (var insertBookWriterCommand = new NpgsqlCommand(insertBookWriterQuery, _connection))
+                        {
+                            insertBookWriterCommand.Parameters.AddWithValue("idBuku", bookId);
+                            insertBookWriterCommand.Parameters.AddWithValue("idPenulis", writerId);
+                            insertBookWriterCommand.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Commit the transaction
+                    transaction.Commit();
+                    Books.Remove(_selectedBook);
+                    Books.Add(_newBuku.Clone());
+                    MessageBox.Show(
+                         "Buku berhasil diubah"
+                     );
+                    _popupWindow.Close();
+                }
+                catch (Exception ex)
+                {
+                    // Rollback the transaction on error
+                    transaction.Rollback();
+                    MessageBox.Show(
+                        $"Telah terjadi error : ${ex.Message}",          // The message to display
+                        "Error",               // The title of the message box
+                        MessageBoxButton.OK,   // The buttons to include (OK in this case)
+                        MessageBoxImage.Error  // The icon to display (Error icon)
+                    );
+                }
         }
 
         public string AlamatLengkap
@@ -381,7 +557,9 @@ namespace WpfApp1.ViewModel.MainView
                                 Penerbit = reader.GetString(reader.GetOrdinal("penerbit")),
                                 Terbit = reader.IsDBNull(reader.GetOrdinal("tahun_terbit")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("tahun_terbit")),
                                 RatingPemilik = reader.GetInt32(reader.GetOrdinal("rating_buku")),
-                                DimilikiSejak = reader.GetDateTime(reader.GetOrdinal("created"))
+                                DimilikiSejak = reader.GetDateTime(reader.GetOrdinal("created")),
+                                status_Buku = reader.GetString(reader.GetOrdinal("status")) == "KOLEKSI" ? status_buku.KOLEKSI : status_buku.OPEN_FOR_TUKAR,
+                                Deskripsi = reader.IsDBNull(reader.GetOrdinal("deskripsi")) ? "" : reader.GetString(reader.GetOrdinal("deskripsi"))
                             });
                         }
                     }

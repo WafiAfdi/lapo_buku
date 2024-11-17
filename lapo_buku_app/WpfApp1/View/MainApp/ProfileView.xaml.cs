@@ -34,5 +34,13 @@ namespace WpfApp1.View.MainApp
 
 
         }
+
+        private void Open_Edit(object sender, RoutedEventArgs e)
+        {
+
+            ((ProfileViewModel)DataContext).ShowEditWindow();
+
+
+        }
     }
 }

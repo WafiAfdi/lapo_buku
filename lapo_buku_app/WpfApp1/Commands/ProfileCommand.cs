@@ -49,4 +49,19 @@ namespace WpfApp1.Commands
 
         }
     }
+
+    public class EditBukuCommand : CommandBase
+    {
+        private readonly Action _editBuku;
+        public override void Execute(object parameter)
+        {
+            _editBuku();
+        }
+
+        public EditBukuCommand(Action saveEdit)
+        {
+            _editBuku = saveEdit;
+
+        }
+    }
 }
