@@ -156,7 +156,7 @@
 
             <!-- Button Add, Edit, Delete -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="1" Margin="20 20">
-                <Button Style="{StaticResource addButton}">
+                <Button Style="{StaticResource addButton}" Click="Open_Add">
                     <Image Source="/Icons/add.png"/>
                 </Button>
                 <Button Style="{StaticResource addButton}" IsEnabled="{Binding CanEditOrDelete}">

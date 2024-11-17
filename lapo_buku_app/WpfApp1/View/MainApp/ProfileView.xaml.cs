@@ -26,5 +26,12 @@ namespace WpfApp1.View.MainApp
             InitializeComponent();
         }
 
+        private void Open_Add(object sender, RoutedEventArgs e)
+        {
+
+            ((ProfileViewModel)DataContext).ShowAddWindow();
+
+
+        }
     }
 }

@@ -26,6 +26,21 @@ namespace WpfApp1.Models
         public DateTime DimilikiSejak { get; set; }
         public status_buku status_Buku { get; set; }
 
+        public string DisplayStatusBuku { 
+            get
+            {
+                switch (status_Buku)
+                {
+                    case status_buku.KOLEKSI:
+                        return "Koleksi";
+                    case status_buku.OPEN_FOR_TUKAR:
+                        return "Bisa ditukar";
+                    default:
+                        return "Koleksi";
+                }
+            } 
+        }
+
         private int _rating;
         public int RatingPemilik
         {
@@ -57,5 +72,7 @@ namespace WpfApp1.Models
             get => string.Join(", ", Genre);
         }
 
+        public string GenreKomaKotor { get; set; }
+        public string PengarangKomaKotor { get; set; }
     }
 }
