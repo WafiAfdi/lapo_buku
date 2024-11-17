@@ -69,7 +69,7 @@ namespace WpfApp1.View
             {
                 _connection = new NpgsqlConnection(connString);
                 _connection.Open();
-                MessageBox.Show("Database connected successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show("Database connected successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
@@ -88,9 +88,9 @@ namespace WpfApp1.View
 
         private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
-            _authManager.Login(emailLabel.Text, passwordLabel.Text);
+            _authManager.Login(emailLabel.Text, passwordLabel.Password);
 
-            if (!_authStore.IsLoggedIn)
+            if (!_authManager.isLoggedIn)
             {
                 MessageBox.Show("Login Gagal");
                 return;
