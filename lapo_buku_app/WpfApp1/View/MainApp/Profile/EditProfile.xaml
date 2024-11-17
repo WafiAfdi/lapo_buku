@@ -105,6 +105,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
     </Window.Resources>
     
     
@@ -165,21 +166,22 @@
                     Text="{Binding Test.Nomor_Kontak, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
             </Border>
 
-            <Border Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <Button Style="{DynamicResource AddCancelButton}" Margin="80 0" Width="60" Height="25" Command="{Binding CancelCommand}">
-                    <TextBlock FontSize="8" Foreground="White">
-                        CANCEL
-                    </TextBlock>
-                </Button>
-            </Border>
 
-            <Border Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Style="{DynamicResource AddSaveButton}" Margin="80 0" Width="60" Height="25" Command="{Binding SaveCommand}">
+
+            <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" >
+                <Button Style="{DynamicResource AddCancelButton}" Width="60" Height="25" Click="Cancel_Button_Click" Margin="0 0 10 0">
                     <TextBlock FontSize="8" Foreground="White">
-                        SAVE
+                            CANCEL
                     </TextBlock>
                 </Button>
-            </Border>
+                <Button Style="{DynamicResource AddSaveButton}" Width="60" Height="25" Command="{Binding SaveProfileCommand}">
+                    <TextBlock FontSize="8" Foreground="White">
+                                SAVE
+                    </TextBlock>
+                </Button>
+            </StackPanel>
+
+            
         </Grid>
     </Border>
 </Window>

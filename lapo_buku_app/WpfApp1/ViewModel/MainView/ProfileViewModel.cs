@@ -39,6 +39,7 @@ namespace WpfApp1.ViewModel.MainView
         public BukuModel SelectedBook { get => _selectedBook; set => _selectedBook = value; }
         public bool CanEditOrDelete => _selectedBook != null;
         public bool IsAddBuku { get; set; }
+        public bool IsEditBuku { get => !IsAddBuku; }
         private BukuModel _newBuku;
 
         public ICommand editButtonCommand { get; }
@@ -65,7 +66,10 @@ namespace WpfApp1.ViewModel.MainView
         {
             _popupWindow = new EditProfile()
             {
-                DataContext = this
+                DataContext = this,
+                WindowState = WindowState.Normal,
+                ResizeMode = ResizeMode.NoResize,
+
             };
             _popupWindow.ShowDialog();
         }

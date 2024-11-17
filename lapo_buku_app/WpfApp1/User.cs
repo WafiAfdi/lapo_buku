@@ -63,7 +63,7 @@ namespace WpfApp1
         }
     
 
-        public async void Login(string email, string password)
+        public async Task Login(string email, string password)
         {
             _isLoggedIn = await LoginAsyncQuery(email, password);
         }
