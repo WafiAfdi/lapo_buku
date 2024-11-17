@@ -74,7 +74,7 @@
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="Padding" Value="1 1"/>
             <Setter Property="Cursor" Value="IBeam"/>
-            <Setter Property="Foreground" Value="#9295A5"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
