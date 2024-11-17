@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using WpfApp1.View.MainApp;
 using WpfApp1.Models;
+using System.Windows.Input;
 
 namespace WpfApp1.ViewModel.MainView
 {
@@ -18,6 +19,8 @@ namespace WpfApp1.ViewModel.MainView
         public ComboOption SelectedComboStatus { get; set; }
         public ComboOption SelectedComboPihak { get; set; }
         private PopupTransaksiViewModel _popupTransaksiViewModel { get; set; }
+
+        public ICommand SearchCommand;
 
         public string SearchQuery
         { get; set; }

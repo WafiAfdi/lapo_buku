@@ -4,12 +4,40 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp1.View.MainApp"
+             xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="White"
              >
 
 
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+
+        <!-- Button -->
+        <Style x:Key="searchButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#6c7682"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid Background="White" Grid.Row="1" Margin="10,10,10,10" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -17,8 +45,28 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="TextSearch" Style="{StaticResource textboxSearch}" FontSize="14" Text="{Binding SearchQuery, Mode=TwoWay}" Grid.Row="0" Width="700"/>
+        <!-- Search Box -->
+        <Grid  Grid.Row="0" Width="700">
 
+            <TextBlock TextWrapping="Wrap" Text="Search Disini..." Margin="20 0" FontSize="14" IsHitTestVisible="False"
+        VerticalAlignment="Center" Visibility="{Binding ElementName=TextSearch,Path=Text.IsEmpty,Converter={StaticResource BoolToVis}}"
+        Panel.ZIndex="1"
+               Foreground="DarkGray"
+    />
+
+            <TextBox x:Name="TextSearch" Style="{StaticResource textboxSearch}" KeyDown="SearchBox_Keydown" FontSize="14" Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+            </TextBox>
+            <Button Margin="0 0 15 0" Width="25" Height="25"  VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource searchButton}"
+            Command="{Binding SearchCommand}"
+    >
+
+                <materialIcons:MaterialIcon Kind="Magnify" Width="20" Height="20"  VerticalAlignment="Center"
+              Foreground="#b0b9c6" HorizontalAlignment="Center"                                     
+         />
+            </Button>
+
+        </Grid>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 20" Width="700">
             <ComboBox Text="Status"  Width="90" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -33,7 +81,7 @@
         <ListView Name="UserList" ItemsSource="{Binding Users}" BorderBrush="#cdcdcd" Padding="0" Width="700" Grid.Row="2" HorizontalAlignment="Stretch">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding IdTransaksi}" Header="Id Transaksi"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding IdTransaksi}" Header="Id Transaksi" />
                     <GridViewColumn DisplayMemberBinding="{Binding BukuPenawar}" Header="Buku Penawar"/>
                     <GridViewColumn DisplayMemberBinding="{Binding BukuPenerima}" Header="Buku Penerima"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Status}" Header="Status"/>

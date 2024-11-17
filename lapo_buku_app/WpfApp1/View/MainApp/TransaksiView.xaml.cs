@@ -25,8 +25,17 @@ namespace WpfApp1.View.MainApp
         public TransaksiView()
         {
             InitializeComponent();
-            TransaksiViewModel viewModel= new TransaksiViewModel();
-            this.DataContext = viewModel;
+        }
+
+
+        private void SearchBox_Keydown(object sender, KeyEventArgs e)
+        {
+            // Check if the Enter key was pressed
+            if (e.Key == Key.Enter)
+            {
+                // Execute your command
+                
+            }
         }
     }
 }
