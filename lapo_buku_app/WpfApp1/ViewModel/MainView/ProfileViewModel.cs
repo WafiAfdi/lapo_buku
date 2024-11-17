@@ -51,7 +51,7 @@ namespace WpfApp1.ViewModel.MainView
             test_ = authStore.UserLoggedIn.ShallowCopy();
 
             editButtonCommand = new ProfileCommand(ubahNama);
-            SaveProfileCommand = new SaveEditProfile(ubahNama);
+            SaveProfileCommand = new SaveEditProfile(UpdateProfile);
 
             ConnectToDatabase();
         }
@@ -87,21 +87,38 @@ namespace WpfApp1.ViewModel.MainView
             }
         }
 
-        private void UpdateProfile(int userId, string Deskripsi, string Kota, string Provinsi, string AlamatJalan)
+        private void UpdateProfile()
         {
-            string queryUpdateProfile = "UPDATE user SET deskripsi=@Deskripsi, kota=@Kota, provinsi=@Provinsi, alamat_jalan=@AlamatJalan WHERE id=@UserID;";
+            try
+            {
+                string queryUpdateProfile = "UPDATE public.user SET deskripsi=@Deskripsi, kota=@Kota, provinsi=@Provinsi, alamat_jalan=@AlamatJalan, nomor_kontak=@NomorKontak WHERE id=@UserID;";
 
-            var command = new NpgsqlCommand(queryUpdateProfile, _connection);
+                var command = new NpgsqlCommand(queryUpdateProfile, _connection);
 
-            command.Parameters.AddWithValue("@Deskripsi", test_.Deskripsi);
-            command.Parameters.AddWithValue("@Kota", test_.Kota);
-            command.Parameters.AddWithValue("@Provinsi", test_.Provinsi);
-            command.Parameters.AddWithValue("@AlamatJalan", test_.AlamatJalan);
-            command.Parameters.AddWithValue("@UserID", _authStore.UserLoggedIn.Id);
+                command.Parameters.AddWithValue("@Deskripsi", test_.Deskripsi);
+                command.Parameters.AddWithValue("@Kota", test_.Kota);
+                command.Parameters.AddWithValue("@Provinsi", test_.Provinsi);
+                command.Parameters.AddWithValue("@AlamatJalan", test_.AlamatJalan);
+                command.Parameters.AddWithValue("@UserID", _authStore.UserLoggedIn.Id);
+                command.Parameters.AddWithValue("@NomorKontak", test_.Nomor_Kontak);
 
-            command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
 
-            OnPropertyChanged(nameof(Test));
+                OnPropertyChanged(nameof(Test));
+
+
+                _popupWindow.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Telah terjadi error : ${ex.Message}",          // The message to display
+                    "Error",               // The title of the message box
+                    MessageBoxButton.OK,   // The buttons to include (OK in this case)
+                    MessageBoxImage.Error  // The icon to display (Error icon)
+                );
+            }
+            
         }
 
 
