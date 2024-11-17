@@ -47,9 +47,11 @@ namespace WpfApp1.ViewModel.MainView
         public bool IsAddBuku { get; set; }
         public bool IsEditBuku { get => !IsAddBuku; }
         private BukuModel _newBuku;
+        public BukuModel NewBuku { get => _newBuku; set => _newBuku = value; }
 
         public ICommand editButtonCommand { get; }
         public ICommand SaveProfileCommand { get; }
+        public ICommand AddBukuCommand { get; }
 
         public ObservableCollection<ComboOptionKey> StatusBukuCombo { get; set; }
         public ComboOptionKey SelectedComboStatus { get; set; }
@@ -63,6 +65,7 @@ namespace WpfApp1.ViewModel.MainView
 
             editButtonCommand = new ProfileCommand(ubahNama);
             SaveProfileCommand = new SaveEditProfile(UpdateProfile);
+            AddBukuCommand = new AddBukuCommand(AddNewBuku);
 
             StatusBukuCombo = new ObservableCollection<ComboOptionKey>() { new ComboOptionKey("Bisa ditukar", "OPEN_FOR_TUKAR"), new ComboOptionKey("Hanya koleksi", "KOLEKSI") };
             
@@ -179,7 +182,7 @@ namespace WpfApp1.ViewModel.MainView
             
         }
 
-        private void AddNewBuku()
+        public void AddNewBuku()
         {
             using (var transaction = _connection.BeginTransaction()) 
             try
@@ -187,7 +190,7 @@ namespace WpfApp1.ViewModel.MainView
                 // Insert the book and get the generated ID
                 var insertBookQuery = @"
                 INSERT INTO buku (id_pemilik, isbn, judul, penerbit, deskripsi, tahun_terbit, rating_buku, status)
-                VALUES (@idPemilik, @isbn, @judul, @penerbit, @deskripsi, @tahunTerbit, @ratingBuku, @statusBuku)
+                VALUES (@idPemilik, @isbn, @judul, @penerbit, @deskripsi, @tahunTerbit, @ratingBuku, @statusBuku::status_buku)
                 RETURNING id;";
                 int bookId;
 
@@ -222,7 +225,7 @@ namespace WpfApp1.ViewModel.MainView
                     // Check if genre exists
                     using (var getGenreCommand = new NpgsqlCommand(getGenreIdQuery, _connection))
                     {
-                        getGenreCommand.Parameters.AddWithValue("nama", genre);
+                        getGenreCommand.Parameters.AddWithValue("nama", genre.Trim());
                         var result = getGenreCommand.ExecuteScalar();
                         if (result != null)
                         {
@@ -263,7 +266,7 @@ namespace WpfApp1.ViewModel.MainView
                         // Check if the writer already exists
                         using (var getWriterCommand = new NpgsqlCommand(getWriterIdQuery, _connection))
                         {
-                            getWriterCommand.Parameters.AddWithValue("nama", writer);
+                            getWriterCommand.Parameters.AddWithValue("nama", writer.Trim());
                             var result = getWriterCommand.ExecuteScalar();
                             if (result != null)
                             {
@@ -293,7 +296,12 @@ namespace WpfApp1.ViewModel.MainView
 
                 // Commit the transaction
                 transaction.Commit();
-            }
+                Books.Add(_newBuku);
+                MessageBox.Show(
+                     "Buku berhasil ditambah"
+                 );
+                _popupWindow.Close();
+             }
             catch (Exception ex) 
             {
                 // Rollback the transaction on error

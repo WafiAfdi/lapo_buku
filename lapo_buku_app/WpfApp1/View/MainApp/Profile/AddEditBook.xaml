@@ -133,7 +133,7 @@
 
                 <Border VerticalAlignment="Center" MaxWidth="200" Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1">
                     <TextBox Height="28"  MaxWidth="200"  Style="{DynamicResource AddTextbox}"
-                    Text="{Binding Test.AlamatJalan, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16"/>
+                    Text="{Binding NewBuku.Judul, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16"/>
                 </Border>
             </Grid>
 
@@ -152,7 +152,7 @@
 
                 <Border VerticalAlignment="Center" MaxWidth="200" Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0">
                     <TextBox Height="28"  MaxWidth="200"  Style="{DynamicResource AddTextbox}"
-                        Text="{Binding Test.AlamatJalan, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16"/>
+                        Text="{Binding NewBuku.GenreKomaKotor, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16"/>
                 </Border>
 
                 <Border Grid.Row="1" Grid.Column="1">
@@ -172,7 +172,7 @@
 
                 <Border VerticalAlignment="Center" MaxWidth="200" Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1">
                     <TextBox Height="28"  MaxWidth="200"  Style="{DynamicResource AddTextbox}"
-                        Text="{Binding Test.AlamatJalan, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16"/>
+                        Text="{Binding NewBuku.ISBN, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16"/>
                 </Border>
             </Grid>
 
@@ -191,7 +191,7 @@
 
                 <Border VerticalAlignment="Center" MaxWidth="200" Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0">
                     <TextBox Height="28"  MaxWidth="200"  Style="{DynamicResource AddTextbox}"
-            Text="{Binding Test.AlamatJalan, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16"/>
+            Text="{Binding NewBuku.PengarangKomaKotor, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16"/>
                 </Border>
 
                 <Border Grid.Row="1" Grid.Column="1">
@@ -210,7 +210,7 @@
 
                 <Border VerticalAlignment="Center" MaxWidth="200" Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1">
                     <TextBox Height="28"  MaxWidth="200"  Style="{DynamicResource AddTextbox}"
-            Text="{Binding Test.AlamatJalan, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16"/>
+            Text="{Binding NewBuku.Penerbit, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16"/>
                 </Border>
             </Grid>
 
@@ -226,7 +226,8 @@
 
                 <Border VerticalAlignment="Center" MaxWidth="200" Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1">
                     <TextBox Height="28"  MaxWidth="200"  Style="{DynamicResource AddTextbox}"
-            Text="{Binding Test.AlamatJalan, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16"/>
+            Text="{Binding NewBuku.Terbit, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16" PreviewTextInput="TextBox_PreviewTextInput"
+                         DataObject.Pasting="TextBox_Pasting"/>
                 </Border>
             </Grid>
             
@@ -241,7 +242,7 @@
 
                 <Border VerticalAlignment="Center" MaxWidth="200" Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1">
                     <TextBox Height="28"  MaxWidth="200"  Style="{DynamicResource AddTextbox}"
-                         Text="{Binding Test.AlamatJalan, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16" PreviewTextInput="TextBox_PreviewTextInput"
+                         Text="{Binding NewBuku.RatingPemilik, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16" PreviewTextInput="TextBox_PreviewTextInput"
                          DataObject.Pasting="TextBox_Pasting"/>
                 </Border>
             </Grid>
@@ -258,7 +259,7 @@
 
                 <Border VerticalAlignment="Center" MaxWidth="200" Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1">
                     <TextBox Height="28"  MaxWidth="200"  Style="{DynamicResource AddTextbox}"
-            Text="{Binding Test.AlamatJalan, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16"/>
+            Text="{Binding NewBuku.Deskripsi, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" FontSize="16"/>
                 </Border>
             </Grid>
 
@@ -285,7 +286,7 @@
                 CANCEL
                     </TextBlock>
                 </Button>
-                <Button Style="{DynamicResource AddSaveButton}" Width="60" Height="25" Visibility="{Binding IsAddBuku, Converter={StaticResource BoolToVis}}">
+                <Button Style="{DynamicResource AddSaveButton}" Width="60" Height="25" Command="{Binding AddBukuCommand}" Visibility="{Binding IsAddBuku, Converter={StaticResource BoolToVis}}">
                     <TextBlock FontSize="12" Foreground="White">
                         ADD
                     </TextBlock>
