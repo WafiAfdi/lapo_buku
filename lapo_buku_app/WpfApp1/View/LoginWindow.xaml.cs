@@ -86,9 +86,9 @@ namespace WpfApp1.View
             this.Close();
         }
 
-        private void loginBtn_Click(object sender, RoutedEventArgs e)
+        private async void loginBtn_Click(object sender, RoutedEventArgs e)
         {
-            _authManager.Login(emailLabel.Text, passwordLabel.Password);
+            await _authManager.Login(emailLabel.Text, passwordLabel.Password);
 
             if (!_authManager.isLoggedIn)
             {
