@@ -131,7 +131,7 @@
                     <TextBlock Foreground="#ffffff" FontWeight="SemiBold" TextAlignment="Center" FontSize="14" Text="{Binding Test.Email}"/>
                     <TextBlock Foreground="#ffffff" FontWeight="Light" TextAlignment="Center" FontSize="12" TextWrapping="Wrap" Text="{Binding Test.Deskripsi}" Width="260" Height="40"/>
 
-                    <Button Height="20" Content="Edit Profile" Width="80" Command="{Binding editButtonCommand}" Click="Button_Click" Style="{DynamicResource AddTextButton}">
+                    <Button Height="20" Content="Edit Profile" Width="80" Command="{Binding editButtonCommand}" Style="{DynamicResource AddTextButton}">
                         
                     </Button>
                 </StackPanel>
@@ -159,10 +159,10 @@
                 <Button Style="{StaticResource addButton}">
                     <Image Source="/Icons/add.png"/>
                 </Button>
-                <Button Style="{StaticResource addButton}">
+                <Button Style="{StaticResource addButton}" IsEnabled="{Binding CanEditOrDelete}">
                     <Image Source="/Icons/edit.png"/>
                 </Button>
-                <Button Style="{StaticResource addButton}">
+                <Button Style="{StaticResource addButton}" IsEnabled="{Binding CanEditOrDelete}">
                     <Image Source="/Icons/delete.png"/>
                 </Button>
             </StackPanel>

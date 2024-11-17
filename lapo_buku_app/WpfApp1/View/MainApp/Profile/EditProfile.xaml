@@ -126,7 +126,7 @@
 
             <Border Grid.Row="0">
                 <TextBox Height="25" Width="180" Margin="0 0 20 0" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{DynamicResource AddTextbox}"
-                    Text="{Binding Test.Deksripsi, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                    Text="{Binding Test.Deskripsi, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
             </Border>
             
             <Border Grid.Row="1">
@@ -166,7 +166,7 @@
             </Border>
 
             <Border Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <Button Style="{DynamicResource AddCancelButton}" Margin="80 0" Width="60" Height="25" Command="{Binding CancelCommand}">
+                <Button Style="{DynamicResource AddCancelButton}" Margin="80 0" Width="60" Height="25" Click="Cancel_Button_Click">
                     <TextBlock FontSize="8" Foreground="White">
                         CANCEL
                     </TextBlock>
@@ -174,7 +174,7 @@
             </Border>
 
             <Border Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Style="{DynamicResource AddSaveButton}" Margin="80 0" Width="60" Height="25" Command="{Binding SaveCommand}">
+                <Button Style="{DynamicResource AddSaveButton}" Margin="80 0" Width="60" Height="25" Command="{Binding SaveProfileCommand}">
                     <TextBlock FontSize="8" Foreground="White">
                         SAVE
                     </TextBlock>

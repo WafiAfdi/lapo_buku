@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.ViewModel.MainView;
 
 namespace WpfApp1.View.MainApp.Profile
 {
@@ -22,6 +23,11 @@ namespace WpfApp1.View.MainApp.Profile
         public EditProfile()
         {
             InitializeComponent();
+        }
+
+        private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

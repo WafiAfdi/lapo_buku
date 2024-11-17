@@ -19,4 +19,19 @@ namespace WpfApp1.Commands
         
         }
     }
+
+    public class SaveEditProfile : CommandBase
+    {
+        private readonly Action _saveEdit;
+        public override void Execute(object parameter)
+        {
+            _saveEdit();
+        }
+
+        public SaveEditProfile(Action saveEdit)
+        {
+            _saveEdit = saveEdit;
+
+        }
+    }
 }
