@@ -54,6 +54,7 @@ namespace WpfApp1.ViewModel.MainView
             SaveProfileCommand = new SaveEditProfile(UpdateProfile);
 
             ConnectToDatabase();
+            GetUserInformation();
         }
 
         public void ubahNama()
@@ -86,6 +87,46 @@ namespace WpfApp1.ViewModel.MainView
                 MessageBox.Show($"Failed to connect to database: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        public void GetUserInformation()
+        {
+            try
+            {
+                string queryGetUserInformation = "SELECT deskripsi, kota, provinsi, nomor_kontak, alamat_jalan FROM public.user WHERE id=@UserID;";
+
+                var command = new NpgsqlCommand(queryGetUserInformation, _connection);
+
+                // Menambahkan parameter untuk UserID
+                command.Parameters.AddWithValue("@UserID", _authStore.UserLoggedIn.Id);
+
+                // Menjalankan query dan mengambil data
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        // Menyimpan hasil query ke dalam properti atau model
+                        Test.Deskripsi = reader.IsDBNull(reader.GetOrdinal("deskripsi")) ? "Belum ada deskripsi" : reader.GetString(reader.GetOrdinal("deskripsi"));
+                        Test.Kota = reader.IsDBNull(reader.GetOrdinal("kota")) ? "Belum ada deskripsi" : reader.GetString(reader.GetOrdinal("kota"));
+                        Test.Provinsi = reader.IsDBNull(reader.GetOrdinal("provinsi")) ? "Belum ada deskripsi" : reader.GetString(reader.GetOrdinal("provinsi"));
+                        Test.Nomor_Kontak = reader.IsDBNull(reader.GetOrdinal("nomor_kontak")) ? "Belum ada deskripsi" : reader.GetString(reader.GetOrdinal("nomor_kontak"));
+                        Test.AlamatJalan = reader.IsDBNull(reader.GetOrdinal("alamat_jalan")) ? "Belum ada deskripsi" : reader.GetString(reader.GetOrdinal("alamat_jalan"));
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data tidak ditemukan.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+
+                OnPropertyChanged(nameof(Test));
+            }
+            catch (Exception ex)
+            {
+                // Menampilkan pesan error
+                MessageBox.Show(
+                    $"Terjadi kesalahan: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
 
         private void UpdateProfile()
         {
@@ -121,6 +162,10 @@ namespace WpfApp1.ViewModel.MainView
             
         }
 
+        public string AlamatLengkap
+        {
+            get => $"{Test.Kota}, {Test.Provinsi}, {Test.AlamatJalan}";
+        }
 
     }
 }

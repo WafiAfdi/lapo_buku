@@ -102,22 +102,16 @@
 
     <Border Background="#ffff">
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="180"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="180"/>
-            </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="45"/>
-                <RowDefinition/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="450"/>
             </Grid.RowDefinitions>
             <!--AppTitle-->
             
 
             <!--Profile Box-->
-            <Border Grid.Row="1" Grid.Column="1" Background="IndianRed" CornerRadius="0">
+            <Border Grid.Row="0" Background="IndianRed" CornerRadius="0">
                 <StackPanel Margin="20 0 20 0">
                     <Border CornerRadius="100" Width="85" Height="85" Background="#ffffff" Margin="15 5 10 20">
                         <Ellipse Width="80" Height="80">
@@ -127,11 +121,12 @@
                         </Ellipse>
                     </Border>
 
-                    <TextBlock Foreground="#ffffff" FontWeight="SemiBold" VerticalAlignment="Top" FontSize="20" Text="{Binding Test.Username}" HorizontalAlignment="Center"/>
+                    <TextBlock Foreground="#ffffff" FontWeight="SemiBold" VerticalAlignment="Top" FontSize="20" Text="{Binding Test.Username}" HorizontalAlignment="Center" />
                     <TextBlock Foreground="#ffffff" FontWeight="SemiBold" TextAlignment="Center" FontSize="14" Text="{Binding Test.Email}"/>
-                    <TextBlock Foreground="#ffffff" FontWeight="Light" TextAlignment="Center" FontSize="12" TextWrapping="Wrap" Text="{Binding Test.Deskripsi}" Width="260" Height="40"/>
+                    <TextBlock Foreground="#ffffff" FontWeight="Light" TextAlignment="Center" FontSize="12" TextWrapping="Wrap" Text="{Binding Test.Deskripsi}" Width="260" Height="20"/>
+                    <TextBlock Foreground="#ffffff" FontWeight="Light" TextAlignment="Center" FontSize="12" TextWrapping="Wrap" Text="{Binding AlamatLengkap}" Width="500" Height="20"/>
 
-                    <Button Height="20" Content="Edit Profile" Width="80" Command="{Binding editButtonCommand}" Style="{DynamicResource AddTextButton}">
+                    <Button Height="20" Content="Edit Profile" Width="80" Command="{Binding editButtonCommand}" Style="{DynamicResource AddTextButton}" Margin="0 0 0 10">
                         
                     </Button>
                 </StackPanel>
@@ -155,7 +150,7 @@
             </DataGrid>
 
             <!-- Button Add, Edit, Delete -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="1" Margin="20 20">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Margin="20 20">
                 <Button Style="{StaticResource addButton}">
                     <Image Source="/Icons/add.png"/>
                 </Button>
