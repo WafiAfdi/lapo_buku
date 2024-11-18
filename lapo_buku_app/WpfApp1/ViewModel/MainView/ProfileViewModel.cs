@@ -513,6 +513,11 @@ namespace WpfApp1.ViewModel.MainView
                 }
         }
 
+        public string KontakLengkap
+        {
+            get => $"{Test.Email} | {Test.Nomor_Kontak}";
+        }
+
         public string AlamatLengkap
         {
             get => $"{Test.Kota}, {Test.Provinsi}, {Test.AlamatJalan}";
