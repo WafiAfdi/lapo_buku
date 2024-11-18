@@ -122,7 +122,7 @@
                     </Border>
 
                     <TextBlock Foreground="#ffffff" FontWeight="SemiBold" VerticalAlignment="Top" FontSize="20" Text="{Binding Test.Username}" HorizontalAlignment="Center" />
-                    <TextBlock Foreground="#ffffff" FontWeight="SemiBold" TextAlignment="Center" FontSize="14" Text="{Binding Test.Email}"/>
+                    <TextBlock Foreground="#ffffff" FontWeight="SemiBold" TextAlignment="Center" FontSize="14" Text="{Binding KontakLengkap}"/>
                     <TextBlock Foreground="#ffffff" FontWeight="Light" TextAlignment="Center" FontSize="12" TextWrapping="Wrap" Text="{Binding Test.Deskripsi}" Width="500" Height="20"/>
                     <TextBlock Foreground="#ffffff" FontWeight="Light" TextAlignment="Center" FontSize="12" TextWrapping="Wrap" Text="{Binding AlamatLengkap}" Width="500" Height="20"/>
 
