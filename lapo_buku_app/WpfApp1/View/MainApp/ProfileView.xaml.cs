@@ -42,5 +42,13 @@ namespace WpfApp1.View.MainApp
 
 
         }
+
+        private void deleteClick(object sender, RoutedEventArgs e)
+        {
+
+            ((ProfileViewModel)DataContext).deleteSelectedBook();
+
+
+        }
     }
 }

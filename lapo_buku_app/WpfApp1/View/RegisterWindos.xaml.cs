@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.Config;
 using WpfApp1.Service;
 using WpfApp1.Store;
 using WpfApp1.ViewModel.MainView;
@@ -27,6 +28,7 @@ namespace WpfApp1.View
         private readonly Action DisplayMainApp;
         private readonly AuthStore _authStore;
         private readonly NavigationStore _navigationStore;
+        private readonly DbConfig _dbConfig;
 
 
         private IAuthManager _authManager;
@@ -40,9 +42,10 @@ namespace WpfApp1.View
             _createNavbarViewModel = createNavbarViewModel;
         }
 
-        public RegisterWindos(Action displayMainApp, AuthStore authStore)
+        public RegisterWindos(Action displayMainApp, AuthStore authStore, DbConfig dbConfig)
         {
             InitializeComponent();
+            _dbConfig = dbConfig;
             DisplayMainApp = displayMainApp;
             ConnectToDatabase();
             _authStore = authStore;
@@ -71,7 +74,7 @@ namespace WpfApp1.View
                 {
                     MessageBox.Show("Registrasi berhasil", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    LoginWindow login = new LoginWindow(DisplayMainApp, _authStore);
+                    LoginWindow login = new LoginWindow(DisplayMainApp, _authStore, _dbConfig);
                     login.Show();
 
                     this.Close();
@@ -97,11 +100,11 @@ namespace WpfApp1.View
 
         private void ConnectToDatabase()
         {
-            string host = Environment.GetEnvironmentVariable("DB_HOST");
-            string username = Environment.GetEnvironmentVariable("DB_USER");
-            string password = Environment.GetEnvironmentVariable("DB_PASSWORD");
-            string database = Environment.GetEnvironmentVariable("DB_NAME");
-            string port = Environment.GetEnvironmentVariable("DB_PORT");
+            string host = _dbConfig.Host;
+            string username = _dbConfig.User;
+            string password = _dbConfig.Password;
+            string database = _dbConfig.Name;
+            string port = _dbConfig.Port.ToString();
 
             // Connection string
             string connString = $"Host={host};Username={username};Password={password};Database={database};Port={port}";

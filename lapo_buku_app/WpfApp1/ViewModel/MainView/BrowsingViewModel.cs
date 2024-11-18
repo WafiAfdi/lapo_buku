@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WpfApp1.Commands;
+using WpfApp1.Config;
 using WpfApp1.Models;
 using WpfApp1.Service;
 using WpfApp1.Store;
@@ -36,7 +37,7 @@ namespace WpfApp1.ViewModel.MainView
         private readonly NavigationStore _navigationStore;
         private readonly Func<NavbarViewModel> _createNavbarViewModel;
         private readonly AuthStore _authStore;
-
+        private readonly DbConfig _dbConfig;
 
         private NpgsqlConnection _connection;
         private string _connString;
@@ -124,7 +125,7 @@ namespace WpfApp1.ViewModel.MainView
         public RelayCommand NavigatePageCommand { get; }
         public BrowseCommand BrowseCommand { get; }
 
-        public BrowsingViewModel(NavigationStore navigationStore, Func<NavbarViewModel> CreateNavbarViewModel, AuthStore authStore) 
+        public BrowsingViewModel(NavigationStore navigationStore, Func<NavbarViewModel> CreateNavbarViewModel, AuthStore authStore, DbConfig dbConfig)
         {
 
             NextPageCommand = new RelayCommand(NextPage, (object obj) => PageIndex < TotalPage);
@@ -132,11 +133,12 @@ namespace WpfApp1.ViewModel.MainView
             NavigatePageCommand = new RelayCommand(NavigateToPage, (object obj) => true);
             BrowseCommand = new BrowseCommand(SearchQuerySQL);
 
-            ParameterNavPageBuku = new ParameterNavBuku() { 
-                query = new SearchQuery() { pageIndex = 1, query = ""}
-            
+            ParameterNavPageBuku = new ParameterNavBuku()
+            {
+                query = new SearchQuery() { pageIndex = 1, query = "" }
+
             };
-            
+
             _navigationStore = navigationStore;
             _createNavbarViewModel = CreateNavbarViewModel;
             _authStore = authStore;
@@ -160,6 +162,7 @@ namespace WpfApp1.ViewModel.MainView
             //    CreatePageBukuNavigationService(),
             //    ParameterNavPageBuku)
             //    );
+            _dbConfig = dbConfig;
 
             ConnectToDatabase();
 
@@ -206,7 +209,7 @@ namespace WpfApp1.ViewModel.MainView
         }
         private ParameterNavigationService<ParameterNavBuku, PageBukuViewModel> CreatePageBukuNavigationService()
         {
-            return new ParameterNavigationService<ParameterNavBuku, PageBukuViewModel>(_navigationStore, (parameter) => new PageBukuViewModel(parameter, CreateBackToBrowseNavigationService(), _authStore), _createNavbarViewModel);
+            return new ParameterNavigationService<ParameterNavBuku, PageBukuViewModel>(_navigationStore, (parameter) => new PageBukuViewModel(parameter, CreateBackToBrowseNavigationService(), _authStore, _dbConfig), _createNavbarViewModel);
 
         }
 
@@ -265,7 +268,7 @@ namespace WpfApp1.ViewModel.MainView
 
                 command.Parameters.AddWithValue("searchQuery", SearchQuery);
                 command.Parameters.AddWithValue("pageSize", 5);
-                command.Parameters.AddWithValue("offset", PageIndex - 1);
+                command.Parameters.AddWithValue("offset", (PageIndex - 1) * 5);
 
 
                 var reader = command.ExecuteReader();
@@ -339,11 +342,11 @@ namespace WpfApp1.ViewModel.MainView
 
         private void ConnectToDatabase()
         {
-            string host = Environment.GetEnvironmentVariable("DB_HOST");
-            string username = Environment.GetEnvironmentVariable("DB_USER");
-            string password = Environment.GetEnvironmentVariable("DB_PASSWORD");
-            string database = Environment.GetEnvironmentVariable("DB_NAME");
-            string port = Environment.GetEnvironmentVariable("DB_PORT");
+            string host = _dbConfig.Host;
+            string username = _dbConfig.User;
+            string password = _dbConfig.Password;
+            string database = _dbConfig.Name;
+            string port = _dbConfig.Port.ToString();
 
             // Connection string
             string _connString = $"Host={host};Username={username};Password={password};Database={database};Port={port}";

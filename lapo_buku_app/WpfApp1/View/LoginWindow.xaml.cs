@@ -18,6 +18,7 @@ using WpfApp1.View.MainApp;
 using WpfApp1.View.MainApp.Browsing;
 using Npgsql;
 using WpfApp1.ViewModel.MainView;
+using WpfApp1.Config;
 
 namespace WpfApp1.View
 {
@@ -28,6 +29,7 @@ namespace WpfApp1.View
     {
         private readonly Action DisplayMainApp;
         private readonly AuthStore _authStore;
+        private readonly DbConfig _dbConfig;
 
         private AuthManager _authManager;
         private NpgsqlConnection _connection;
@@ -45,9 +47,11 @@ namespace WpfApp1.View
 
         }
 
-        public LoginWindow(Action displayMainApp, AuthStore authStore)
+        public LoginWindow(Action displayMainApp, AuthStore authStore, DbConfig dbConfig)
         {
             InitializeComponent();
+
+            _dbConfig = dbConfig;
             ConnectToDatabase();
             _authManager = new AuthManager(_connection, authStore);
             DisplayMainApp = displayMainApp;
@@ -56,11 +60,11 @@ namespace WpfApp1.View
 
         private void ConnectToDatabase()
         {
-            string host = Environment.GetEnvironmentVariable("DB_HOST");
-            string username = Environment.GetEnvironmentVariable("DB_USER");
-            string password = Environment.GetEnvironmentVariable("DB_PASSWORD");
-            string database = Environment.GetEnvironmentVariable("DB_NAME");
-            string port = Environment.GetEnvironmentVariable("DB_PORT");
+            string host = _dbConfig.Host;
+            string username = _dbConfig.User;
+            string password = _dbConfig.Password;
+            string database = _dbConfig.Name;
+            string port = _dbConfig.Port.ToString();
 
             // Connection string
             string connString = $"Host={host};Username={username};Password={password};Database={database};Port={port}";
@@ -79,7 +83,7 @@ namespace WpfApp1.View
 
         private void registerBtn_Click(object sender, RoutedEventArgs e)
         {
-            RegisterWindos registerWindos = new RegisterWindos(DisplayMainApp, _authStore);
+            RegisterWindos registerWindos = new RegisterWindos(DisplayMainApp, _authStore, _dbConfig);
             Application.Current.MainWindow = registerWindos;
             registerWindos.Show();
 

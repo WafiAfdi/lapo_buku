@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WpfApp1.Commands;
+using WpfApp1.Config;
 using WpfApp1.Models;
 using WpfApp1.Service;
 using WpfApp1.Store;
@@ -22,6 +23,7 @@ namespace WpfApp1.ViewModel.MainView
         private readonly SearchQuery searchSebelumnya;
         private readonly INavigationService<BrowsingViewModel> _backToBrowseNavigationService;
         private readonly AuthStore _authStore;
+        private readonly DbConfig _dbConfig;
         public ObservableCollection<BukuModel> BukuYangBisaDitawarkan { get; } = new ObservableCollection<BukuModel>(); // buku dari pemilik yang bisa ditukar
         
         private BukuModel _bukuYangTerpilih;
@@ -70,7 +72,7 @@ namespace WpfApp1.ViewModel.MainView
         public ICommand BalikPageBrowse {  get; }
         public ICommand TukarBukuCommand { get; }
 
-        public PageBukuViewModel(ParameterNavBuku parameter, INavigationService<BrowsingViewModel> BackToBrowseNavService, AuthStore authStore)
+        public PageBukuViewModel(ParameterNavBuku parameter, INavigationService<BrowsingViewModel> BackToBrowseNavService, AuthStore authStore, DbConfig dbConfig)
         {
             ModelPageBuku = parameter.buku;
             searchSebelumnya = parameter.query;
@@ -80,7 +82,7 @@ namespace WpfApp1.ViewModel.MainView
 
             BalikPageBrowse = new PindahPageBrowse(BackToBrowseNavService);
             TukarBukuCommand = new TukarCommand(TukarBukuQuery);
-
+            _dbConfig = dbConfig;
 
             ConnectToDatabase();
             IsNotMyBookOrisNotInTransaction();
@@ -109,11 +111,11 @@ namespace WpfApp1.ViewModel.MainView
 
         private void ConnectToDatabase()
         {
-            string host = Environment.GetEnvironmentVariable("DB_HOST");
-            string username = Environment.GetEnvironmentVariable("DB_USER");
-            string password = Environment.GetEnvironmentVariable("DB_PASSWORD");
-            string database = Environment.GetEnvironmentVariable("DB_NAME");
-            string port = Environment.GetEnvironmentVariable("DB_PORT");
+            string host = _dbConfig.Host;
+            string username = _dbConfig.User;
+            string password = _dbConfig.Password;
+            string database = _dbConfig.Name;
+            string port = _dbConfig.Port.ToString();
 
             // Connection string
             string _connString = $"Host={host};Username={username};Password={password};Database={database};Port={port}";

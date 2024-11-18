@@ -1,13 +1,15 @@
 # Cara setup aplikasi dengan benar
-Untuk dapat menjalankan aplikasi Lapo Buku, pertama pastikan bahwa postgresql telah diinstall pada OS. Jika sudah, maka pastikan sudah ada user dan database. Soalnya ada diperlukan .env yang mengarah pada database. ENV akan berisi : 
+Untuk dapat menjalankan aplikasi Lapo Buku, pertama pastikan bahwa postgresql telah diinstall pada OS. Jika sudah, maka pastikan sudah ada user dan database. Soalnya ada diperlukan appsettings.json yang mengarah pada database. appsettings.json akan berisi : 
 ````
-    DB_HOST=localhost
-    DB_PORT=5432
-    DB_NAME=Junpro
-    DB_USER=postgres
-    DB_PASSWORD=password
+    {
+        "Host": "localhost",
+        "Port": 5432,
+        "Name": "Junpro",
+        "User": "postgres",
+        "Password": "password"
+    }
 ````
-Data di atas disesuaikan dengan databasenya masing - masing. Selanjutnya, pengguna harus jalankan script DDL yang disediakn dengan nama `ddl_revisi.sql` agar skema database terbentuk secara fisik.
+Data di atas disesuaikan dengan databasenya masing - masing, jika tidak akan menyebabkan error pada aplikasi. Selanjutnya, pengguna harus jalankan script DDL yang disediakn dengan nama `ddl_revisi.sql` agar skema database terbentuk secara fisik.
 
 Sebagai tambahan, ada tambahan jika ingin ada data pada awalnya dengan menjalankan beberapa command di bawah : 
 

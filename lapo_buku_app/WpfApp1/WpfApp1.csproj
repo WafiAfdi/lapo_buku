@@ -267,6 +267,7 @@
     <Compile Include="Commands\PerpindahanBrowsingCommand.cs" />
     <Compile Include="Commands\ProfileCommand.cs" />
     <Compile Include="Commands\TransaksiCommand.cs" />
+    <Compile Include="Config\AppConfig.cs" />
     <Compile Include="Models\Buku.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
@@ -424,6 +425,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include=".env">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

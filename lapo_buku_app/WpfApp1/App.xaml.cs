@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using WpfApp1.Commands;
+using WpfApp1.Config;
 using WpfApp1.Models;
 using WpfApp1.Service;
 using WpfApp1.Store;
@@ -25,6 +26,7 @@ namespace WpfApp1
         private readonly NavigationStore _navigationStore;
         private readonly AuthStore _authStore;  
         private readonly Action _displayMainApp;
+        private readonly DbConfig _dbConfig;
         public Action DisplayLogout;
 
         public App()
@@ -33,6 +35,9 @@ namespace WpfApp1
             _authStore = new AuthStore();
             _authStore.UserLoggedIn = new UserModel();
             _displayMainApp = DisplayMainAppFromLogin;
+            _dbConfig= ConfigLoader.LoadConfig();
+
+            _dbConfig.Host.ToString();
 
 
         }
@@ -43,14 +48,14 @@ namespace WpfApp1
             
 
             //MainWindow = new LoginWindow(_navigationStore, CreateNavBarViewModel);
-            WpfApp1.View.MainApp.MainWindow mainWindow = new WpfApp1.View.MainApp.MainWindow()
-            {
-                DataContext = new MainViewModel(_navigationStore)
-            };
-            MainWindow = mainWindow;
-            //_navigationStore.CurrentViewModel = new BrowsingViewModel();
-            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel(_navigationStore,CreateNavBarViewModel, _authStore));
-
+            //WpfApp1.View.MainApp.MainWindow mainWindow = new WpfApp1.View.MainApp.MainWindow()
+            //{
+            //    DataContext = new MainViewModel(_navigationStore)
+            //};
+            //MainWindow = mainWindow;
+            ////_navigationStore.CurrentViewModel = new BrowsingViewModel();
+            //_navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel(_navigationStore,CreateNavBarViewModel, _authStore));
+            MainWindow = new LoginWindow(_displayMainApp, _authStore, _dbConfig);
             MainWindow.Show();
             base.OnStartup(e);
         }
@@ -58,12 +63,12 @@ namespace WpfApp1
         private INavigationService<BrowsingViewModel> CreateBrowsingNavService()
         {
             
-            return new LayoutNavigationService<BrowsingViewModel>(_navigationStore, () => new BrowsingViewModel(_navigationStore, CreateNavBarViewModel, _authStore), CreateNavBarViewModel);
+            return new LayoutNavigationService<BrowsingViewModel>(_navigationStore, () => new BrowsingViewModel(_navigationStore, CreateNavBarViewModel, _authStore, _dbConfig), CreateNavBarViewModel);
         }
 
         private INavigationService<ProfileViewModel> CreateProfileNavigationService()
         {
-            return new LayoutNavigationService<ProfileViewModel>(_navigationStore, () => new ProfileViewModel(_authStore), CreateNavBarViewModel);
+            return new LayoutNavigationService<ProfileViewModel>(_navigationStore, () => new ProfileViewModel(_authStore, _dbConfig), CreateNavBarViewModel);
 
         }
 
@@ -79,7 +84,7 @@ namespace WpfApp1
 
         private void DisplayLoginWindow()
         {
-            MainWindow = new LoginWindow(_displayMainApp, _authStore);
+            MainWindow = new LoginWindow(_displayMainApp, _authStore, _dbConfig);
             MainWindow.Show();
             DisplayLogout?.Invoke();
         }
@@ -92,7 +97,7 @@ namespace WpfApp1
             };
             MainWindow = mainWindow;
             //_navigationStore.CurrentViewModel = new BrowsingViewModel();
-            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel(_navigationStore, CreateNavBarViewModel, _authStore));
+            _navigationStore.CurrentViewModel = new LayoutViewModel(CreateNavBarViewModel(), new BrowsingViewModel(_navigationStore, CreateNavBarViewModel, _authStore, _dbConfig));
             MainWindow.Show();
         }
     }

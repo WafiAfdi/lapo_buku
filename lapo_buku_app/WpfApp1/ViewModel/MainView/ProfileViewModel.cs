@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WpfApp1.Commands;
+using WpfApp1.Config;
 using WpfApp1.Models;
 using WpfApp1.Store;
 using WpfApp1.View.MainApp.Profile;
@@ -28,6 +29,7 @@ namespace WpfApp1.ViewModel.MainView
     public class ProfileViewModel : ViewModelBase
     {
         private readonly AuthStore _authStore;
+        private readonly DbConfig _dbConfig;
 
         private UserModel test_;
         private Window _popupWindow;
@@ -54,13 +56,14 @@ namespace WpfApp1.ViewModel.MainView
         public ICommand SaveProfileCommand { get; }
         public ICommand AddBukuCommand { get; }
         public ICommand EditBukuCommand{ get; }
+        public ICommand DeleteBukuCommand { get; }
 
         public ObservableCollection<ComboOptionKey> StatusBukuCombo { get; set; }
         public ComboOptionKey SelectedComboStatus { get; set; }
 
         public ObservableCollection<BukuModel> Books { get; set; } = new ObservableCollection<BukuModel>();
 
-        public ProfileViewModel(AuthStore authStore)
+        public ProfileViewModel(AuthStore authStore, DbConfig dbConfig)
         {
             _authStore = authStore;
             test_ = authStore.UserLoggedIn.ShallowCopy();
@@ -69,9 +72,10 @@ namespace WpfApp1.ViewModel.MainView
             SaveProfileCommand = new SaveEditProfile(UpdateProfile);
             AddBukuCommand = new AddBukuCommand(AddNewBuku);
             EditBukuCommand = new EditBukuCommand(EditBuku);
+            DeleteBukuCommand = new DeleteBukuCommand(deleteSelectedBook);
 
             StatusBukuCombo = new ObservableCollection<ComboOptionKey>() { new ComboOptionKey("Bisa ditukar", "OPEN_FOR_TUKAR"), new ComboOptionKey("Hanya koleksi", "KOLEKSI") };
-            
+            _dbConfig = dbConfig;
             ConnectToDatabase();
             GetUserInformation();
             FetchBooksByUserID();
@@ -91,11 +95,11 @@ namespace WpfApp1.ViewModel.MainView
 
         private void ConnectToDatabase()
         {
-            string host = Environment.GetEnvironmentVariable("DB_HOST");
-            string username = Environment.GetEnvironmentVariable("DB_USER");
-            string password = Environment.GetEnvironmentVariable("DB_PASSWORD");
-            string database = Environment.GetEnvironmentVariable("DB_NAME");
-            string port = Environment.GetEnvironmentVariable("DB_PORT");
+            string host = _dbConfig.Host;
+            string username = _dbConfig.User;
+            string password = _dbConfig.Password;
+            string database = _dbConfig.Name;
+            string port = _dbConfig.Port.ToString();
 
             // Connection string
             string _connString = $"Host={host};Username={username};Password={password};Database={database};Port={port}";
@@ -567,8 +571,81 @@ namespace WpfApp1.ViewModel.MainView
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Error fetching books: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            
+                }                     
         }
+
+        public void deleteSelectedBook()
+        {
+            if (_selectedBook == null)
+            {
+                MessageBox.Show("Tidak ada buku yang dipilih untuk dihapus.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var result = MessageBox.Show(
+            $"Apakah Anda yakin ingin menghapus buku \"{_selectedBook.Judul}\"?",
+            "Konfirmasi Penghapusan",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question
+             );
+
+            if (result != MessageBoxResult.Yes)
+            {
+                return; // Batalkan jika pengguna memilih "No"
+            }
+
+            using (var transaction = _connection.BeginTransaction())
+            {
+                try
+                {
+                    // Hapus hubungan genre_buku
+                    var deleteGenreBookQuery = "DELETE FROM genre_buku WHERE id_buku = @idBuku;";
+                    using (var deleteGenreCommand = new NpgsqlCommand(deleteGenreBookQuery, _connection))
+                    {
+                        deleteGenreCommand.Parameters.AddWithValue("idBuku", _selectedBook.BukuID);
+                        deleteGenreCommand.ExecuteNonQuery();
+                    }
+
+                    // Hapus hubungan buku_ditulis
+                    var deleteBookWriterQuery = "DELETE FROM buku_ditulis WHERE id_buku = @idBuku;";
+                    using (var deleteWriterCommand = new NpgsqlCommand(deleteBookWriterQuery, _connection))
+                    {
+                        deleteWriterCommand.Parameters.AddWithValue("idBuku", _selectedBook.BukuID);
+                        deleteWriterCommand.ExecuteNonQuery();
+                    }
+
+                    // Hapus buku dari tabel utama
+                    var deleteBookQuery = "DELETE FROM buku WHERE id = @idBuku;";
+                    using (var deleteBookCommand = new NpgsqlCommand(deleteBookQuery, _connection))
+                    {
+                        deleteBookCommand.Parameters.AddWithValue("idBuku", _selectedBook.BukuID);
+                        deleteBookCommand.ExecuteNonQuery();
+                    }
+
+                    // Commit transaksi
+                    transaction.Commit();
+
+                    // Perbarui koleksi buku di memori
+                    Books.Remove(_selectedBook);
+                    MessageBox.Show("Buku berhasil dihapus.", "Sukses", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // Reset selected book
+                    SelectedBook = null;
+                }
+                catch (Exception ex)
+                {
+                    // Rollback transaksi jika terjadi error
+                    transaction.Rollback();
+                    MessageBox.Show(
+                        $"Terjadi kesalahan saat menghapus buku: {ex.Message}",
+                        "Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                    );
+                }
+            }
+        }
+
+
     }
 }
