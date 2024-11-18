@@ -105,7 +105,7 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="450"/>
+                <RowDefinition Height="400"/>
             </Grid.RowDefinitions>
             <!--AppTitle-->
             
@@ -123,7 +123,7 @@
 
                     <TextBlock Foreground="#ffffff" FontWeight="SemiBold" VerticalAlignment="Top" FontSize="20" Text="{Binding Test.Username}" HorizontalAlignment="Center" />
                     <TextBlock Foreground="#ffffff" FontWeight="SemiBold" TextAlignment="Center" FontSize="14" Text="{Binding Test.Email}"/>
-                    <TextBlock Foreground="#ffffff" FontWeight="Light" TextAlignment="Center" FontSize="12" TextWrapping="Wrap" Text="{Binding Test.Deskripsi}" Width="260" Height="20"/>
+                    <TextBlock Foreground="#ffffff" FontWeight="Light" TextAlignment="Center" FontSize="12" TextWrapping="Wrap" Text="{Binding Test.Deskripsi}" Width="500" Height="20"/>
                     <TextBlock Foreground="#ffffff" FontWeight="Light" TextAlignment="Center" FontSize="12" TextWrapping="Wrap" Text="{Binding AlamatLengkap}" Width="500" Height="20"/>
 
                     <Button Height="20" Content="Edit Profile" Width="80" Command="{Binding editButtonCommand}" Style="{DynamicResource AddTextButton}" Margin="0 0 0 10">
@@ -163,42 +163,6 @@
                     <Image Source="/Icons/delete.png"/>
                 </Button>
             </StackPanel>
-
-
-
-            <!--Pagination Section-->
-            <Border Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderBrush="#dee4ec" BorderThickness="1"
-        CornerRadius="5" Padding="5" Background="White" Margin="0 0 10 10">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-                    <!-- First Page Button -->
-                    <Button Style="{StaticResource pagingButton}">
-                        <Image Source="/Icons/chevronskipleft.png"/>
-                    </Button>
-
-                    <!-- Previous Page Button -->
-                    <Button Style="{StaticResource pagingButton}">
-                        <Image Source="/Icons/chevronleft.png"/>
-                    </Button>
-
-                    <!-- Page Number Buttons -->
-                    <Button Style="{StaticResource pagingButton}" Content="1"/>
-                    <Button Style="{StaticResource pagingButton}" Content="2" Background="IndianRed" Foreground="White"/>
-                    <Button Style="{StaticResource pagingButton}" Content="3"/>
-
-                    <!-- Ellipsis for Additional Pages -->
-                    <TextBlock Text="..." Foreground="#6c7682" VerticalAlignment="Center" FontSize="15" Margin="10,0"/>
-
-                    <!-- Next Page Button -->
-                    <Button Style="{StaticResource pagingButton}">
-                        <Image Source="/Icons/chevronright.png"/>
-                    </Button>
-
-                    <!-- Last Page Button -->
-                    <Button Style="{StaticResource pagingButton}">
-                        <Image Source="/Icons/chevronskipright.png"/>
-                    </Button>
-                </StackPanel>
-            </Border>
         </Grid>
     </Border>
 </UserControl>
