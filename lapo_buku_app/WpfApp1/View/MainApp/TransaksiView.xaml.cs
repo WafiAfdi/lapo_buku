@@ -37,5 +37,10 @@ namespace WpfApp1.View.MainApp
                 
             }
         }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ((TransaksiViewModel)DataContext).Popup();
+        }
     }
 }

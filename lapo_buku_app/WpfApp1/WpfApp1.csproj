@@ -266,12 +266,14 @@
     <Compile Include="Commands\LogoutCommand.cs" />
     <Compile Include="Commands\PerpindahanBrowsingCommand.cs" />
     <Compile Include="Commands\ProfileCommand.cs" />
+    <Compile Include="Commands\TransaksiCommand.cs" />
     <Compile Include="Models\Buku.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Converters\PageIndexToColorConverter.cs" />
     <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\TransaksiModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Rak.cs" />
     <Compile Include="searchManager.cs" />

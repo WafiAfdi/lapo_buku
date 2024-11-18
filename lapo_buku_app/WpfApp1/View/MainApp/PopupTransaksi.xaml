@@ -22,7 +22,7 @@
                 
                 <!-- Data Buku yang Diterima -->
                 
-                <TextBlock Text="Data Buku yang Diterima" FontSize="23" />
+                <TextBlock Text="Data Buku Pihak Lain" FontSize="23" />
 
                 <!-- line -->
                 <Rectangle Height="2" Fill="Black" Margin="0 5 0 10"  />
@@ -42,7 +42,7 @@
                 TextWrapping="Wrap"
                 >
                     <Run Text="ISBN : " FontWeight="SemiBold"/>
-                    <Run Text="{Binding BukuUser.ISBN, Mode=OneTime}" FontWeight="Medium"/>
+                    <Run Text="{Binding BukuPihakLain.ISBN, Mode=OneTime}" FontWeight="Medium"/>
                 </TextBlock>
                 
                 <TextBlock
@@ -51,7 +51,7 @@
                 TextWrapping="Wrap"
                 >
                     <Run Text="Tahun Terbit : " FontWeight="SemiBold"/>
-                    <Run Text="{Binding BukuPihakLain.TahunTerbit, Mode=OneTime}" FontWeight="Medium"/>
+                    <Run Text="{Binding BukuPihakLain.Terbit, Mode=OneTime}" FontWeight="Medium"/>
                 </TextBlock>
 
                 <TextBlock
@@ -81,7 +81,7 @@
                 </TextBlock>
 
                 <!-- Data Buku yang Dilepaskan -->
-                <TextBlock Text="Data Buku yang Dilepaskan" FontSize="23" Margin="0,30,0,0" />
+                <TextBlock Text="Data Buku User" FontSize="23" Margin="0,30,0,0" />
 
                 <!-- line -->
                 <Rectangle Height="2" Fill="Black" Margin="0 5 0 10"  />
@@ -110,7 +110,7 @@
                 TextWrapping="Wrap"
                 >   
                     <Run Text="Tahun Terbit : " FontWeight="SemiBold"/>
-                    <Run Text="{Binding BukuUser.TahunTerbit, Mode=OneTime}" FontWeight="Medium"/>
+                    <Run Text="{Binding BukuUser.Terbit, Mode=OneTime}" FontWeight="Medium"/>
                 </TextBlock>
 
                 <TextBlock
@@ -119,7 +119,7 @@
                 TextWrapping="Wrap"
                 >
                     <Run Text="Penerbit : " FontWeight="SemiBold"/>
-                    <Run Text="{Binding Penerbit, Mode=OneTime}" FontWeight="Medium"/>
+                    <Run Text="{Binding BukuUser.Penerbit, Mode=OneTime}" FontWeight="Medium"/>
                 </TextBlock>
 
                 <TextBlock
@@ -151,7 +151,7 @@
                 TextWrapping="Wrap"
                 >
                     <Run Text="Nama : " FontWeight="SemiBold"/>
-                    <Run Text="{Binding PihakLain.Nama, Mode=OneTime}" FontWeight="Medium"/>
+                    <Run Text="{Binding PihakLain.Username, Mode=OneTime}" FontWeight="Medium"/>
                 </TextBlock>
 
                 <TextBlock
@@ -223,7 +223,7 @@
                 TextWrapping="Wrap"
                 >
                     <Run Text="Nomor Kontak : " FontWeight="SemiBold"/>
-                    <Run Text="{Binding PihakLain.NomorKontak, Mode=OneTime}" FontWeight="Medium"/>
+                    <Run Text="{Binding PihakLain.Nomor_Kontak, Mode=OneTime}" FontWeight="Medium"/>
                 </TextBlock>
 
                 <StackPanel Orientation="Horizontal">
