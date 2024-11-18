@@ -64,4 +64,18 @@ namespace WpfApp1.Commands
 
         }
     }
+
+    public class DeleteBukuCommand :CommandBase
+    {
+        private readonly Action _deleteBuku;
+        public override void Execute(object parameter)
+        {
+            _deleteBuku();
+        }
+
+        public DeleteBukuCommand(Action deleteBook)
+        {
+            _deleteBuku = deleteBook;
+        }
+    }
 }

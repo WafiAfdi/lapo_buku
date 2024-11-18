@@ -70,6 +70,7 @@ namespace WpfApp1.ViewModel.MainView
             SaveProfileCommand = new SaveEditProfile(UpdateProfile);
             AddBukuCommand = new AddBukuCommand(AddNewBuku);
             EditBukuCommand = new EditBukuCommand(EditBuku);
+            DeleteBukuCommand = new DeleteBukuCommand(deleteSelectedBook);
 
             StatusBukuCombo = new ObservableCollection<ComboOptionKey>() { new ComboOptionKey("Bisa ditukar", "OPEN_FOR_TUKAR"), new ComboOptionKey("Hanya koleksi", "KOLEKSI") };
             
@@ -577,6 +578,18 @@ namespace WpfApp1.ViewModel.MainView
             {
                 MessageBox.Show("Tidak ada buku yang dipilih untuk dihapus.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
+            }
+
+            var result = MessageBox.Show(
+            $"Apakah Anda yakin ingin menghapus buku \"{_selectedBook.Judul}\"?",
+            "Konfirmasi Penghapusan",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question
+             );
+
+            if (result != MessageBoxResult.Yes)
+            {
+                return; // Batalkan jika pengguna memilih "No"
             }
 
             using (var transaction = _connection.BeginTransaction())
