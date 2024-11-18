@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WpfApp1.Commands;
+using WpfApp1.Config;
 using WpfApp1.Models;
 using WpfApp1.Store;
 using WpfApp1.View.MainApp.Profile;
@@ -28,6 +29,7 @@ namespace WpfApp1.ViewModel.MainView
     public class ProfileViewModel : ViewModelBase
     {
         private readonly AuthStore _authStore;
+        private readonly DbConfig _dbConfig;
 
         private UserModel test_;
         private Window _popupWindow;
@@ -60,7 +62,7 @@ namespace WpfApp1.ViewModel.MainView
 
         public ObservableCollection<BukuModel> Books { get; set; } = new ObservableCollection<BukuModel>();
 
-        public ProfileViewModel(AuthStore authStore)
+        public ProfileViewModel(AuthStore authStore, DbConfig dbConfig)
         {
             _authStore = authStore;
             test_ = authStore.UserLoggedIn.ShallowCopy();
@@ -71,7 +73,7 @@ namespace WpfApp1.ViewModel.MainView
             EditBukuCommand = new EditBukuCommand(EditBuku);
 
             StatusBukuCombo = new ObservableCollection<ComboOptionKey>() { new ComboOptionKey("Bisa ditukar", "OPEN_FOR_TUKAR"), new ComboOptionKey("Hanya koleksi", "KOLEKSI") };
-            
+            _dbConfig = dbConfig;
             ConnectToDatabase();
             GetUserInformation();
             FetchBooksByUserID();
@@ -91,11 +93,11 @@ namespace WpfApp1.ViewModel.MainView
 
         private void ConnectToDatabase()
         {
-            string host = Environment.GetEnvironmentVariable("DB_HOST");
-            string username = Environment.GetEnvironmentVariable("DB_USER");
-            string password = Environment.GetEnvironmentVariable("DB_PASSWORD");
-            string database = Environment.GetEnvironmentVariable("DB_NAME");
-            string port = Environment.GetEnvironmentVariable("DB_PORT");
+            string host = _dbConfig.Host;
+            string username = _dbConfig.User;
+            string password = _dbConfig.Password;
+            string database = _dbConfig.Name;
+            string port = _dbConfig.Port.ToString();
 
             // Connection string
             string _connString = $"Host={host};Username={username};Password={password};Database={database};Port={port}";
