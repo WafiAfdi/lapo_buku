@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\lapo_buku_app",
+    "\\lapo_buku_app\\WpfApp1",
+    "\\lapo_buku_app\\WpfApp1\\ViewModel",
+    "\\lapo_buku_app\\WpfApp1\\ViewModel\\MainView"
   ],
-  "SelectedNode": "\\lapo_buku_app.sln",
+  "SelectedNode": "\\lapo_buku_app\\WpfApp1\\ViewModel\\MainView\\ProfileViewModel.cs",
   "PreviewInSolutionExplorer": false
 }

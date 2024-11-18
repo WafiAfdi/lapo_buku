@@ -56,6 +56,7 @@ namespace WpfApp1.ViewModel.MainView
         public ICommand SaveProfileCommand { get; }
         public ICommand AddBukuCommand { get; }
         public ICommand EditBukuCommand{ get; }
+        public ICommand DeleteBukuCommand { get; }
 
         public ObservableCollection<ComboOptionKey> StatusBukuCombo { get; set; }
         public ComboOptionKey SelectedComboStatus { get; set; }
@@ -71,6 +72,7 @@ namespace WpfApp1.ViewModel.MainView
             SaveProfileCommand = new SaveEditProfile(UpdateProfile);
             AddBukuCommand = new AddBukuCommand(AddNewBuku);
             EditBukuCommand = new EditBukuCommand(EditBuku);
+            DeleteBukuCommand = new DeleteBukuCommand(deleteSelectedBook);
 
             StatusBukuCombo = new ObservableCollection<ComboOptionKey>() { new ComboOptionKey("Bisa ditukar", "OPEN_FOR_TUKAR"), new ComboOptionKey("Hanya koleksi", "KOLEKSI") };
             _dbConfig = dbConfig;
@@ -569,8 +571,81 @@ namespace WpfApp1.ViewModel.MainView
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Error fetching books: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            
+                }                     
         }
+
+        public void deleteSelectedBook()
+        {
+            if (_selectedBook == null)
+            {
+                MessageBox.Show("Tidak ada buku yang dipilih untuk dihapus.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var result = MessageBox.Show(
+            $"Apakah Anda yakin ingin menghapus buku \"{_selectedBook.Judul}\"?",
+            "Konfirmasi Penghapusan",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question
+             );
+
+            if (result != MessageBoxResult.Yes)
+            {
+                return; // Batalkan jika pengguna memilih "No"
+            }
+
+            using (var transaction = _connection.BeginTransaction())
+            {
+                try
+                {
+                    // Hapus hubungan genre_buku
+                    var deleteGenreBookQuery = "DELETE FROM genre_buku WHERE id_buku = @idBuku;";
+                    using (var deleteGenreCommand = new NpgsqlCommand(deleteGenreBookQuery, _connection))
+                    {
+                        deleteGenreCommand.Parameters.AddWithValue("idBuku", _selectedBook.BukuID);
+                        deleteGenreCommand.ExecuteNonQuery();
+                    }
+
+                    // Hapus hubungan buku_ditulis
+                    var deleteBookWriterQuery = "DELETE FROM buku_ditulis WHERE id_buku = @idBuku;";
+                    using (var deleteWriterCommand = new NpgsqlCommand(deleteBookWriterQuery, _connection))
+                    {
+                        deleteWriterCommand.Parameters.AddWithValue("idBuku", _selectedBook.BukuID);
+                        deleteWriterCommand.ExecuteNonQuery();
+                    }
+
+                    // Hapus buku dari tabel utama
+                    var deleteBookQuery = "DELETE FROM buku WHERE id = @idBuku;";
+                    using (var deleteBookCommand = new NpgsqlCommand(deleteBookQuery, _connection))
+                    {
+                        deleteBookCommand.Parameters.AddWithValue("idBuku", _selectedBook.BukuID);
+                        deleteBookCommand.ExecuteNonQuery();
+                    }
+
+                    // Commit transaksi
+                    transaction.Commit();
+
+                    // Perbarui koleksi buku di memori
+                    Books.Remove(_selectedBook);
+                    MessageBox.Show("Buku berhasil dihapus.", "Sukses", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // Reset selected book
+                    SelectedBook = null;
+                }
+                catch (Exception ex)
+                {
+                    // Rollback transaksi jika terjadi error
+                    transaction.Rollback();
+                    MessageBox.Show(
+                        $"Terjadi kesalahan saat menghapus buku: {ex.Message}",
+                        "Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                    );
+                }
+            }
+        }
+
+
     }
 }
