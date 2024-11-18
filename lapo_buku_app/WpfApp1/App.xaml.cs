@@ -74,7 +74,7 @@ namespace WpfApp1
 
         private INavigationService<TransaksiViewModel> CreateTransaksiNavigationService()
         {
-            return new LayoutNavigationService<TransaksiViewModel>(_navigationStore, () => new TransaksiViewModel(_authStore), CreateNavBarViewModel);
+            return new LayoutNavigationService<TransaksiViewModel>(_navigationStore, () => new TransaksiViewModel(_authStore, _dbConfig), CreateNavBarViewModel);
         }
 
         private NavbarViewModel CreateNavBarViewModel()
