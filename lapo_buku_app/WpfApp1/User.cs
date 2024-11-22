@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Npgsql;
 using System.Data;
 using WpfApp1.Store;
+using System.Security.Cryptography;
 
 namespace WpfApp1
 {
@@ -71,12 +72,12 @@ namespace WpfApp1
         public async Task<bool> LoginAsyncQuery(string email, string password)
         {
 
-            string query = "SELECT id, email, username FROM public.user WHERE email = @Email AND password = @Password";
+            string query = "SELECT id, email, username, password FROM public.user WHERE email = @Email;";
             var cmd = new NpgsqlCommand(query, _connection);
 
             // Add parameters to prevent SQL injection
             cmd.Parameters.AddWithValue("Email", email);
-            cmd.Parameters.AddWithValue("Password", password);
+            //cmd.Parameters.AddWithValue("Password", password);
 
             DataTable dataTable = new DataTable();
 
@@ -86,16 +87,26 @@ namespace WpfApp1
 
             if (dataTable.Rows.Count > 0)
             {
-                // Store data in accountStore if needed
-                if(!_authStore.IsLoggedIn)
-                {
-                    _authStore.UserLoggedIn = new Models.UserModel();
-                }
-                _authStore.UserLoggedIn.Id = int.Parse(dataTable.Rows[0]["id"].ToString());
-                _authStore.UserLoggedIn.Email = dataTable.Rows[0]["email"].ToString();
-                _authStore.UserLoggedIn.Username = dataTable.Rows[0]["username"].ToString();
+                string storedHashedPassword = dataTable.Rows[0]["password"].ToString();
+                string inputPassword = password; // Provided by the user
 
-                return true;
+                if (VerifyPassword(inputPassword, storedHashedPassword))
+                {
+                    // Store data in accountStore if needed
+                    if (!_authStore.IsLoggedIn)
+                    {
+                        _authStore.UserLoggedIn = new Models.UserModel();
+                    }
+
+                    _authStore.UserLoggedIn.Id = int.Parse(dataTable.Rows[0]["id"].ToString());
+                    _authStore.UserLoggedIn.Email = dataTable.Rows[0]["email"].ToString();
+                    _authStore.UserLoggedIn.Username = dataTable.Rows[0]["username"].ToString();
+
+                    return true;
+                } else
+                {
+                    return false;
+                }
             }
             else
             {
@@ -106,6 +117,37 @@ namespace WpfApp1
         public Boolean Register(string email, string password)
         {
             return false;
+        }
+
+        bool VerifyPassword(string password, string storedHash)
+        {
+            // Convert the base64-encoded hash to bytes
+            byte[] hashBytes = Convert.FromBase64String(storedHash);
+
+            // Extract the salt size (assumes 16-byte salt)
+            const int saltSize = 16;
+            byte[] salt = new byte[saltSize];
+            Array.Copy(hashBytes, 0, salt, 0, saltSize);
+
+            // Extract the hash size (assumes 32-byte key)
+            const int keySize = 32;
+            byte[] storedKey = new byte[keySize];
+            Array.Copy(hashBytes, saltSize, storedKey, 0, keySize);
+
+            // Re-hash the input password using the same salt
+            using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000))
+            {
+                byte[] inputKey = pbkdf2.GetBytes(keySize);
+
+                // Compare the keys
+                for (int i = 0; i < keySize; i++)
+                {
+                    if (storedKey[i] != inputKey[i])
+                        return false;
+                }
+            }
+
+            return true;
         }
     }
 }
