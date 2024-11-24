@@ -45,30 +45,9 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- Search Box -->
-        <Grid  Grid.Row="0" Width="700">
+        <TextBlock Text="Histori Transaki" FontSize="24" FontWeight="Bold" Margin="35,0,0,20"></TextBlock>
 
-            <TextBlock TextWrapping="Wrap" Text="Search Disini..." Margin="20 0" FontSize="14" IsHitTestVisible="False"
-        VerticalAlignment="Center" Visibility="{Binding ElementName=TextSearch,Path=Text.IsEmpty,Converter={StaticResource BoolToVis}}"
-        Panel.ZIndex="1"
-               Foreground="DarkGray"
-    />
-
-            <TextBox x:Name="TextSearch" Style="{StaticResource textboxSearch}" KeyDown="SearchBox_Keydown" FontSize="14" Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-
-            </TextBox>
-            <Button Margin="0 0 15 0" Width="25" Height="25"  VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource searchButton}"
-            Command="{Binding SearchCommand}"
-    >
-
-                <materialIcons:MaterialIcon Kind="Magnify" Width="20" Height="20"  VerticalAlignment="Center"
-              Foreground="#b0b9c6" HorizontalAlignment="Center"                                     
-         />
-            </Button>
-
-        </Grid>
-
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 20" Width="700">
+        <StackPanel Visibility="Collapsed" Grid.Row="1" Orientation="Horizontal" Margin="0, 20" Width="700">
             <ComboBox Text="Status"  Width="90" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"
                       ItemsSource="{Binding ComboStatus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedComboStatus}"
             />
@@ -77,21 +56,19 @@
             />
         </StackPanel>
 
-
-        <ListView Name="UserList" ItemsSource="{Binding Users}" BorderBrush="#cdcdcd" Padding="0" Width="700" Grid.Row="2" HorizontalAlignment="Stretch">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding IdTransaksi}" Header="Id Transaksi" />
-                    <GridViewColumn DisplayMemberBinding="{Binding BukuPenawar}" Header="Buku Penawar"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding BukuPenerima}" Header="Buku Penerima"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Status}" Header="Status"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding UsernamePenawar}" Header="Username Penawar"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding UsernamePenerima}" Header="Username Penerima"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Date}" Header="Date"/>
-
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <DataGrid ItemsSource="{Binding TransaksiList}" AutoGenerateColumns="False" HeadersVisibility="Column" Width="700" FontSize="12" FontWeight="Light" CanUserAddRows="False" CanUserDeleteRows="False"  Grid.Row="2"
+        SelectedItem="{Binding SelectedTransaksi}" IsReadOnly="True" SelectionMode="Single" SelectionChanged="DataGrid_SelectionChanged"
+     >
+            <DataGrid.Columns >
+                <DataGridTextColumn Header="Id Transaksi" Binding="{Binding IdTransaksi}" Width="*"/>
+                <DataGridTextColumn Header="Buku Penawar" Binding="{Binding BukuPenawar.Judul}" Width="*"/>
+                <DataGridTextColumn Header="Buku Penerima" Binding="{Binding BukuPenerima.Judul}" Width="*"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"/>
+                <DataGridTextColumn Header="Username Penawar" Binding="{Binding BukuPenawar.PemilikBuku.Username}" Width="*"/>
+                <DataGridTextColumn Header="Username Penerima" Binding="{Binding BukuPenerima.PemilikBuku.Username}" Width="*"/>
+                <DataGridTextColumn Header="Waktu Transaksi" Binding="{Binding WaktuTransaksi}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 
 </UserControl>

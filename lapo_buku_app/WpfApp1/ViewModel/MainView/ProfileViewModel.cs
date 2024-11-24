@@ -339,6 +339,13 @@ namespace WpfApp1.ViewModel.MainView
 
         public void ShowEditWindow()
         {
+
+            // cek buku masih transaksi atau bukan
+            if (IsBookInPendingOrProcessTransaction(_selectedBook.BukuID))
+            {
+                MessageBox.Show("Buku masih dalam proses transaksi.", "Forbidden", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             IsAddBuku = false;
             _newBuku = _selectedBook.Clone();
             if (_newBuku.status_Buku == status_buku.KOLEKSI)
@@ -362,6 +369,7 @@ namespace WpfApp1.ViewModel.MainView
 
         private void EditBuku()
         {
+
             using (var transaction = _connection.BeginTransaction())
                 try
                 {
@@ -587,6 +595,12 @@ namespace WpfApp1.ViewModel.MainView
                 return;
             }
 
+            if(IsBookInPendingOrProcessTransaction(_selectedBook.BukuID))
+            {
+                MessageBox.Show("Buku masih dalam proses transaksi.", "Forbidden", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             var result = MessageBox.Show(
             $"Apakah Anda yakin ingin menghapus buku \"{_selectedBook.Judul}\"?",
             "Konfirmasi Penghapusan",
@@ -649,6 +663,35 @@ namespace WpfApp1.ViewModel.MainView
                     );
                 }
             }
+        }
+
+        public bool IsBookInPendingOrProcessTransaction(int bookId)
+        {
+
+            string query = @"
+                SELECT COUNT(*)
+                FROM transaksi_penukaran
+                WHERE (buku_penjual = @bookId OR buku_pembeli = @bookId)
+                  AND status NOT IN ('DONE', 'FAILED');";
+
+            try
+            {
+                using (var command = new NpgsqlCommand(query, _connection))
+                {
+                    command.Parameters.AddWithValue("@bookId", bookId);
+
+                    var result = (long)command.ExecuteScalar(); // COUNT(*) returns a bigint in PostgreSQL
+                    return result > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Telah terjadi kesalahan : {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error
+                );
+                return false;
+            }
+
         }
 
 

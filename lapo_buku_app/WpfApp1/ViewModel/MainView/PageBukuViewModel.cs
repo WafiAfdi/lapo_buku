@@ -193,11 +193,13 @@ namespace WpfApp1.ViewModel.MainView
         private void GetUserBook()
         {
             string queryGetBuku = @"
-                SELECT buku.id, buku.judul FROM public.buku WHERE id_pemilik = 1;
+                SELECT buku.id, buku.judul FROM public.buku WHERE id_pemilik = @id_pembeli;
             "
             ;
 
             var command = new NpgsqlCommand(queryGetBuku, _connection);
+
+            command.Parameters.AddWithValue("id_pembeli", _authStore.UserLoggedIn.Id);
 
 
             var reader = command.ExecuteReader();
@@ -258,11 +260,10 @@ namespace WpfApp1.ViewModel.MainView
 
                 while (reader.Read())
                 {
-                    // Cek jika masih ada
-                    if (reader.HasRows)
-                    {
-                        bukuPembeliMasihAda = true;
-                    }
+                        if (reader.HasRows)
+                        {
+                            bukuPembeliMasihAda = true;
+                        }
                 }
 
                 if (reader.NextResult())
