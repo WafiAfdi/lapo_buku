@@ -3,9 +3,12 @@
     "",
     "\\lapo_buku_app",
     "\\lapo_buku_app\\WpfApp1",
+    "\\lapo_buku_app\\WpfApp1\\Commands",
+    "\\lapo_buku_app\\WpfApp1\\View",
     "\\lapo_buku_app\\WpfApp1\\ViewModel",
-    "\\lapo_buku_app\\WpfApp1\\ViewModel\\MainView"
+    "\\lapo_buku_app\\WpfApp1\\ViewModel\\MainView",
+    "\\lapo_buku_app\\WpfApp1\\View\\MainApp"
   ],
-  "SelectedNode": "\\lapo_buku_app\\WpfApp1\\ViewModel\\MainView\\ProfileViewModel.cs",
+  "SelectedNode": "\\lapo_buku_app\\WpfApp1\\View\\MainApp\\PopupTransaksi.xaml",
   "PreviewInSolutionExplorer": false
 }
