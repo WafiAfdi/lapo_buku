@@ -2,24 +2,40 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using System.Windows.Automation.Peers;
+using WpfApp1.Commands;
 using WpfApp1.Models;
 using WpfApp1.Store;
+using System.Windows;
+
 
 namespace WpfApp1.ViewModel.MainView
 {
     public class PopupTransaksiViewModel : ViewModelBase
     {
-        public UserModel PihakLain {  get; set; }
+        private Window _window;
+        public UserModel PihakLain { get; set; }
         public BukuModel BukuPihakLain { get; set; }
         public BukuModel BukuUser { get; set; }
-        public Boolean IsStatusPending { get; set; } = false;
 
-        public PopupTransaksiViewModel(TransaksiModel transaksiModel, AuthStore authStore, NpgsqlConnection connection) 
+        public Boolean ButtonPenerima { get; set; } = false;
+        public Boolean ButtonPenawar { get; set; } = false;
+        public Boolean ButtonKonfirmasi { get; set; } = false;
+
+        public TerimaCommand TerimaCommand { get; }
+        public TolakCommand TolakCommand { get; }
+        public KonfirmasiCommand KonfirmasiCommand { get; }
+
+        public PopupTransaksiViewModel(TransaksiModel transaksiModel, AuthStore authStore, NpgsqlConnection connection, Window window) 
         {
+            _window = window;
+            TerimaCommand = new TerimaCommand(transaksiModel.IdTransaksi, connection, _window);
+            TolakCommand = new TolakCommand(transaksiModel.IdTransaksi, connection, _window);
+            
             string query = @"
                     SELECT 
                         id, username, email, deskripsi, kota, provinsi, alamat_jalan, kecamatan, nomor_kontak, created, last_update
@@ -28,20 +44,47 @@ namespace WpfApp1.ViewModel.MainView
 
             string username;
 
+            if(transaksiModel.Status == "PROCESS")
+            {
+                ButtonKonfirmasi = true;
+            }
+
             // User sebagai penawar
             if (authStore.UserLoggedIn.Username == transaksiModel.BukuPenawar.PemilikBuku.Username)
             {
+                KonfirmasiCommand = new KonfirmasiCommand(transaksiModel.IdTransaksi, connection, true, _window, transaksiModel);
+
                 BukuUser = transaksiModel.BukuPenawar;
                 BukuPihakLain = transaksiModel.BukuPenerima;
                 username = transaksiModel.BukuPenerima.PemilikBuku.Username;
+
+                if(transaksiModel.Status == "PENDING")
+                {
+                    ButtonPenawar = true;
+                }
+                if(transaksiModel.IsPenjualTerima) 
+                {
+                    ButtonKonfirmasi = false;
+                }
             }
 
             // User sebagai penerima
             else
             {
+                KonfirmasiCommand = new KonfirmasiCommand(transaksiModel.IdTransaksi, connection, false, _window, transaksiModel);
+
                 BukuUser = transaksiModel.BukuPenerima;
                 BukuPihakLain = transaksiModel.BukuPenawar;
                 username = transaksiModel.BukuPenawar.PemilikBuku.Username;
+
+                if( transaksiModel.Status == "PENDING")
+                {
+                    ButtonPenerima = true;
+                }
+                if( transaksiModel.IsPembeliTerima)
+                {
+                    ButtonKonfirmasi = false;
+                }
             }
 
             using (var cmd = new NpgsqlCommand(query, connection))

@@ -22,13 +22,11 @@ namespace WpfApp1.ViewModel.MainView
 
         public ObservableCollection<TransaksiModel> TransaksiList { get; set; } = new ObservableCollection<TransaksiModel>();
 
-        private PopupTransaksiViewModel _popupTransaksiViewModel { get; set; }
         public TransaksiModel SelectedTransaksi { get; set; }
         public void Popup()
         {
-            PopupTransaksiViewModel popupTransaksiViewModel = new PopupTransaksiViewModel(SelectedTransaksi, _authStore, _connection);
-
             Window popup = new PopupTransaksi();
+            PopupTransaksiViewModel popupTransaksiViewModel = new PopupTransaksiViewModel(SelectedTransaksi, _authStore, _connection, popup);
             popup.DataContext = popupTransaksiViewModel;
             popup.ShowDialog();
         }
@@ -89,6 +87,10 @@ namespace WpfApp1.ViewModel.MainView
                         tp.id AS transaksi_id,
                         tp.status AS transaksi_status,
                         tp.created AS transaksi_waktu,
+                        tp.is_penjual_konfirmasi AS konfirmasi_penjual,
+                        tp.is_pembeli_konfirmasi AS konfirmasi_pembeli,
+                        tp.is_penjual_menerima AS menerima_penjual,
+                        tp.is_pembeli_menerima AS menerima_pembeli,
                         b1.id AS buku_penawar_id,
                         b1.isbn AS buku_penawar_isbn,
                         b1.judul AS buku_penawar_judul,
@@ -109,10 +111,13 @@ namespace WpfApp1.ViewModel.MainView
                     JOIN buku b1 ON tp.buku_penjual = b1.id
                     JOIN buku b2 ON tp.buku_pembeli = b2.id
                     JOIN public.user u1 ON b1.id_pemilik = u1.id
-                    JOIN public.user u2 ON b2.id_pemilik = u2.id";
+                    JOIN public.user u2 ON b2.id_pemilik = u2.id
+                    WHERE u1.username = @Username OR u2.username = @Username"
+                    ;
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@Username", _authStore.UserLoggedIn.Username);
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -128,6 +133,7 @@ namespace WpfApp1.ViewModel.MainView
                                 PemilikBuku = new UserModel
                                 {
                                     Username = reader.GetString(reader.GetOrdinal("user_penawar_username")),
+                                    Id = reader.GetInt32(reader.GetOrdinal("user_penawar_id"))
                                 }
                             };
 
@@ -142,6 +148,7 @@ namespace WpfApp1.ViewModel.MainView
                                 PemilikBuku = new UserModel
                                 {
                                     Username = reader.GetString(reader.GetOrdinal("user_penerima_username")),
+                                    Id = reader.GetInt32(reader.GetOrdinal("user_penerima_id"))
                                 }
                             };
 
@@ -151,7 +158,11 @@ namespace WpfApp1.ViewModel.MainView
                                 BukuPenawar = bukuPenawar,
                                 BukuPenerima = bukuPenerima,
                                 Status = reader.GetString(reader.GetOrdinal("transaksi_status")),
-                                WaktuTransaksi = reader.GetDateTime(reader.GetOrdinal("transaksi_waktu"))
+                                WaktuTransaksi = reader.GetDateTime(reader.GetOrdinal("transaksi_waktu")),
+                                IsPembeliKonfirmasi = reader.GetBoolean(reader.GetOrdinal("konfirmasi_pembeli")),
+                                IsPenjualKonfirmasi = reader.GetBoolean(reader.GetOrdinal("konfirmasi_penjual")),
+                                IsPembeliTerima = reader.GetBoolean(reader.GetOrdinal("menerima_pembeli")),
+                                IsPenjualTerima = reader.GetBoolean(reader.GetOrdinal("menerima_penjual"))
                             };
 
                             TransaksiList.Add(transaksi);
