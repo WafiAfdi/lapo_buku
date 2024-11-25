@@ -44,9 +44,9 @@
             <!-- Row 2: Buttons (Input) -->
             <RowDefinition Height="*" />
             <!-- Row 2: Buttons (Login & Register) -->
-            <RowDefinition Height="*" />
+            <RowDefinition Height="120" />
         </Grid.RowDefinitions>
-        <Label Content="Login to Lapo Buku" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" FontSize="36" Height="58" Width="318" Grid.Row="0"/>
+        <Label Content="Login to Lapo Buku" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" FontSize="36" Height="58" Width="324" Grid.Row="0"/>
         <StackPanel  Grid.Row="1">
             <StackPanel>
                 <Label Content="Email"  FontWeight="SemiBold" FontSize="20" Width="399" VerticalAlignment="Center"/>
