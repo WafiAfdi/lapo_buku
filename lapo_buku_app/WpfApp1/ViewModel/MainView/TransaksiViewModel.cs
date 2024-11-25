@@ -80,7 +80,7 @@ namespace WpfApp1.ViewModel.MainView
             string port = Environment.GetEnvironmentVariable("DB_PORT");
 
             // Connection string
-            string _connString = $"Host={host};Username={username};Password={password};Database={database};Port={port}";
+            string _connString = $"Host={_dbConfig.Host};Username={_dbConfig.User};Password={_dbConfig.Password};Database={_dbConfig.Name};Port={_dbConfig.Port.ToString()}";
 
             using (var connection = new NpgsqlConnection(_connString))
             {
