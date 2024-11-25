@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS public.wishlist
     id_buku integer NOT NULL,
     created timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT wishlist_pkey PRIMARY KEY (id)
+    CONSTRAINT wishlist_unique UNIQUE(pembeli, id_buku)
 );
 
 

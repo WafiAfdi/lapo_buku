@@ -184,11 +184,20 @@
                 >
                 <StackPanel Orientation="Horizontal">
                     <Button MaxWidth="100" HorizontalAlignment="Left"
+                        Content="Wishlist"
+                        Padding="15 5"
+                        FontSize="16"
+                        Command="{Binding WishlistCommand}"
+                        >
+
+                    </Button>
+                    <Button MaxWidth="100" HorizontalAlignment="Left"
                         Content="Tukar"
                         Padding="15 5"
                         FontSize="16"
                         IsEnabled="{Binding CanTukar, Mode=OneWay}"
                         Command="{Binding TukarBukuCommand}"
+                        Margin="20 0 0 0"
                         >
 
                     </Button>
