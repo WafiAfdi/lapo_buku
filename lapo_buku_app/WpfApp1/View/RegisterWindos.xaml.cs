@@ -119,5 +119,13 @@ namespace WpfApp1.View
                 MessageBox.Show($"Failed to connect to database: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void Back_To_Login_Click(object sender, RoutedEventArgs e)
+        {
+            LoginWindow login = new LoginWindow(DisplayMainApp, _authStore, _dbConfig);
+            login.Show();
+
+            this.Close();
+        }
     }
 }

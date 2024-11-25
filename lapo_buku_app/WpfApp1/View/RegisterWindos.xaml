@@ -34,7 +34,12 @@
                 <PasswordBox Name="ReenterPasswordBox" FontSize="14" VerticalAlignment="Center" Height="42"   Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
             </StackPanel>
         </StackPanel>
-        <Button Grid.Row="2" Content="Create Account" HorizontalAlignment="Center"  VerticalAlignment="Top" Height="43" Width="200" FontSize="22" BorderBrush="#00707070" Click="Register_Button_Click"/>
+        <StackPanel Grid.Row="2" Orientation="Vertical">
+            
+            <Button Content="Create Account" HorizontalAlignment="Center"  VerticalAlignment="Top" Height="43" Width="200" FontSize="22" BorderBrush="#00707070" Click="Register_Button_Click"/>
+            <Button Content="Back To Login" HorizontalAlignment="Center" Margin="0 10 0 0"  VerticalAlignment="Top" Height="43" Width="200" FontSize="22" BorderBrush="#00707070" Click="Back_To_Login_Click"/>
+
+        </StackPanel>
 
     </Grid>
 </Window>
