@@ -9,7 +9,7 @@
         xmlns:components="clr-namespace:WpfApp1.View.Components"
         xmlns:views="clr-namespace:WpfApp1.View.MainApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="850">
+        Title="Lapo Buku" Height="600" Width="850">
     <ContentControl Content="{Binding CurrentViewModel}">
         <ContentControl.Resources>
             <DataTemplate DataType="{x:Type viewmodel:BrowsingViewModel}">

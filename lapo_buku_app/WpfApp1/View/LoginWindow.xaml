@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="500" Width="600">
+        Title="Login Lapo Buku" Height="500" Width="600">
     <Window.Resources>
         <Style x:Key="AddButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="IndianRed"/>
