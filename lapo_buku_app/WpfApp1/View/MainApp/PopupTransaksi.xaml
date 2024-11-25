@@ -233,9 +233,10 @@
                     Margin = "0,20,0,0"
                     VerticalAlignment = "Top" 
                     Width = "75"
-                    Visibility="{Binding IsStatusPending, 
+                    Visibility="{Binding ButtonPenawar, 
                         Converter={StaticResource BooleanToVisibilityConverter},
-                        Mode=OneWay}"/>
+                        Mode=OneWay}"
+					Command="{Binding TerimaCommand}"/>
 
                     <Button 
                     Content = "Tolak"
@@ -243,9 +244,32 @@
                     Margin = "20,20,0,0"
                     VerticalAlignment = "Top" 
                     Width = "75"
-                        Visibility="{Binding IsStatusPending, 
+                    Visibility="{Binding ButtonPenawar, 
                         Converter={StaticResource BooleanToVisibilityConverter},
-                        Mode=OneWay}"/>
+                        Mode=OneWay}"
+					Command="{Binding TolakCommand}"/>
+
+					<Button
+                    Content = "Sudah Menerima"
+                    HorizontalAlignment = "Left"
+                    Margin = "0,20,0,0"
+                    VerticalAlignment = "Top"
+                    Width = "75"
+                    Visibility="{Binding ButtonKonfirmasi, 
+                        Converter={StaticResource BooleanToVisibilityConverter},
+                        Mode=OneWay}"
+					Command="{Binding KonfirmasiCommand}"/>
+
+                    <Button
+                    Content = "Batalkan"
+                    HorizontalAlignment = "Left"
+                    Margin = "0,20,0,0"
+                    VerticalAlignment = "Top"
+                    Width = "75"
+                    Visibility="{Binding ButtonPenerima, 
+                        Converter={StaticResource BooleanToVisibilityConverter},
+                        Mode=OneWay}"
+                    Command="{Binding TolakCommand}"/>
                 </StackPanel>
 
             </StackPanel>

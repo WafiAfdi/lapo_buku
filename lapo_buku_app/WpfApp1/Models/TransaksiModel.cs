@@ -13,5 +13,9 @@ namespace WpfApp1.Models
         public BukuModel BukuPenerima { get; set; }
         public string Status { get; set; }
         public DateTime WaktuTransaksi { get; set; }
+        public bool IsPembeliKonfirmasi { get; set; }
+        public bool IsPenjualKonfirmasi { get; set; }
+        public bool IsPembeliTerima { get; set; }
+        public bool IsPenjualTerima { get; set; }
     }
 }

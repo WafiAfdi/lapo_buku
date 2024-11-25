@@ -40,6 +40,12 @@ namespace WpfApp1.View.MainApp
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Console.Write("TEST");
+            //((TransaksiViewModel)DataContext).Popup();
+        }
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
             ((TransaksiViewModel)DataContext).Popup();
         }
     }
