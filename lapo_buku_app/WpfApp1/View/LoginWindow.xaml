@@ -46,14 +46,14 @@
             <!-- Row 2: Buttons (Login & Register) -->
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Content="Login to Lapo Buku" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" FontSize="36" Height="58" Width="318" Grid.Row="0"/>
+        <Label Content="Login to Lapo Buku" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" FontSize="36" Height="58" Width="318" Grid.Row="0"/>
         <StackPanel  Grid.Row="1">
             <StackPanel>
-                <Label Content="Email"   FontSize="20" Width="399" VerticalAlignment="Center"/>
+                <Label Content="Email"  FontWeight="SemiBold" FontSize="20" Width="399" VerticalAlignment="Center"/>
                 <TextBox x:Name="emailLabel" FontSize="14" VerticalAlignment="Center" Height="42" AcceptsReturn="False" Width="402"  Background="White" BorderBrush="#9295A5" BorderThickness="1"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" >
-                <Label Content="Password" FontSize="20" Width="400" HorizontalAlignment="Center" />
+                <Label Content="Password" FontSize="20" FontWeight="SemiBold" Width="400" HorizontalAlignment="Center" />
                 <PasswordBox x:Name="passwordLabel" PasswordChar="*" FontSize="14" VerticalAlignment="Center" Height="42"  Width="402"  Background="White" BorderBrush="#9295A5" BorderThickness="1"/>
             </StackPanel>
         </StackPanel>
