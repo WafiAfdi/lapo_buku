@@ -11,12 +11,14 @@ using System.Windows.Input;
 using WpfApp1.Store;
 using Npgsql;
 using System.Data.Common;
+using WpfApp1.Config;
 
 namespace WpfApp1.ViewModel.MainView
 {
     public class TransaksiViewModel : ViewModelBase
     {
         private readonly AuthStore _authStore;
+        private readonly DbConfig _dbConfig;
 
         private NpgsqlConnection _connection;
 
@@ -37,9 +39,10 @@ namespace WpfApp1.ViewModel.MainView
         { get; set; }
 
 
-        public TransaksiViewModel(AuthStore authStore)
+        public TransaksiViewModel(AuthStore authStore, DbConfig dbConfig)
         {
             _authStore = authStore;
+            _dbConfig = dbConfig;
 
             ConnectToDatabase();
 
@@ -48,11 +51,11 @@ namespace WpfApp1.ViewModel.MainView
 
         private void ConnectToDatabase()
         {
-            string host = Environment.GetEnvironmentVariable("DB_HOST");
-            string username = Environment.GetEnvironmentVariable("DB_USER");
-            string password = Environment.GetEnvironmentVariable("DB_PASSWORD");
-            string database = Environment.GetEnvironmentVariable("DB_NAME");
-            string port = Environment.GetEnvironmentVariable("DB_PORT");
+            string host = _dbConfig.Host;
+            string username = _dbConfig.User;
+            string password = _dbConfig.Password;
+            string database = _dbConfig.Name;
+            string port = _dbConfig.Port.ToString();
 
             // Connection string
             string _connString = $"Host={host};Username={username};Password={password};Database={database};Port={port}";

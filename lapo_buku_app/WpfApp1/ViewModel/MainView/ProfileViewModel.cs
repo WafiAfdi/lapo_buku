@@ -62,6 +62,7 @@ namespace WpfApp1.ViewModel.MainView
         public ComboOptionKey SelectedComboStatus { get; set; }
 
         public ObservableCollection<BukuModel> Books { get; set; } = new ObservableCollection<BukuModel>();
+        public ObservableCollection<BukuModel> Wishlist { get; set; } = new ObservableCollection<BukuModel>();
 
         public ProfileViewModel(AuthStore authStore, DbConfig dbConfig)
         {
@@ -75,10 +76,12 @@ namespace WpfApp1.ViewModel.MainView
             DeleteBukuCommand = new DeleteBukuCommand(deleteSelectedBook);
 
             StatusBukuCombo = new ObservableCollection<ComboOptionKey>() { new ComboOptionKey("Bisa ditukar", "OPEN_FOR_TUKAR"), new ComboOptionKey("Hanya koleksi", "KOLEKSI") };
+            Wishlist = new ObservableCollection<BukuModel>() { };
             _dbConfig = dbConfig;
             ConnectToDatabase();
             GetUserInformation();
             FetchBooksByUserID();
+            FetchWishlistBuku();
         }
 
         public void ubahNama()
@@ -203,6 +206,7 @@ namespace WpfApp1.ViewModel.MainView
 
                 using (var command = new NpgsqlCommand(insertBookQuery, _connection))
                 {
+                    _newBuku.DimilikiSejak = new DateTime();
                     command.Parameters.AddWithValue("idPemilik", _authStore.UserLoggedIn.Id);
                     command.Parameters.AddWithValue("isbn", _newBuku.ISBN);
                     command.Parameters.AddWithValue("judul", _newBuku.Judul);
@@ -211,8 +215,20 @@ namespace WpfApp1.ViewModel.MainView
                     command.Parameters.AddWithValue("tahunTerbit", _newBuku.Terbit);
                     command.Parameters.AddWithValue("ratingBuku", _newBuku.RatingPemilik);
                     command.Parameters.AddWithValue("statusBuku", SelectedComboStatus.Key);
+                    switch (SelectedComboStatus.Key)
+                    {
+                        case "KOLEKSI":
+                                _newBuku.status_Buku = status_buku.KOLEKSI;
+                                break;
+                        case "OPEN_FOR_TUKAR":
+                                _newBuku.status_Buku = status_buku.OPEN_FOR_TUKAR;
+                                break;
+                        default:
+                                _newBuku.status_Buku = status_buku.KOLEKSI;
+                            break;
+                    }
 
-                    bookId = (int)command.ExecuteScalar();
+                        bookId = (int)command.ExecuteScalar();
                 }
 
                 // Prepare queries for genre and genre_buku
@@ -339,6 +355,13 @@ namespace WpfApp1.ViewModel.MainView
 
         public void ShowEditWindow()
         {
+
+            // cek buku masih transaksi atau bukan
+            if (IsBookInPendingOrProcessTransaction(_selectedBook.BukuID))
+            {
+                MessageBox.Show("Buku masih dalam proses transaksi.", "Forbidden", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             IsAddBuku = false;
             _newBuku = _selectedBook.Clone();
             if (_newBuku.status_Buku == status_buku.KOLEKSI)
@@ -362,6 +385,7 @@ namespace WpfApp1.ViewModel.MainView
 
         private void EditBuku()
         {
+
             using (var transaction = _connection.BeginTransaction())
                 try
                 {
@@ -587,6 +611,12 @@ namespace WpfApp1.ViewModel.MainView
                 return;
             }
 
+            if(IsBookInPendingOrProcessTransaction(_selectedBook.BukuID))
+            {
+                MessageBox.Show("Buku masih dalam proses transaksi.", "Forbidden", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             var result = MessageBox.Show(
             $"Apakah Anda yakin ingin menghapus buku \"{_selectedBook.Judul}\"?",
             "Konfirmasi Penghapusan",
@@ -649,6 +679,96 @@ namespace WpfApp1.ViewModel.MainView
                     );
                 }
             }
+        }
+
+        public bool IsBookInPendingOrProcessTransaction(int bookId)
+        {
+
+            string query = @"
+                SELECT COUNT(*)
+                FROM transaksi_penukaran
+                WHERE (buku_penjual = @bookId OR buku_pembeli = @bookId)
+                  AND status NOT IN ('DONE', 'FAILED');";
+
+            try
+            {
+                using (var command = new NpgsqlCommand(query, _connection))
+                {
+                    command.Parameters.AddWithValue("@bookId", bookId);
+
+                    var result = (long)command.ExecuteScalar(); // COUNT(*) returns a bigint in PostgreSQL
+                    return result > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Telah terjadi kesalahan : {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error
+                );
+                return false;
+            }
+
+        }
+
+        public void FetchWishlistBuku()
+        {
+            string query = @"
+            SELECT 
+                b.id AS buku_id,
+                b.isbn,
+                b.judul,
+                b.penerbit,
+                b.deskripsi,
+                b.tahun_terbit,
+                b.status AS status_buku,
+                b.rating_buku,
+                b.created AS dimiliki_sejak,
+                u.id AS pemilik_id,
+                u.username AS pemilik_username,
+                u.email AS pemilik_email
+            FROM 
+                wishlist w
+            JOIN 
+                buku b ON w.id_buku = b.id
+            JOIN 
+                public.user u ON b.id_pemilik = u.id
+            WHERE 
+                w.pembeli = @pembeliId;
+        ";
+
+        using (var command = new NpgsqlCommand(query, _connection))
+        {
+            command.Parameters.AddWithValue("@pembeliId", _authStore.UserLoggedIn.Id);
+
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var buku = new BukuModel
+                    {
+                        BukuID = reader.GetInt32(reader.GetOrdinal("buku_id")),
+                        ISBN = reader.GetString(reader.GetOrdinal("isbn")),
+                        Judul = reader.GetString(reader.GetOrdinal("judul")),
+                        Penerbit = reader.GetString(reader.GetOrdinal("penerbit")),
+                        Deskripsi = reader.GetString(reader.GetOrdinal("deskripsi")),
+                        Terbit = reader.IsDBNull(reader.GetOrdinal("tahun_terbit"))
+                                 ? (int?)null
+                                 : reader.GetInt32(reader.GetOrdinal("tahun_terbit")),
+                        DimilikiSejak = reader.GetDateTime(reader.GetOrdinal("dimiliki_sejak")),
+                        RatingPemilik = reader.IsDBNull(reader.GetOrdinal("rating_buku"))
+                                        ? 0
+                                        : reader.GetInt32(reader.GetOrdinal("rating_buku")),
+                        PemilikBuku = new UserModel
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("pemilik_id")),
+                            Username = reader.GetString(reader.GetOrdinal("pemilik_username")),
+                            Email = reader.GetString(reader.GetOrdinal("pemilik_email"))
+                        }
+                    };
+                    Wishlist.Add(buku);
+                }
+            }
+        }
         }
 
 

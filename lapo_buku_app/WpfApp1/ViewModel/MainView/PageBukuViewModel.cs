@@ -72,6 +72,9 @@ namespace WpfApp1.ViewModel.MainView
         public ICommand BalikPageBrowse {  get; }
         public ICommand TukarBukuCommand { get; }
 
+        public ICommand WishlistCommand { get; }
+        public bool CanAddWishlistBool { get; set; }
+
         public PageBukuViewModel(ParameterNavBuku parameter, INavigationService<BrowsingViewModel> BackToBrowseNavService, AuthStore authStore, DbConfig dbConfig)
         {
             ModelPageBuku = parameter.buku;
@@ -82,6 +85,7 @@ namespace WpfApp1.ViewModel.MainView
 
             BalikPageBrowse = new PindahPageBrowse(BackToBrowseNavService);
             TukarBukuCommand = new TukarCommand(TukarBukuQuery);
+            WishlistCommand = new RelayCommand(AddToWishlist, CanAddWishlist);
             _dbConfig = dbConfig;
 
             ConnectToDatabase();
@@ -89,6 +93,8 @@ namespace WpfApp1.ViewModel.MainView
             GetUserBook();
 
         }
+
+        
 
         public string Title => ModelPageBuku.Judul;
         public List<string> ListGenre => ModelPageBuku.Genre;
@@ -346,6 +352,39 @@ namespace WpfApp1.ViewModel.MainView
                 MessageBox.Show("Telah terjadi kesalahan : Buku pihak penawar atau pihak penukar sudah tidak dapat diproses lagi");
                 return;
             }
+        }
+
+        private void AddToWishlist(object parameter) 
+        {
+
+                string commandText = @"
+                INSERT INTO public.wishlist (pembeli, id_buku) 
+                VALUES (@pembeli, @id_buku)
+                ON CONFLICT (pembeli, id_buku) 
+                DO NOTHING;
+            ";
+
+                using (var command = new NpgsqlCommand(commandText, _connection))
+                {
+                    command.Parameters.AddWithValue("@pembeli", _authStore.UserLoggedIn.Id);
+                    command.Parameters.AddWithValue("@id_buku", ModelPageBuku.BukuID);
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected == 0)
+                    {
+                        MessageBox.Show("The wishlist entry already exists.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wishlist entry added successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+            }
+        }
+
+        private bool CanAddWishlist(object parameter)
+        {
+            return true;
         }
 
 

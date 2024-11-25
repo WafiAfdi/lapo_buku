@@ -20,13 +20,7 @@
             MouseLeftButtonDown="CardLeftMouseButtonDown"
             
     >
-        <Border.Effect>
-            <DropShadowEffect
-            Color="Black"
-            BlurRadius="10"
-            ShadowDepth="4"
-            Opacity="0.2" />
-        </Border.Effect>
+       
         <Border.Style>
             <Style TargetType="Border">
                 <Setter Property="Background" Value="White" />

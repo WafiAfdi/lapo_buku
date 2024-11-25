@@ -6,6 +6,36 @@
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
         Title="RegisterWindow" Height="593" Width="602">
+
+    <Window.Resources>
+        <Style x:Key="AddButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="IndianRed"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="2 1 2 1"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="MaxHeight" Value="40"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="btnBorder" CornerRadius="5" Background="{TemplateBinding Background}"
+                   Width="{TemplateBinding Width}" MaxHeight="{TemplateBinding MaxHeight}" 
+                   BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}"
+                   SnapsToDevicePixels="True">
+                            <ContentPresenter x:Name="ContentPresenter" Focusable="False"
+                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                 Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                 RecognizesAccessKey="True"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <!-- Row 1: Title -->
@@ -15,26 +45,31 @@
             <!-- Row 2: Buttons (Login & Register) -->
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Content="Register Lapo Buku" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" FontSize="36" Height="58" Width="318" Grid.Row="0"/>
-        <StackPanel  Grid.Row="1">
+        <Label Content="Register Lapo Buku" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" FontSize="36" Height="58" Width="318" Grid.Row="0" FontWeight="SemiBold"/>
+        <StackPanel  Grid.Row="1" VerticalAlignment="Center">
             <StackPanel>
-                <Label Content="Email"   FontSize="20" Width="399"/>
-                <TextBox Name="EmailTextBox" FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap" Width="402"  Background="#FFDDDDDD" BorderBrush="#00B3AFAB"/>
+                <Label Content="Email" FontWeight="SemiBold"  FontSize="20" Width="399"/>
+                <TextBox Name="EmailTextBox" FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap" Width="402"  Background="White" BorderBrush="#9295A5" BorderThickness="1"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" >
-                <Label Content="Username" FontSize="20" Width="400" HorizontalAlignment="Center" />
-                <TextBox Name="UsernameTextBox" FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap"  Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
+                <Label Content="Username" FontSize="20" FontWeight="SemiBold" Width="400" HorizontalAlignment="Center" />
+                <TextBox Name="UsernameTextBox" FontSize="14" VerticalAlignment="Center" Height="42" TextWrapping="Wrap"  Width="402"  Background="White" BorderBrush="#9295A5" BorderThickness="1"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" >
-                <Label Content="Password" FontSize="20" Width="400" HorizontalAlignment="Center" />
-                <PasswordBox Name="PasswordBox" FontSize="14" VerticalAlignment="Center" Height="42"   Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
+                <Label Content="Password" FontSize="20" FontWeight="SemiBold" Width="400" HorizontalAlignment="Center" />
+                <PasswordBox Name="PasswordBox" FontSize="14" VerticalAlignment="Center" Height="42"   Width="402"  Background="White" BorderBrush="#9295A5" BorderThickness="1"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" >
-                <Label Content="Re-enter Password" FontSize="20" Width="400" HorizontalAlignment="Center" />
-                <PasswordBox Name="ReenterPasswordBox" FontSize="14" VerticalAlignment="Center" Height="42"   Width="402"  BorderBrush="#00707070" Background="#FFDDDDDD"/>
+                <Label Content="Re-enter Password" FontWeight="SemiBold" FontSize="20" Width="400" HorizontalAlignment="Center" />
+                <PasswordBox Name="ReenterPasswordBox" FontSize="14" VerticalAlignment="Center" Height="42"   Width="402"  Background="White" BorderBrush="#9295A5" BorderThickness="1"/>
             </StackPanel>
         </StackPanel>
-        <Button Grid.Row="2" Content="Create Account" HorizontalAlignment="Center"  VerticalAlignment="Top" Height="43" Width="200" FontSize="22" BorderBrush="#00707070" Click="Register_Button_Click"/>
+        <StackPanel Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center">
+            
+            <Button Content="Create Account" HorizontalAlignment="Center"  VerticalAlignment="Top" Height="43" Width="200" FontSize="22" BorderBrush="#00707070" Click="Register_Button_Click" Style="{DynamicResource AddButton}"/>
+            <Button Content="Back To Login" HorizontalAlignment="Center" Margin="0 10 0 0"  VerticalAlignment="Top" Height="43" Width="200" FontSize="22" BorderBrush="#00707070" Click="Back_To_Login_Click" Style="{DynamicResource AddButton}"/>
+
+        </StackPanel>
 
     </Grid>
 </Window>
